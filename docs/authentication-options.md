@@ -27,7 +27,7 @@
   * a storage mechanism
   * handled by browser
   * set-cookie headers with flags
-  * use samesite adn secureflag  
+  * use samesite and secureflag  
     
 
 ## Bearer Tokens
@@ -37,11 +37,13 @@
   * use with sessions possibly?   
 * **pros**
   * excellent CSRF as browser does not do it
+  * standards - OAth
 * **cons**
   * jwt specifically
     * cannot invalidate/update stateless JWT's
     * size/security issues dependent on where stored
     * still headers
+  * complexity - access tokens and refresh tokens?
    
 ## Signature Schemes
 * **Mechanism**
@@ -65,30 +67,48 @@
 
 
 # Login
-## Using Identity Platform
-* simplest
-* **but** password known to Identity Service
-```mermaid
-sequenceDiagram
-    autonumber
-    User->>+App: email/pwd
-    App->>Identity API: auth(email, pwd)
-    Identity API->>App: token
-    App->>My Finances API: GET /pfm/:id [token]
-    My Finances API->>Cloud Datastore: get(id)
-    Cloud Datastore->>App: encrypted personal finances model  
-    App->>App:decrypt(model, pwd)
-    App->>-User: UI
-```
 
-## No Knowledge
-
+## Stateless Server - Basic Auth
 ```mermaid
 sequenceDiagram
     autonumber
     User->>+App: email/pwd
     App->>App: hash(email+pwd)
-    App->>API: GET /pfm(email, hash)
+    App->>+API: HTTPS GET /user [email, hash]
+    Note right of App: but email in URL (else blank GET..?)
+    API->>API: basic auth
+    API->>Datastore: get(email)
+    Datastore->>API: user doc
+    API->>-App: user doc
+    App->>App: decrypt, obtain pfm id 
+    App->>+API: HTTPS GET /pfm/:id [email, hash]
+    Note right of App: but id and email now linked
+    API->>API: basic auth
+    API->>Datastore: get(id)
+    Datastore->>API: personal financial model
+    API->>-App: personal financial model
+    App->>App: merge model and user data
     App->>-User: display UI
 ```
+
+## Stateless Server - stateless tokens?
+* short timescales to avoid expiry issues?
+
+##Stateful Server - cookies or bearer tokens
+* using [GCP redis equivalent](https://cloud.google.com/memorystore/) for state data
+* way, way, way too expensive $150+ a month!
+* standard sql?  tiny mysql $10 else $50+
+* or perhaps [Datastore](https://www.npmjs.com/package/@google-cloud/connect-datastore) again?
+* or [Firestore](https://www.npmjs.com/package/@google-cloud/connect-firestore)?
+
 # Registration
+
+# Password Reset
+
+# User Deletion
+
+# Data Management
+* how deal with orphan pfm records?
+  * monitor number of user docs vs pfm records
+  * store last access date?
+* versioning  
