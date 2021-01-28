@@ -91,8 +91,43 @@ sequenceDiagram
     App->>-User: display UI
 ```
 
-## Stateless Server - stateless tokens?
-* short timescales to avoid expiry issues?
+## Stateless Server - stateless tokens in session
+```mermaid
+sequenceDiagram
+  autonumber
+  User->>App: email/pwd
+  activate App
+  App->>App: hash(email+pwd)
+  App->>App: guid(),
+  App->>API: POST /session { email, hash, guid }
+  activate API
+  API->>Datastore: get(email)
+  activate Datastore
+  Datastore->>API: { user doc }
+  deactivate Datastore
+  API->>API: authenticate
+  API->>API: generate token (inc. guid)
+  API->>App: 200 : { timeout } [HttpOnly cookie: token]
+  deactivate API
+  deactivate App
+  App->>API: GET/POST { entityId, guid } [token]
+  activate App
+  activate API
+  API->>API: validate token (against guid too)
+  alt token valid
+  API->>Datastore: get(entityId)
+  activate Datastore
+  Datastore->>API: { entity }
+  activate Datastore
+  API->>App: 200 { data } [token]
+  else token expired/invalid
+  API->>App: 403
+  deactivate API
+  App->>App: repeat steps 3 to 7
+  App->>API: GET/POST { new guid } [new token]
+  deactivate App
+  end
+```
 
 ##Stateful Server - cookies or bearer tokens
 * using [GCP redis equivalent](https://cloud.google.com/memorystore/) for state data
