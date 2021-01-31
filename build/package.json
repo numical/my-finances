@@ -1,0 +1,15 @@
+{
+  "name": "my-finances-build",
+  "version": "0.0.1",
+  "description": "Build tooling for my-finances",
+  "main": "index.js",
+  "scripts": {
+    "start": "nps"
+  },
+  "author": "mike.evans@numical.com",
+  "license": "UNLICENCED",
+  "devDependencies": {
+    "nps": "^5.10.0",
+    "nps-utils": "^1.7.0"
+  }
+}

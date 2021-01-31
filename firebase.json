@@ -7,6 +7,14 @@
       "**/node_modules/**",
       "docs",
       "scripts"
-    ]
+    ],
+    "rewrites": [ {
+      "source": "**",
+      "run": {
+        "serviceId": "my-finances-api",
+        "region": "europe-west1"
+      }
+    } ]
+
   }
 }
