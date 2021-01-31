@@ -1,4 +1,8 @@
-const { series } = require('nps-utils');
+const { concurrent, open, series } = require('nps-utils');
+
+const pause = async() => {
+  await new Promise(r => setTimeout(r, 1000));
+}
 
 module.exports = {
   default: "nps help",
@@ -27,10 +31,24 @@ module.exports = {
         description: "deploy API to GCP"
       }
     },
-    website: {
+    webapp: {
+      run: {
+        script: concurrent({
+          run: "pnpm run dev --filter ./webapp",
+          open: series(
+            "sleep 1",
+            open("http://localhost:5000/alpha.html")
+          )
+        }),
+        description: "run webapp locally"
+      },
+      build: {
+        script: "pnpm run build --filter ./webapp",
+        description: "build webapp"
+      },
       deploy: {
         script: "firebase deploy",
-        description: "deploy static content"
+        description: "deploy webapp to GCP"
       }
     }
   },
