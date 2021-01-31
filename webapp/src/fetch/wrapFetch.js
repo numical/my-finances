@@ -1,11 +1,11 @@
 const defaultOptions = {
   method: 'GET',
   headers: {
-    'Content-Type': 'application/json'
-  }
-}
+    'Content-Type': 'application/json',
+  },
+};
 
-export default (path, options = {}) => async() => {
+export default (path, options = {}) => async () => {
   try {
     const allOptions = { ...defaultOptions, ...options };
     const response = await fetch(path, allOptions);
@@ -13,9 +13,9 @@ export default (path, options = {}) => async() => {
       const json = await response.json();
       return `200: ${JSON.stringify(json)}`;
     } else {
-      return `${response.status}: ${response.statusText}`
+      return `${response.status}: ${response.statusText}`;
     }
-  } catch(err) {
+  } catch (err) {
     return `500: ${err.name}: ${err.message}`;
   }
-}
+};

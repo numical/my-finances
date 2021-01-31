@@ -1,11 +1,11 @@
 const handler = (req, res) => {
   res.status(200).send({
-    data: []
+    data: [],
   });
-}
+};
 
 module.exports = {
-  verb : 'get',
+  verb: 'get',
   path: '/financial-model',
-  handler
+  handler,
 };

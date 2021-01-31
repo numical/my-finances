@@ -3,12 +3,12 @@ const handler = (req, res) => {
     name: 'Mike Evans',
     email: 'mike.evans@numical.com',
     id: 12345,
-    keyMap: '4563454376758019087857932987r923y85yty988232'
+    keyMap: '4563454376758019087857932987r923y85yty988232',
   });
-}
+};
 
 module.exports = {
-  verb : 'get',
+  verb: 'get',
   path: '/user',
-  handler
+  handler,
 };

@@ -3,9 +3,13 @@ importers:
     devDependencies:
       nps: 5.10.0
       nps-utils: 1.7.0
+      prettier: 2.2.1
+      prettier-plugin-svelte: 2.1.1_prettier@2.2.1
     specifiers:
       nps: ^5.10.0
       nps-utils: ^1.7.0
+      prettier: ^2.2.1
+      prettier-plugin-svelte: ^2.1.1
   api:
     dependencies:
       express: 4.17.1
@@ -2242,6 +2246,15 @@ packages:
     dev: true
     resolution:
       integrity: sha1-AuNM4n8zr0jmi7/OKqwqAEvCt2w=
+  /prettier-plugin-svelte/2.1.1_prettier@2.2.1:
+    dependencies:
+      prettier: 2.2.1
+    dev: true
+    peerDependencies:
+      prettier: ^1.16.4 || ^2.0.0
+      svelte: ^3.2.0
+    resolution:
+      integrity: sha512-U0gRsdJtveyusHd86OUPD+lEVd13bHPPF/CZD/csKjz0Y+Cv4WbUy9x8tA5vaHFtf0tsu8Yb1MrfuhN3GH2gig==
   /prettier/2.2.1:
     dev: true
     engines:
