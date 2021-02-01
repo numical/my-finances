@@ -35,21 +35,21 @@ module.exports = {
         description: 'deploy API to GCP',
       },
     },
-    webapp: {
+    app: {
       run: {
         script: concurrent({
-          run: 'pnpm run dev --filter ./webapp',
+          run: 'pnpm run dev --filter ./app',
           open: series('sleep 1', open('http://localhost:5000/alpha.html')),
         }),
-        description: 'run webapp locally',
+        description: 'run app locally',
       },
       build: {
-        script: 'pnpm run build --filter ./webapp',
-        description: 'build webapp',
+        script: 'pnpm run build --filter ./app',
+        description: 'build app',
       },
       deploy: {
         script: 'firebase deploy',
-        description: 'deploy webapp to GCP',
+        description: 'deploy app to GCP',
       },
     },
   },
