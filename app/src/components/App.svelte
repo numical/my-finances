@@ -1,5 +1,6 @@
 <script>
   import APICaller from './APICaller.svelte';
+  import createUser from '../fetch/createUser';
   import getUser from '../fetch/getUser';
   import getFinancialModel from '../fetch/getFinancialModel';
   import createSesson from '../fetch/createSesson';
@@ -11,6 +12,11 @@
   <h1>Auth Model Spike</h1>
   <UserState />
   <UserChallenge />
+  <APICaller
+    name="Create user"
+    description="POST /user"
+    fn="{createUser}"
+    />
   <APICaller
     name="Create session"
     description="POST /session"
