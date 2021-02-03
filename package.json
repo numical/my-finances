@@ -13,6 +13,7 @@
     "prettier-plugin-svelte": "^2.1.1"
   },
   "scripts": {
+    "alias": "alias run='pnpm start '",
     "start": "nps"
   },
   "repository": {

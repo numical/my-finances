@@ -1,9 +1,6 @@
 <script>
   import APICaller from './APICaller.svelte';
-  import createUser from '../fetch/createUser';
-  import getUser from '../fetch/getUser';
-  import getFinancialModel from '../fetch/getFinancialModel';
-  import createSesson from '../fetch/createSesson';
+  import { createSession, createUser, getFinancialModel, getUser } from '../fetch';
   import UserChallenge from './UserChallenge.svelte';
   import UserState from './UserState.svelte';
 </script>
@@ -15,14 +12,16 @@
   <APICaller
     name="Create user"
     description="POST /user"
-    fn="{createUser}"
-    />
+    fn="{createUser}" />
   <APICaller
     name="Create session"
     description="POST /session"
-    fn="{createSesson}"
+    fn="{createSession}"
   />
-  <APICaller name="Fetch user" description="GET /user" fn="{getUser}" />
+  <APICaller
+    name="Fetch user"
+    description="GET /user"
+    fn="{getUser}" />
   <APICaller
     name="Fetch model"
     description="GET /financial-model"

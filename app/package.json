@@ -2,21 +2,21 @@
   "name": "svelte-app",
   "version": "1.0.0",
   "scripts": {
+    "gen:certs": "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \\\n  -keyout ./certs/localhost-key.pem -out ./certs/localhost-cert.pem",
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv ../public/alpha"
+    "start": "sirv --http2 --key ./certs/localhost-key.pem --cert ./certs/localhost-cert.pem ../public/alpha"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
+    "sirv-cli": "^1.0.0",
     "svelte": "^3.0.0"
-  },
-  "dependencies": {
-    "sirv-cli": "^1.0.0"
   }
 }

@@ -4,9 +4,16 @@
   export let fn;
 
   $: result = 'not yet clicked';
+  $: colour = 'black';
 
   const onClick = async () => {
-    result = await fn();
+    try {
+      result = JSON.stringify(await fn());
+      colour = 'black';
+    } catch (err) {
+      result = err.message;
+      colour = 'red';
+    }
   };
 </script>
 
@@ -14,7 +21,7 @@
   <h2>{name}</h2>
   <p>{description}</p>
   <button on:click="{onClick}">Fire</button>
-  <div>{result}</div>
+  <div style="{`color: ${colour}`}">{result}</div>
 </main>
 
 <style>

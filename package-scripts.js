@@ -39,7 +39,7 @@ module.exports = {
       run: {
         script: concurrent({
           run: 'pnpm run dev --filter ./app',
-          open: series('sleep 1', open('http://localhost:5000/alpha.html')),
+          open: series('sleep 1', open('https://localhost:5000/alpha.html')),
         }),
         description: 'run app locally',
       },
