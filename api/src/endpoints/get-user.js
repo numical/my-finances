@@ -1,16 +1,20 @@
-const { get } = require('../datastores/users');
+const { users } = require('../datastores');
 const { BadRequest, NotFound } = require('../errors');
 
-const handler = (req, res) => {
-  const { id } = req.params;
-  if (!id) throw new BadRequest('id missing');
+const handler = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) throw new BadRequest('id missing');
 
-  const user = get(id);
+    const user = await users.get(id);
 
-  if (user) {
-    res.status(200).send(user);
-  } else {
-    throw new NotFound();
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      throw new NotFound();
+    }
+  } catch (err) {
+    next(err);
   }
 };
 

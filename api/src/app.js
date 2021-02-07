@@ -1,12 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { config } = require('./datastores');
 const endPoints = require('./endpoints');
 
-const app = express();
-app.use(bodyParser.json());
+const init = async () => {
+  await config.init();
 
-endPoints.forEach(({ verb, path, handler }) => {
-  app[verb](path, handler);
-});
+  const app = express();
+  app.use(bodyParser.json());
 
-module.exports = app;
+  endPoints.forEach(({ verb, path, handler }) => {
+    app[verb](path, handler);
+  });
+
+  return app;
+};
+
+module.exports = {
+  init,
+};

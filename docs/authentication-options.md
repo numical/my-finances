@@ -74,20 +74,20 @@ sequenceDiagram
     autonumber
     User->>+App: email/pwd
     App->>App: hash(email+pwd)
-    App->>+API: HTTPS GET /user [email, hash]
+    App->>+API: HTTPS GET /userInitial [email, hash]
     Note right of App: but email in URL (else blank GET..?)
-    API->>API: basic auth
+    API->>API: basic authInitial
     API->>Datastore: get(email)
-    Datastore->>API: user doc
-    API->>-App: user doc
+    Datastore->>API: userInitial doc
+    API->>-App: userInitial doc
     App->>App: decrypt, obtain pfm id 
     App->>+API: HTTPS GET /pfm/:id [email, hash]
     Note right of App: but id and email now linked
-    API->>API: basic auth
+    API->>API: basic authInitial
     API->>Datastore: get(id)
     Datastore->>API: personal financial model
     API->>-App: personal financial model
-    App->>App: merge model and user data
+    App->>App: merge model and userInitial data
     App->>-User: display UI
 ```
 
@@ -95,18 +95,18 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
   autonumber
-  User->>App: email/pwd
+  User->>App: email/password
   activate App
-  App->>App: hash(email+pwd)
-  App->>App: guid(),
-  App->>API: POST /session { email, hash, guid }
+  App->>App: pwd = hash(email+password)
+  App->>App: id = hash(email)
+  App->>API: POST /session { id, pwd }
   activate API
-  API->>Datastore: get(email)
+  API->>Datastore: get(id)
   activate Datastore
-  Datastore->>API: { user doc }
+  Datastore->>API: { userInitial }
   deactivate Datastore
   API->>API: authenticate
-  API->>API: generate token (inc. guid)
+  API->>API: generate token 
   API->>App: 200 : { timeout } [HttpOnly cookie: token]
   deactivate API
   deactivate App
@@ -144,6 +144,6 @@ sequenceDiagram
 
 # Data Management
 * how deal with orphan pfm records?
-  * monitor number of user docs vs pfm records
+  * monitor number of userInitial docs vs pfm records
   * store last access date?
 * versioning  

@@ -5,6 +5,7 @@
   $: id = $authStore.id;
   $: pwd = $authStore.pwd;
   $: pwdHash = $authStore.pwdHash;
+  $: sessionId = $authStore.sessionId;
   $: state = $authStore.state;
 </script>
 
@@ -26,7 +27,12 @@
     <tr>
       <tc>password hash:</tc>
       <tc>{pwdHash}</tc>
-    </tr><tr>
+    </tr>
+    <tr>
+      <tc>session:</tc>
+      <tc>{sessionId}</tc>
+    </tr>
+    <tr>
       <tc>state:</tc>
       <tc>{state}</tc>
     </tr>

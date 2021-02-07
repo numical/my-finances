@@ -4,7 +4,9 @@
   "description": "Express based API",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/**/*.test.js --100",
+    "test": "tap --no-coverage test/**/*.test.js",
+    "test.only": "tap --no-coverage --only test/**/*.test.js",
+    "test.coverage": "tap test/**/*.test.js --100",
     "docker.build": "docker build -t my-finances-api .",
     "docker.run": "docker run -d -p 8080:8080 --name my-finances my-finances-api",
     "docker.stop": "docker stop my-finances && docker container rm my-finances",
@@ -16,7 +18,9 @@
   "license": "UNLICENCED",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "prettier": "^2.2.1",

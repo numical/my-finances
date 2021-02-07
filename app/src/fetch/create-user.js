@@ -17,13 +17,15 @@ const createUser = async () => {
     pwd: pwdHash,
   };
 
-  const user = await wrapFetch('/user', {
+  const user = await wrapFetch('/users', {
     method: 'POST',
-    body,
+    body: JSON.stringify(body),
   });
 
-  authStore.set('id', user.id);
-  authStore.set('pwdHash', user.pwd);
+  authStore.setValues({
+    id: user.id,
+    pwdHash: user.pwd,
+  });
 
   return user;
 };

@@ -11,6 +11,10 @@ export default async (path, options = {}) => {
   if (response.ok) {
     return response.json();
   } else {
-    throw new Error(`Fetch error: ${response.status}: ${response.statusText}`);
+    const err = new Error(
+      `Fetch error: ${response.status}: ${response.statusText}`
+    );
+    err.status = response.status;
+    throw err;
   }
 };

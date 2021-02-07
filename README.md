@@ -23,7 +23,7 @@ A UI that promotes scenario-planning and target setting.
 
 ## Business Model
 * never loss-leading
-* primary income from user subscriptions
+* primary income from userInitial subscriptions
 * future income from data analysis (*: how does this work with zero knowledge? - see later)
 
 ## UI Demo

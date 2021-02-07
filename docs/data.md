@@ -1,13 +1,41 @@
-# Data
-There are three datastores:
-* user document
-  * user identity stuff - name / hash of password etc.
-  * subscription details
-  * encrypted model details
-* PII model details
-  * encrypted blob in user document
-  * holds personal information for model  
-  * id for pfm  
-* personal financial model
-  * analyzable
-  * anonymous  
+# Data 
+
+```mermaid
+erDiagram
+  ACCOUNT ||--|| USER: ""
+  USER ||--|{ KEY-STORE : ""
+  KEY-STORE ||--|| FINANCIAL-MODEL : ""
+  ACCOUNT {
+    int accountId
+  }
+  USER {
+    string userid
+    string pwd
+    int accountId
+    map[string, int] keystores
+  }
+  KEY-STORE {
+    int keystoreId
+    string financialModelId
+  }
+  FINANCIAL-MODEL {
+    int id
+  }
+```
+
+### Account
+* subscription details
+
+### User
+* userInitial identity
+* note that id and pwd are hashes
+
+### Key Store
+* 'no knowledge' encrypted
+* holds personal information for model
+* **and** financial model id
+
+### Financial Model
+* anonymous
+* analyzable (therefore SQL?)
+* not sure of format yet

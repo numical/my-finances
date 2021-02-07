@@ -12,6 +12,20 @@ module.exports = {
       description: 'format all files',
     },
     api: {
+      test: {
+        default: {
+          script: 'pnpm run test --filter ./api',
+          description: 'run API unit tests',
+        },
+        coverage: {
+          script: 'pnpm run test.coverage --filter ./api',
+          description: 'run API unit tests with coverage',
+        },
+        only: {
+          script: 'pnpm run test.only --filter ./api',
+          description: 'run only marked API unit tests',
+        },
+      },
       build: {
         local: {
           script: 'pnpm run docker.build --filter ./api',
@@ -28,6 +42,7 @@ module.exports = {
       },
       deploy: {
         script: series(
+          'pnpm run docker.build --filter ./api',
           'pnpm run gcp.build --filter ./api',
           'pnpm run gcp.deploy --filter ./api',
           'firebase deploy'
@@ -48,7 +63,7 @@ module.exports = {
         description: 'build app',
       },
       deploy: {
-        script: 'firebase deploy',
+        script: series('pnpm run build --filter ./app', 'firebase deploy'),
         description: 'deploy app to GCP',
       },
     },

@@ -5,11 +5,17 @@ export default (initialState) => {
     ...initialState,
   });
 
-  // override default Svelte 'set' method
-  store.set = (key, value) =>
+  // do not override default Svelte 'set' method
+  store.setValue = (key, value) =>
     store.update((state) => ({
       ...state,
       [key]: value,
+    }));
+
+  store.setValues = (values) =>
+    store.update((state) => ({
+      ...values,
+      state,
     }));
 
   return store;
