@@ -3,18 +3,18 @@ const { BadRequest } = require('../errors');
 
 const handler = async (req, res, next) => {
   try {
-    const { id, email, pwd } = req.body;
-    if (!id) throw new BadRequest('id missing');
+    const { userId, email, pwd } = req.body;
+    if (!userId) throw new BadRequest('userId missing');
     if (!email) throw new BadRequest('email missing');
     if (!pwd) throw new BadRequest('pwd missing');
 
-    const exists = await users.get(id);
+    const exists = await users.get(userId);
     if (exists) {
       throw new BadRequest();
     }
 
-    const user = await users.set(id, {
-      id,
+    const user = await users.set(userId, {
+      userId,
       email,
       pwd,
       keyStores: {
@@ -32,4 +32,5 @@ module.exports = {
   verb: 'post',
   path: '/users',
   handler,
+  requiresAuth: false,
 };

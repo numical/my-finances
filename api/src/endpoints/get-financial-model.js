@@ -3,10 +3,10 @@ const { BadRequest, NotFound } = require('../errors');
 
 const handler = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    if (!id) throw new BadRequest('id missing');
+    const { modelId } = req.params;
+    if (!modelId) throw new BadRequest('modelId missing');
 
-    const model = await financialModels.get(id);
+    const model = await financialModels.get(modelId);
 
     if (model) {
       res.status(200).json(model);
@@ -20,6 +20,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'get',
-  path: '/financial-model',
+  path: '/financial-model/:modelId',
   handler,
+  requiresAuth: true,
 };

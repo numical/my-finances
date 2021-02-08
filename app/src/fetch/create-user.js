@@ -3,16 +3,20 @@ import wrapFetch from './wrap-fetch';
 import { authStore } from '../stores';
 import { hash } from '../browser-functions';
 
-const createUser = async () => {
-  const { email, pwd } = get(authStore);
+let email, pwd;
+authStore.subscribe(auth => {
+  email = auth.email;
+  pwd: auth.pwd;
+})
 
+const createUser = async () => {
   const [emailHash, pwdHash] = await Promise.all([
     hash(email),
     hash(email, pwd),
   ]);
 
   const body = {
-    id: emailHash,
+    userId: emailHash,
     email,
     pwd: pwdHash,
   };
@@ -23,7 +27,7 @@ const createUser = async () => {
   });
 
   authStore.setValues({
-    id: user.id,
+    userId: user.userId,
     pwdHash: user.pwd,
   });
 

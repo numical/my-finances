@@ -19,6 +19,6 @@ const { init } = require('../src/app');
   test('create user without body returns 400', post400(server, '/users', {}));
   test(
     'create user without body returns 400',
-    post400(server, '/users', { id: 'test' })
+    post400(server, '/users', { userId: 'test' })
   );
 })();

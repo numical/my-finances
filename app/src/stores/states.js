@@ -6,7 +6,7 @@ export const Auth = {
 
 export const authInitial = {
   email: '',
-  id: '',
+  userId: '',
   pwd: '',
   pwdHash: '',
   sessionId: '',

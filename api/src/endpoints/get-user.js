@@ -3,10 +3,10 @@ const { BadRequest, NotFound } = require('../errors');
 
 const handler = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    if (!id) throw new BadRequest('id missing');
+    const { userId } = req.params;
+    if (!userId) throw new BadRequest('userId missing');
 
-    const user = await users.get(id);
+    const user = await users.get(userId);
 
     if (user) {
       res.status(200).json(user);
@@ -20,6 +20,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'get',
-  path: '/user/:id',
+  path: '/user/:userId',
   handler,
+  requiresAuth: true,
 };

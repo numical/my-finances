@@ -2,13 +2,18 @@ import { get } from 'svelte/store';
 import { authStore } from '../stores';
 import wrapFetch from './wrap-fetch';
 
+let userId, pwd;
+authStore.subscribe(auth => {
+  userId = auth.userId;
+  pwd = auth.pwdHash;
+});
+
 export default async () => {
   try {
     authStore.setValue('state', Auth.AUTHENTICATING);
-    const { id, pwdHash: pwd } = get(authStore);
 
     const body = {
-      id,
+      userId,
       pwd,
     };
 
@@ -22,8 +27,6 @@ export default async () => {
       sessionId,
       timeout,
     });
-
-    authStore.setValue('timeout', timeout);
   } catch (err) {
     authStore.setValue('state', Auth.CHALLENGE);
     throw err;
