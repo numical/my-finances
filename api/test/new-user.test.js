@@ -1,11 +1,12 @@
 const { test, only } = require('tap');
 const request = require('supertest');
 const { post200 } = require('./http-tests')
+const { assertSession } = require('./auth-tests');
 const { init } = require('../src/app');
 
 (async () => {
   const app = await init();
-  const server = request(app);
+  const server = request.agent(app);
 
   const auth = {
     userId: 'hash of test email',
@@ -26,17 +27,16 @@ const { init } = require('../src/app');
     const {  status: failFetchStatus } = await server.get(`/user/${userId}`);
     t.equal(failFetchStatus, 401, 'cannot fetch user until session created');
 
-    const { status: createSessionStatus, body: session } = await server
+    const sessionResponse = await server
       .post('/sessions')
       .send({ userId, pwd });
-    t.equal(createUserStatus, 200, 'creates session');
-    const { sessionId, timeout } = session;
-    t.ok(sessionId, 'returns a session id');
-    t.ok(timeout, 'returns a timeout');
+    t.equal(sessionResponse.status, 200, 'creates session');
+    const { sessionId, cookies } = assertSession(t, sessionResponse);
 
     const {  status: fetchStatus, body: fetchedUser } = await server
       .get(`/user/${userId}`)
       .set('X-Csrf-Token', sessionId)
+      .set('Cookie', cookies);
     t.equal(fetchStatus, 200, 'can fetch user when auth data sent');
 
     t.same(fetchedUser, initialUser);
