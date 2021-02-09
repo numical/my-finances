@@ -1,17 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
 const { users } = require('../datastores');
+const { cookie, generateJWT, generateSessionId } = require('../auth');
 const { BadRequest, NotFound, Unauthorised } = require('../errors');
-
-const generateToken = (userId, { sessionId, timeout }) => {
-  return '123';
-};
-
-const cookieOptions = (maxAge) => ({
-  maxAge,
-  httpOnly: true,
-  secure: true,
-  sameSite: 'strict',
-});
 
 const handler = async (req, res, next) => {
   try {
@@ -19,16 +8,18 @@ const handler = async (req, res, next) => {
     if (!userId) throw new BadRequest('userId missing');
     if (!pwd) throw new BadRequest('pwd missing');
 
-    const user = await users.get(userId);
+    const [user, sessionId] = await Promise.all([
+      users.get(userId),
+      generateSessionId(),
+    ]);
     if (user) {
       if (pwd === user.pwd) {
-        const maxAge = 10 * 60 * 1000;
         const body = {
-          sessionId: uuidv4(),
-          timeout: Date.now() + maxAge,
+          sessionId,
+          timeout: Date.now() + cookie.maxAge
         };
-        const token = generateToken(userId, body);
-        res.cookie('my-finances-session', token, cookieOptions(maxAge));
+        const jwt = await generateJWT(body);
+        res.cookie(cookie.name, jwt, cookie.options);
         res.status(200).json(body);
       } else {
         throw new Unauthorised();
