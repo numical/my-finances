@@ -13,6 +13,7 @@ importers:
   api:
     dependencies:
       body-parser: 1.19.0
+      cookie-parser: 1.4.5
       express: 4.17.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -22,6 +23,7 @@ importers:
       tap: 14.11.0
     specifiers:
       body-parser: ^1.19.0
+      cookie-parser: ^1.4.5
       express: ^4.17.1
       jsonwebtoken: ^8.5.1
       prettier: ^2.2.1
@@ -700,6 +702,15 @@ packages:
     dev: true
     resolution:
       integrity: sha512-4FJkXzKXEDB1snCFZlLP4gpC3JILicCpGbzG9f9G7tGqGCzETQ2hWPrcinA9oU4wtf2biUaEH5065UnMeR33oA==
+  /cookie-parser/1.4.5:
+    dependencies:
+      cookie: 0.4.0
+      cookie-signature: 1.0.6
+    dev: false
+    engines:
+      node: '>= 0.8.0'
+    resolution:
+      integrity: sha512-f13bPUj/gG/5mDr+xLmSxxDsB9DQiTIfhJS/sqjrmfAWiAN+x2O4i/XguTL9yDZ+/IFDanJ+5x7hC4CXT9Tdzw==
   /cookie-signature/1.0.6:
     dev: false
     resolution:
