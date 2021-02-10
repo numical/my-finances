@@ -1,11 +1,11 @@
-import { authStore } from '../stores';
+import { SESSION_TOKEN } from 'my-finances-common';
+import { authStore } from "../stores";
 
-const defaultOptions = sessionId => ({
-  method: 'GET',
+const DEFAULT_OPTIONS = Object.freeze({
+  method: "GET",
   headers: {
-    'Content-Type': 'application/json',
-    'X-Csrf-Token': sessionId
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 let sessionId;
@@ -14,7 +14,10 @@ authStore.subscribe(auth => {
 });
 
 export default async (path, options = {}) => {
-  const allOptions = { ...defaultOptions(sessionId), ...options };
+  const allOptions = { ...DEFAULT_OPTIONS, ...options };
+  if (sessionId) {
+    allOptions.headers[SESSION_TOKEN] = sessionId;
+  }
   const response = await fetch(path, allOptions);
   if (response.ok) {
     return response.json();

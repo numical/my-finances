@@ -1,12 +1,14 @@
 {
-  "name": "svelte-app",
-  "version": "1.0.0",
+  "name": "my-finances-app",
+  "version": "0.0.1",
   "scripts": {
     "gen:certs": "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' \\\n  -keyout ./certs/localhost-key.pem -out ./certs/localhost-cert.pem",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv --http2 --key ./certs/localhost-key.pem --cert ./certs/localhost-cert.pem ../public/alpha"
   },
+  "author": "mike.evans@numical.com",
+  "license": "UNLICENCED",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",

@@ -1,3 +1,4 @@
+const { SESSION_TOKEN } = require('my-finances-common');
 const { cookie, extractJWT } = require('../auth');
 const { Unauthorised } = require('../errors');
 
@@ -5,7 +6,7 @@ const wrapRequest = (req, next) => Promise.resolve({req, next});
 
 const checkHeaderExists = async( args ) => {
   const { req } = args;
-  const sessionId = req.get('X-Csrf-Token');
+  const sessionId = req.get(SESSION_TOKEN);
   if (sessionId) {
     return {
      ...args, sessionId

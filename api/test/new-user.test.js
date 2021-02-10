@@ -1,5 +1,7 @@
 const { test, only } = require('tap');
 const request = require('supertest');
+const { SESSION_TOKEN } = require('my-finances-common');
+
 const { post200 } = require('./http-tests')
 const { assertSession } = require('./auth-tests');
 const { init } = require('../src/app');
@@ -35,7 +37,7 @@ const { init } = require('../src/app');
 
     const {  status: fetchStatus, body: fetchedUser } = await server
       .get(`/user/${userId}`)
-      .set('X-Csrf-Token', sessionId)
+      .set(SESSION_TOKEN, sessionId)
       .set('Cookie', cookies);
     t.equal(fetchStatus, 200, 'can fetch user when auth data sent');
 
