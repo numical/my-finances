@@ -2,7 +2,7 @@ const { test, only } = require('tap');
 const request = require('supertest');
 const { SESSION_TOKEN } = require('my-finances-common');
 
-const { post200 } = require('./http-tests')
+const { post200 } = require('./http-tests');
 const { assertSession } = require('./auth-tests');
 const { init } = require('../src/app');
 
@@ -13,10 +13,10 @@ const { init } = require('../src/app');
   const auth = {
     userId: 'hash of test email',
     email: 'test email',
-    pwd: 'hash of password'
+    pwd: 'hash of password',
   };
 
-  test('create new user', async(t) => {
+  only('create new user', async (t) => {
     const { status: createUserStatus, body: initialUser } = await server
       .post('/users')
       .send(auth);
@@ -26,7 +26,7 @@ const { init } = require('../src/app');
     t.same({ userId, email, pwd }, auth, 'returns user credentials');
     t.ok(keyStores, 'initiates keystores');
 
-    const {  status: failFetchStatus } = await server.get(`/user/${userId}`);
+    const { status: failFetchStatus } = await server.get(`/user/${userId}`);
     t.equal(failFetchStatus, 401, 'cannot fetch user until session created');
 
     const sessionResponse = await server
@@ -35,7 +35,7 @@ const { init } = require('../src/app');
     t.equal(sessionResponse.status, 200, 'creates session');
     const { sessionId, cookies } = assertSession(t, sessionResponse);
 
-    const {  status: fetchStatus, body: fetchedUser } = await server
+    const { status: fetchStatus, body: fetchedUser } = await server
       .get(`/user/${userId}`)
       .set(SESSION_TOKEN, sessionId)
       .set('Cookie', cookies);
@@ -45,6 +45,4 @@ const { init } = require('../src/app');
 
     t.end();
   });
-
-
 })();

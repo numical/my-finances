@@ -1,15 +1,15 @@
 import { SESSION_TOKEN } from 'my-finances-common';
-import { authStore } from "../stores";
+import { authStore } from '../stores';
 
 const DEFAULT_OPTIONS = Object.freeze({
-  method: "GET",
+  method: 'GET',
   headers: {
-    "Content-Type": "application/json"
-  }
+    'Content-Type': 'application/json',
+  },
 });
 
 let sessionId;
-authStore.subscribe(auth => {
+authStore.subscribe((auth) => {
   sessionId = auth.sessionId;
 });
 

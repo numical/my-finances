@@ -7,5 +7,5 @@ module.exports = {
   cookie,
   extractJWT,
   generateJWT,
-  generateSessionId
+  generateSessionId,
 };

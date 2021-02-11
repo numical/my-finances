@@ -4,10 +4,10 @@ import { authStore } from '../stores';
 import { hash } from '../browser-functions';
 
 let email, pwd;
-authStore.subscribe(auth => {
+authStore.subscribe((auth) => {
   email = auth.email;
   pwd: auth.pwd;
-})
+});
 
 const createUser = async () => {
   const [emailHash, pwdHash] = await Promise.all([

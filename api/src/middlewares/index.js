@@ -1,7 +1,7 @@
 const enforceAuth = require('./enforceAuth');
-const logger = require('./logger');
+const errorHandler = require('./error-handler');
 
 module.exports = {
   enforceAuth,
-  logger
-}
+  errorHandler,
+};

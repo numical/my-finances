@@ -7,6 +7,10 @@ class InMemory {
     return Promise.resolve(this.#records[id]);
   }
 
+  getAll() {
+    return this.#records;
+  }
+
   set(id, record) {
     return new Promise((resolve) => {
       this.#records[id] = record;

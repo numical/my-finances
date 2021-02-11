@@ -7,10 +7,10 @@ const assertSession = (t, response) => {
   t.ok(timeout, 'returns a timeout');
 
   const cookies = headers['set-cookie'];
-  t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie' )
+  t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie');
   return { sessionId, cookies };
-}
+};
 
 module.exports = {
-  assertSession
-}
+  assertSession,
+};

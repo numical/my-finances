@@ -1,6 +1,6 @@
 const { test } = require('tap');
 const request = require('supertest');
-const { get404, post400 } = require('./http-tests')
+const { get404, post400 } = require('./http-tests');
 const { init } = require('../src/app');
 
 (async () => {

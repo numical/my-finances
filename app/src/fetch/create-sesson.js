@@ -3,7 +3,7 @@ import { authStore } from '../stores';
 import wrapFetch from './wrap-fetch';
 
 let userId, pwd;
-authStore.subscribe(auth => {
+authStore.subscribe((auth) => {
   userId = auth.userId;
   pwd = auth.pwdHash;
 });
