@@ -1,11 +1,11 @@
-const { test } = require('tap');
+const { only, test } = require('tap');
 const request = require('supertest');
 const { get404, post400 } = require('./http-tests');
 const { init } = require('../src/app');
 
 (async () => {
   const app = await init();
-  const server = request(app);
+  const server = request(app.handler);
 
   // unknown
   test('unknown endpoint returns 404', get404(server, '/wibble'));

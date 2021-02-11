@@ -8,7 +8,7 @@ const { init } = require('../src/app');
 
 (async () => {
   const app = await init();
-  const server = request.agent(app);
+  const server = request.agent(app.handler);
 
   const auth = {
     userId: 'hash of test email',
@@ -16,7 +16,7 @@ const { init } = require('../src/app');
     pwd: 'hash of password',
   };
 
-  only('create new user', async (t) => {
+  test('create new user', async (t) => {
     const { status: createUserStatus, body: initialUser } = await server
       .post('/users')
       .send(auth);

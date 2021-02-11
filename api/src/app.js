@@ -1,11 +1,11 @@
-const express = require('express');
+const polka = require('polka');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const pino = require('pino');
 const pinoHttp = require('pino-http');
 const { config } = require('./datastores');
 const endPoints = require('./endpoints');
-const { enforceAuth, errorHandler } = require('./middlewares');
+const { addResponseHelpers, enforceAuth, errorHandler, notFoundHandler } = require('./middlewares');
 
 const init = async () => {
   await config.init();
@@ -13,7 +13,10 @@ const init = async () => {
   const logger = pino();
   logger.info(config.report());
 
-  const app = express();
+  const app = polka({
+    onError: errorHandler,
+    onNoMatch: notFoundHandler
+  });
   app.use(
     pinoHttp({
       logger,
@@ -21,6 +24,7 @@ const init = async () => {
   );
   app.use(bodyParser.json());
   app.use(cookieParser());
+  app.use(addResponseHelpers);
 
   endPoints.forEach(({ path, requiresAuth }) => {
     if (requiresAuth) {
@@ -31,8 +35,6 @@ const init = async () => {
   endPoints.forEach(({ verb, path, handler }) => {
     app[verb](path, handler);
   });
-
-  app.use(errorHandler);
 
   return app;
 };

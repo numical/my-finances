@@ -4,7 +4,7 @@
   "description": "Express based API",
   "main": "index.js",
   "scripts": {
-    "test": "tap --no-coverage test/**/*.test.js | pino-pretty --colorize --hideObject",
+    "test": "tap --no-coverage test/**/*.test.js",
     "test.only": "tap --no-coverage --only --no-timeout test/**/*.test.js",
     "test.coverage": "tap test/**/*.test.js --100",
     "docker.build": "docker build -t my-finances-api .",
@@ -19,12 +19,13 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "common-tags": "^1.8.0",
+    "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
-    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "my-finances-common": "workspace:^0.0.1",
     "pino": "^6.11.1",
     "pino-http": "^5.5.0",
+    "polka": "^0.5.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
