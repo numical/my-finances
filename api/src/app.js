@@ -26,9 +26,9 @@ const init = async () => {
   app.use(cookieParser());
   app.use(addResponseHelpers);
 
-  endPoints.forEach(({ path, requiresAuth }) => {
-    if (requiresAuth) {
-      app.use(path, enforceAuth);
+  endPoints.forEach(({ authPath }) => {
+    if (authPath) {
+      app.use(authPath, enforceAuth);
     }
   });
 

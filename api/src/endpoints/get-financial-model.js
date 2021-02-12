@@ -22,5 +22,6 @@ module.exports = {
   verb: 'get',
   path: '/financial-model/:modelId',
   handler,
-  requiresAuth: true,
+  authPath: '/financial-model',
+
 };

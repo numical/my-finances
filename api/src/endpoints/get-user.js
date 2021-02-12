@@ -22,5 +22,5 @@ module.exports = {
   verb: 'get',
   path: '/user/:userId',
   handler,
-  requiresAuth: true,
+  authPath: '/user',
 };
