@@ -3,11 +3,13 @@ importers:
     devDependencies:
       nps: 5.10.0
       nps-utils: 1.7.0
+      pino-pretty: 4.5.0
       prettier: 2.2.1
       prettier-plugin-svelte: 2.1.1_prettier@2.2.1
     specifiers:
       nps: ^5.10.0
       nps-utils: ^1.7.0
+      pino-pretty: ^4.5.0
       prettier: ^2.2.1
       prettier-plugin-svelte: ^2.1.1
   api:
@@ -22,7 +24,6 @@ importers:
       pino-http: 5.5.0
       uuid: 8.3.2
     devDependencies:
-      pino-pretty: 4.5.0
       prettier: 2.2.1
       supertest: 6.1.3
       tap: 14.11.0
@@ -35,12 +36,13 @@ importers:
       my-finances-common: workspace:^0.0.1
       pino: ^6.11.1
       pino-http: ^5.5.0
-      pino-pretty: ^4.5.0
       prettier: ^2.2.1
       supertest: ^6.1.3
       tap: ^14.11.0
       uuid: ^8.3.2
   app:
+    dependencies:
+      my-finances-common: link:../common
     devDependencies:
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.38.4
       '@rollup/plugin-json': 4.1.0_rollup@2.38.4
@@ -56,6 +58,7 @@ importers:
       '@rollup/plugin-commonjs': ^17.0.0
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^11.0.0
+      my-finances-common: workspace:^0.0.1
       rollup: ^2.3.4
       rollup-plugin-css-only: ^3.1.0
       rollup-plugin-livereload: ^2.0.0
@@ -63,28 +66,11 @@ importers:
       rollup-plugin-terser: ^7.0.0
       sirv-cli: ^1.0.0
       svelte: ^3.0.0
-  webapp:
+  common:
     dependencies:
-      sirv-cli: 1.0.11
-    devDependencies:
-      '@rollup/plugin-commonjs': 17.1.0_rollup@2.38.2
-      '@rollup/plugin-node-resolve': 11.1.1_rollup@2.38.2
-      rollup: 2.38.2
-      rollup-plugin-css-only: 3.1.0_rollup@2.38.2
-      rollup-plugin-livereload: 2.0.0
-      rollup-plugin-svelte: 7.1.0_rollup@2.38.2+svelte@3.32.1
-      rollup-plugin-terser: 7.0.2_rollup@2.38.2
-      svelte: 3.32.1
+      my-finances-common: 'link:'
     specifiers:
-      '@rollup/plugin-commonjs': ^17.0.0
-      '@rollup/plugin-node-resolve': ^11.0.0
-      rollup: ^2.3.4
-      rollup-plugin-css-only: ^3.1.0
-      rollup-plugin-livereload: ^2.0.0
-      rollup-plugin-svelte: ^7.0.0
-      rollup-plugin-terser: ^7.0.0
-      sirv-cli: ^1.0.0
-      svelte: ^3.0.0
+      my-finances-common: workspace:^0.0.1
 lockfileVersion: 5.2
 packages:
   /@babel/code-frame/7.12.11:
@@ -175,25 +161,9 @@ packages:
     resolution:
       integrity: sha512-WEezM1FWztfbzqIUbsDzFRVMxSoLy3HugVcux6KDDtTqzPsLE8NDRHfXvev66aH1i2oOKKar3/XDjbvh/OUBdg==
   /@polka/url/1.0.0-next.11:
+    dev: true
     resolution:
       integrity: sha512-3NsZsJIA/22P3QUyrEDNA2D133H4j224twJrdipXN38dpnIOzAbUDtOwkcJ5pXmn75w7LSQDjA4tO9dm1XlqlA==
-  /@rollup/plugin-commonjs/17.1.0_rollup@2.38.2:
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.38.2
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      glob: 7.1.6
-      is-reference: 1.2.1
-      magic-string: 0.25.7
-      resolve: 1.19.0
-      rollup: 2.38.2
-    dev: true
-    engines:
-      node: '>= 8.0.0'
-    peerDependencies:
-      rollup: ^2.30.0
-    resolution:
-      integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==
   /@rollup/plugin-commonjs/17.1.0_rollup@2.38.4:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.38.4
@@ -220,22 +190,6 @@ packages:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==
-  /@rollup/plugin-node-resolve/11.1.1_rollup@2.38.2:
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.38.2
-      '@types/resolve': 1.17.1
-      builtin-modules: 3.2.0
-      deepmerge: 4.2.2
-      is-module: 1.0.0
-      resolve: 1.19.0
-      rollup: 2.38.2
-    dev: true
-    engines:
-      node: '>= 10.0.0'
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    resolution:
-      integrity: sha512-zlBXR4eRS+2m79TsUZWhsd0slrHUYdRx4JF+aVQm+MI0wsKdlpC2vlDVjmlGvtZY1vsefOT9w3JxvmWSBei+Lg==
   /@rollup/plugin-node-resolve/11.1.1_rollup@2.38.4:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.38.4
@@ -252,19 +206,6 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-zlBXR4eRS+2m79TsUZWhsd0slrHUYdRx4JF+aVQm+MI0wsKdlpC2vlDVjmlGvtZY1vsefOT9w3JxvmWSBei+Lg==
-  /@rollup/pluginutils/3.1.0_rollup@2.38.2:
-    dependencies:
-      '@types/estree': 0.0.39
-      estree-walker: 1.0.1
-      picomatch: 2.2.2
-      rollup: 2.38.2
-    dev: true
-    engines:
-      node: '>= 8.0.0'
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    resolution:
-      integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
   /@rollup/pluginutils/3.1.0_rollup@2.38.4:
     dependencies:
       '@types/estree': 0.0.39
@@ -278,18 +219,6 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==
-  /@rollup/pluginutils/4.1.0_rollup@2.38.2:
-    dependencies:
-      estree-walker: 2.0.2
-      picomatch: 2.2.2
-      rollup: 2.38.2
-    dev: true
-    engines:
-      node: '>= 8.0.0'
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    resolution:
-      integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==
   /@rollup/pluginutils/4.1.0_rollup@2.38.4:
     dependencies:
       estree-walker: 2.0.2
@@ -743,6 +672,7 @@ packages:
     resolution:
       integrity: sha512-/+ugz+gwFSEfTGUxn0KHkY+19XPRTXR8+7oUK/HxgiN1n7FjeJmkrbSiXAJfyQ0zORgJYPaenmymwon51YXH9Q==
   /console-clear/1.1.1:
+    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -1309,16 +1239,6 @@ packages:
     dev: true
     resolution:
       integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
-  /fsevents/2.1.3:
-    deprecated: '"Please update to latest v2.3 or v2.2"'
-    dev: true
-    engines:
-      node: ^8.16.0 || ^10.6.0 || >=11.0.0
-    optional: true
-    os:
-      - darwin
-    resolution:
-      integrity: sha512-Auw9a4AxqWpa9GUfj370BMPzzyncfBABW8Mab7BGWBYDj4Isgq+cDKtx0i6u9jcX9pQDnswsaaOTgTmA5pEjuQ==
   /fsevents/2.3.1:
     dev: true
     engines:
@@ -1343,6 +1263,7 @@ packages:
     resolution:
       integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
   /get-port/3.2.0:
+    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -1838,6 +1759,7 @@ packages:
     resolution:
       integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==
   /kleur/3.0.3:
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -1893,6 +1815,7 @@ packages:
     resolution:
       integrity: sha1-L19Fq5HjMhYjT9U62rZo607AmTs=
   /local-access/1.1.0:
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -2083,6 +2006,7 @@ packages:
     resolution:
       integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
   /mime/2.5.0:
+    dev: true
     engines:
       node: '>=4.0.0'
     hasBin: true
@@ -2120,6 +2044,7 @@ packages:
     resolution:
       integrity: sha512-6y7IjGPm8AzlvoUrwAaw1tLnUBudaS3752vcd8JtrpGGQn+rXIe63LFVHm/YMwtqAuh+LJPCFdlLYPWM1nYn6w==
   /mri/1.1.6:
+    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -2872,17 +2797,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
-  /rollup-plugin-css-only/3.1.0_rollup@2.38.2:
-    dependencies:
-      '@rollup/pluginutils': 4.1.0_rollup@2.38.2
-      rollup: 2.38.2
-    dev: true
-    engines:
-      node: '>=10.12.0'
-    peerDependencies:
-      rollup: 1 || 2
-    resolution:
-      integrity: sha512-TYMOE5uoD76vpj+RTkQLzC9cQtbnJNktHPB507FzRWBVaofg7KhIqq1kGbcVOadARSozWF883Ho9KpSPKH8gqA==
   /rollup-plugin-css-only/3.1.0_rollup@2.38.4:
     dependencies:
       '@rollup/pluginutils': 4.1.0_rollup@2.38.4
@@ -2902,20 +2816,6 @@ packages:
       node: '>=8.3'
     resolution:
       integrity: sha512-oC/8NqumGYuphkqrfszOHUUIwzKsaHBICw6QRwT5uD07gvePTS+HW+GFwu6f9K8W02CUuTvtIM9AWJrbj4wE1A==
-  /rollup-plugin-svelte/7.1.0_rollup@2.38.2+svelte@3.32.1:
-    dependencies:
-      require-relative: 0.8.7
-      rollup: 2.38.2
-      rollup-pluginutils: 2.8.2
-      svelte: 3.32.1
-    dev: true
-    engines:
-      node: '>=10'
-    peerDependencies:
-      rollup: '>=2.0.0'
-      svelte: '>=3.5.0'
-    resolution:
-      integrity: sha512-vopCUq3G+25sKjwF5VilIbiY6KCuMNHP1PFvx2Vr3REBNMDllKHFZN2B9jwwC+MqNc3UPKkjXnceLPEjTjXGXg==
   /rollup-plugin-svelte/7.1.0_rollup@2.38.4+svelte@3.32.1:
     dependencies:
       require-relative: 0.8.7
@@ -2930,18 +2830,6 @@ packages:
       svelte: '>=3.5.0'
     resolution:
       integrity: sha512-vopCUq3G+25sKjwF5VilIbiY6KCuMNHP1PFvx2Vr3REBNMDllKHFZN2B9jwwC+MqNc3UPKkjXnceLPEjTjXGXg==
-  /rollup-plugin-terser/7.0.2_rollup@2.38.2:
-    dependencies:
-      '@babel/code-frame': 7.12.11
-      jest-worker: 26.6.2
-      rollup: 2.38.2
-      serialize-javascript: 4.0.0
-      terser: 5.5.1
-    dev: true
-    peerDependencies:
-      rollup: ^2.0.0
-    resolution:
-      integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==
   /rollup-plugin-terser/7.0.2_rollup@2.38.4:
     dependencies:
       '@babel/code-frame': 7.12.11
@@ -2960,15 +2848,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
-  /rollup/2.38.2:
-    dev: true
-    engines:
-      node: '>=10.0.0'
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.1.3
-    resolution:
-      integrity: sha512-3Sg65zfgqsnI2LUFsOmhJDvTWXwio+taySq/dsyvel8+GW+AxeW9V6YZG8BpVGQk/TS4uvGLARRH5T3ygDyyNQ==
   /rollup/2.38.4:
     dev: true
     engines:
@@ -2985,6 +2864,7 @@ packages:
   /sade/1.7.4:
     dependencies:
       mri: 1.1.6
+    dev: true
     engines:
       node: '>= 6'
     resolution:
@@ -2999,6 +2879,7 @@ packages:
     resolution:
       integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
   /semiver/1.1.0:
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -3094,6 +2975,7 @@ packages:
       semiver: 1.1.0
       sirv: 1.0.11
       tinydate: 1.3.0
+    dev: true
     engines:
       node: '>= 10'
     hasBin: true
@@ -3104,6 +2986,7 @@ packages:
       '@polka/url': 1.0.0-next.11
       mime: 2.5.0
       totalist: 1.1.0
+    dev: true
     engines:
       node: '>= 10'
     resolution:
@@ -3535,6 +3418,7 @@ packages:
     resolution:
       integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
   /tinydate/1.3.0:
+    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -3560,6 +3444,7 @@ packages:
     resolution:
       integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
   /totalist/1.1.0:
+    dev: true
     engines:
       node: '>=6'
     resolution:

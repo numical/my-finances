@@ -4,7 +4,7 @@ export const Auth = {
   AUTHENTICATED: 'authenticated',
 };
 
-export const authInitial = {
+Auth.initial = {
   email: '',
   userId: '',
   pwd: '',
@@ -13,7 +13,3 @@ export const authInitial = {
   state: Auth.CHALLENGE,
   timeout: 0,
 };
-
-export const modelsInitial = {};
-
-export const userInitial = {};

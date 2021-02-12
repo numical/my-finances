@@ -16,7 +16,7 @@ const { init } = require('../src/app');
     pwd: 'hash of password',
   };
 
-  only('create new user', async (t) => {
+  test('create new user', async (t) => {
     const { status: createUserStatus, body: initialUser } = await server
       .post('/users')
       .send(auth);

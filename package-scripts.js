@@ -26,19 +26,19 @@ module.exports = {
           description: 'run only marked API unit tests',
         },
       },
-      build: {
-        local: {
+      docker: {
+        build: {
           script: 'pnpm run docker.build --filter ./api',
           description: 'build API docker image',
         },
-      },
-      run: {
-        script: 'pnpm run docker.run --filter ./api',
-        description: 'run API locally',
-      },
-      stop: {
-        script: 'pnpm run docker.stop --filter ./api',
-        description: 'stop API locally',
+        run: {
+          script: 'pnpm run docker.run --filter ./api',
+          description: 'run API locally',
+        },
+        stop: {
+          script: 'pnpm run docker.stop --filter ./api',
+          description: 'stop API locally',
+        },
       },
       deploy: {
         script: series(
@@ -65,6 +65,20 @@ module.exports = {
       deploy: {
         script: series('pnpm run build --filter ./app', 'firebase deploy'),
         description: 'deploy app to GCP',
+      },
+    },
+    local: {
+      default: {
+        script: concurrent({
+          run: 'node ./local/src/devServer | pino-pretty  --hideObject',
+          open: series('sleep 1', open('https://localhost:8080/alpha.html')),
+        }),
+        description: 'run locally',
+      },
+      certs: {
+        script:
+          "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'   -keyout ./local/certs/localhost-key.pem -out ./local/certs/localhost-cert.pem",
+        description: 'generate local certificates for test servers',
       },
     },
   },

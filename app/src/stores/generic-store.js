@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export default (initialState) => {
+export default (initialState = {}) => {
   const store = writable({
     ...initialState,
   });
@@ -14,8 +14,8 @@ export default (initialState) => {
 
   store.setValues = (values) =>
     store.update((state) => ({
+      ...state,
       ...values,
-      state,
     }));
 
   return store;

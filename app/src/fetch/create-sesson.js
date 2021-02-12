@@ -1,4 +1,4 @@
-import { get } from 'svelte/store';
+import { Auth } from '../states';
 import { authStore } from '../stores';
 import wrapFetch from './wrap-fetch';
 

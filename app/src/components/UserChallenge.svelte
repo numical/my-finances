@@ -5,8 +5,8 @@
   let pwd = '';
 
   const onClick = () => {
-    authStore.set('email', email);
-    authStore.set('pwd', pwd);
+    authStore.setValue('email', email);
+    authStore.setValue('pwd', pwd);
   };
 </script>
 

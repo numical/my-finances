@@ -1,8 +1,8 @@
 import genericStore from './generic-store';
-import { authInitial, modelsInitial, userInitial } from './states';
+import { Auth } from '../states';
 
-export const authStore = genericStore(authInitial);
+export const authStore = genericStore(Auth.initial);
 
-export const modelsStore = genericStore(modelsInitial);
+export const modelsStore = genericStore();
 
-export const userStore = genericStore(userInitial);
+export const userStore = genericStore();
