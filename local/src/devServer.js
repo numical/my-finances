@@ -2,16 +2,16 @@ const https = require('https');
 const { existsSync, readFileSync } = require('fs');
 const { resolve } = require('path');
 const { static } = require('express');
-const { init } = require('../../api/src/app');
+const { init } = require('../../packages/api/src/app');
 
-const validatedPath = relativePath => {
+const validatedPath = (relativePath) => {
   const absolutePath = resolve(__dirname, relativePath);
   if (!existsSync(absolutePath)) {
     console.log(`Missing file/path '${absolutePath}'`);
     process.exit(1);
   }
   return absolutePath;
-}
+};
 
 const paths = {
   keyFile: validatedPath('../certs/localhost-key.pem'),
@@ -24,7 +24,7 @@ const addFileServing = (app) => {
 };
 
 const appOptions = {
-  addMiddleware: addFileServing
+  addMiddleware: addFileServing,
 };
 
 const httpsOptions = {

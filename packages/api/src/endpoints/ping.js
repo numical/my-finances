@@ -5,5 +5,5 @@ const handler = (req, res) => {
 module.exports = {
   verb: 'get',
   path: '/ping',
-  handler
+  handler,
 };

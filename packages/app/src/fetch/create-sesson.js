@@ -27,6 +27,8 @@ export default async () => {
       sessionId,
       timeout,
     });
+
+    return { sessionId, timeout };
   } catch (err) {
     authStore.setValue('state', Auth.CHALLENGE);
     throw err;

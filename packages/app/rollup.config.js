@@ -76,7 +76,7 @@ export default {
     // browser on changes when not in production
     !production && livereload(targetDir),
 
-    // If we're building for production (npm run build
+    // If we're building for production (npm run remote
     // instead of npm run dev), minify
     production && terser(),
   ],

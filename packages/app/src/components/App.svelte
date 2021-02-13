@@ -20,7 +20,7 @@
     description="POST /sessions"
     fn="{createSession}"
   />
-  <APICaller name="Fetch user" description="GET /userInitial" fn="{getUser}" />
+  <APICaller name="Fetch user" description="GET /user" fn="{getUser}" />
   <APICaller
     name="Fetch model"
     description="GET /financial-model"

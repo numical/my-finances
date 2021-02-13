@@ -42,7 +42,7 @@ If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommen
 To create an optimised version of the app:
 
 ```bash
-npm run build
+npm run remote
 ```
 
 You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
@@ -100,6 +100,6 @@ npm install -g surge
 Then, from within your project folder:
 
 ```bash
-npm run build
+npm run remote
 surge public my-project.surge.sh
 ```

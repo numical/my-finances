@@ -17,42 +17,42 @@ module.exports = {
         'pnpm install -r',
         'pnpm start local.certs'
       ),
-      description: 'reset entire repo'
+      description: 'reset entire repo',
     },
     api: {
       test: {
         default: {
-          script: 'pnpm run test --filter ./api',
+          script: 'pnpm run test --filter ./packages/api',
           description: 'run API unit tests',
         },
         coverage: {
-          script: 'pnpm run test.coverage --filter ./api',
+          script: 'pnpm run test.coverage --filter ./packages/api',
           description: 'run API unit tests with coverage',
         },
         only: {
-          script: 'pnpm run test.only --filter ./api',
+          script: 'pnpm run test.only --filter ./packages/api',
           description: 'run only marked API unit tests',
         },
       },
       docker: {
         build: {
-          script: 'pnpm run docker.build --filter ./api',
+          script: 'pnpm run docker.build --filter ./packages/api',
           description: 'build API docker image',
         },
         run: {
-          script: 'pnpm run docker.run --filter ./api',
+          script: 'pnpm run docker.run --filter ./packages/api',
           description: 'run API locally',
         },
         stop: {
-          script: 'pnpm run docker.stop --filter ./api',
+          script: 'pnpm run docker.stop --filter ./packages/api',
           description: 'stop API locally',
         },
       },
       deploy: {
         script: series(
-          'pnpm run docker.build --filter ./api',
-          'pnpm run gcp.build --filter ./api',
-          'pnpm run gcp.deploy --filter ./api',
+          'pnpm run docker.remote --filter ./packages/api',
+          'pnpm run gcp.remote --filter ./packages/api',
+          'pnpm run gcp.deploy --filter ./packages/api',
           'firebase deploy'
         ),
         description: 'deploy API to GCP',
@@ -61,17 +61,17 @@ module.exports = {
     app: {
       run: {
         script: concurrent({
-          run: 'pnpm run dev --filter ./app',
+          run: 'pnpm run dev --filter ./packages/app',
           open: series('sleep 1', open('https://localhost:5000/alpha.html')),
         }),
         description: 'run app locally',
       },
       build: {
-        script: 'pnpm run build --filter ./app',
-        description: 'build app',
+        script: 'pnpm run build --filter ./packages/app',
+        description: 'remote app',
       },
       deploy: {
-        script: series('pnpm run build --filter ./app', 'firebase deploy'),
+        script: series('pnpm run build --filter ./packages/app', 'firebase deploy'),
         description: 'deploy app to GCP',
       },
     },

@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv --http2 --key ../local/certs/localhost-key.pem --cert ../local/certs/localhost-cert.pem ../public/alpha"
+    "start": "sirv --http2 --key ../local/certs/localhost-key.pem --cert ../local/certs/localhost-cert.pem ../../public/alpha"
   },
   "author": "mike.evans@numical.com",
   "license": "UNLICENCED",

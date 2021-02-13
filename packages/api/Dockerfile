@@ -12,12 +12,12 @@ WORKDIR /
 COPY package*.json ./
 
 # Install production dependencies.
-# If you add a package-lock.json, speed your build by switching to 'npm ci'.
+# If you add a package-lock.json, speed your remote by switching to 'npm ci'.
 # RUN npm ci --only=production
 RUN npm install --only=production
 
 # Copy local code to the container image.
-COPY ./src ./src
+COPY src ./src
 COPY index.js ./
 
 # Run the web service on container startup.
