@@ -4,34 +4,38 @@ const { resolve } = require('path');
 const { static } = require('express');
 const { init } = require('../../api/src/app');
 
-const paths = {
-  keyFile: resolve(__dirname, '../certs/localhost-key.pem'),
-  certFile: resolve(__dirname, '../certs/localhost-cert.pem'),
-  webRoot: resolve(__dirname, '../../public/alpha'),
-};
-
-const checkPath = ([name, path]) => {
-  if (!existsSync(path)) {
-    console.log(`${name} missing at '${path}'`);
+const validatedPath = relativePath => {
+  const absolutePath = resolve(__dirname, relativePath);
+  if (!existsSync(absolutePath)) {
+    console.log(`Missing file/path '${absolutePath}'`);
     process.exit(1);
   }
-};
+  return absolutePath;
+}
 
-Object.entries(paths).forEach(checkPath);
+const paths = {
+  keyFile: validatedPath('../certs/localhost-key.pem'),
+  certFile: validatedPath('../certs/localhost-cert.pem'),
+  webRoot: validatedPath('../../public/alpha'),
+};
 
 const addFileServing = (app) => {
   app.use(static(paths.webRoot));
 };
 
-const options = {
+const appOptions = {
+  addMiddleware: addFileServing
+};
+
+const httpsOptions = {
   key: readFileSync(paths.keyFile),
   cert: readFileSync(paths.certFile),
 };
 
 const port = process.env.PORT || 8080;
 
-init(addFileServing).then((app) => {
-  https.createServer(options, app).listen(port, (err) => {
+init(appOptions).then((app) => {
+  https.createServer(httpsOptions, app).listen(port, (err) => {
     if (err) {
       console.error(`my-finances API failed to start on port ${port}`, err);
     } else {

@@ -11,6 +11,14 @@ module.exports = {
       script: "prettier --write './**/*.js' './**/*.svelte' './**/*.html'",
       description: 'format all files',
     },
+    reset: {
+      script: series(
+        'git clean -dfx',
+        'pnpm install -r',
+        'pnpm start local.certs'
+      ),
+      description: 'reset entire repo'
+    },
     api: {
       test: {
         default: {
@@ -76,8 +84,10 @@ module.exports = {
         description: 'run locally',
       },
       certs: {
-        script:
-          "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'   -keyout ./local/certs/localhost-key.pem -out ./local/certs/localhost-cert.pem",
+        script: series(
+          'mkdir -p ./local/certs',
+          "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'   -keyout ./local/certs/localhost-key.pem -out ./local/certs/localhost-cert.pem"
+        ),
         description: 'generate local certificates for test servers',
       },
     },

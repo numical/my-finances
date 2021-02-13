@@ -7,12 +7,7 @@ const { config } = require('./datastores');
 const endPoints = require('./endpoints');
 const { enforceAuth, errorHandler } = require('./middlewares');
 
-/**
- * Configure web server
- * @param additionalMiddleware
- * @returns {Promise<*|Express>}
- */
-const init = async (additionalMiddleware) => {
+const init = async (options = {}) => {
   await config.init();
 
   const logger = pino();
@@ -27,8 +22,8 @@ const init = async (additionalMiddleware) => {
   app.use(bodyParser.json());
   app.use(cookieParser());
 
-  if (additionalMiddleware) {
-    additionalMiddleware(app);
+  if (options.addMiddleware) {
+    options.addMiddleware(app);
   }
 
   endPoints.forEach(({ path, requiresAuth }) => {
