@@ -19,6 +19,16 @@ module.exports = {
       ),
       description: 'reset entire repo',
     },
+    deploy: {
+      script: series(
+        'pnpm run build --filter ./packages/app',
+        'pnpm run docker.build --filter ./packages/api',
+        'pnpm run gcp.build --filter ./packages/api',
+        'pnpm run gcp.deploy --filter ./packages/api',
+        'firebase deploy'
+      ),
+      description: 'build and deploy app and API'
+    },
     api: {
       test: {
         default: {
@@ -50,8 +60,8 @@ module.exports = {
       },
       deploy: {
         script: series(
-          'pnpm run docker.remote --filter ./packages/api',
-          'pnpm run gcp.remote --filter ./packages/api',
+          'pnpm run docker.build --filter ./packages/api',
+          'pnpm run gcp.build --filter ./packages/api',
           'pnpm run gcp.deploy --filter ./packages/api',
           'firebase deploy'
         ),

@@ -1,7 +1,4 @@
-# Project
-* `./scripts/setup-project.sh my-finances-page`
-
-# Website
+# Firebase Setup
 * Currently using Firebase as free 'Spark' billing option offers HTTPS static website
 * cannot use `firebase` command line as project not enabled for firebase
 * have to use [firebase console](https://console.firebase.google.com) to add project
