@@ -26,8 +26,8 @@ const addFileServing = (app) => {
 const customise = {
   middleware: addFileServing,
   log: {
-    level: 'debug'
-  }
+    level: 'debug',
+  },
 };
 
 const httpsOptions = {

@@ -21,30 +21,25 @@
 1. unit test
     * `run api.test`
     * `run api.test.xxx`
-1. build and run docker image
-    * `run api.docker.build`
-    * `run api.docker.run`
-    * `run api.docker stop`
-1. use curl scripts etc.
-1. deploy **only** API
-    * `run api.deploy`
-
+1. can run locally in docker through `local` commands
+   * `run build.api` 
+   * `run local.docker`
+   * `run local.docker.stop`
+   * `run local.docker.interact` < run shell in docker container
 ## Working with App
 * **no** API
 1. dev/test
     * `run app.xxx`
-1. prod build
-    * `run app.build`
-1. deploy **ony** App
-    * `run app.deploy`
 
 ## Working on Both
 * TODO: run in dev mode
     * file watch etc.
     * `run dev`
-1. build separately 
-2. run locally to manually test
+1. build each
+    * `run build.api` 
+    * `run build app`
+1. run locally to manually test
     * `run local`
-3. deploy everything to GCP
+1. deploy everything to GCP
     * `run deploy`
     

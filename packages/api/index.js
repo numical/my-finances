@@ -5,9 +5,9 @@ const port = process.env.PORT || 8080;
 // we're in alpha
 const customise = {
   log: {
-    level: 'debug'
-  }
-}
+    level: 'debug',
+  },
+};
 
 init(customise).then((app) => {
   app.listen(port, (err) => {

@@ -19,15 +19,54 @@ module.exports = {
       ),
       description: 'reset entire repo',
     },
+    build: {
+      api: {
+        script: 'docker build -t my-finances-api .',
+        description: 'build API docker image',
+      },
+      app: {
+        script: 'pnpm run build --filter ./packages/app',
+        description: 'build app',
+      },
+    },
     deploy: {
       script: series(
-        'pnpm run build --filter ./packages/app',
-        'pnpm run docker.build --filter ./packages/api',
         'pnpm run gcp.build --filter ./packages/api',
         'pnpm run gcp.deploy --filter ./packages/api',
         'firebase deploy'
       ),
-      description: 'build and deploy app and API'
+      description: 'build and deploy app and API',
+    },
+    local: {
+      default: {
+        script: concurrent({
+          run: 'node ./local/src/devServer | pino-pretty  --hideObject',
+          open: series('sleep 1', open('https://localhost:8080/alpha.html')),
+        }),
+        description: 'run locally',
+      },
+      certs: {
+        script: series(
+          'mkdir -p ./local/certs',
+          "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'   -keyout ./local/certs/localhost-key.pem -out ./local/certs/localhost-cert.pem"
+        ),
+        description: 'generate local certificates for test servers',
+      },
+      docker: {
+        default: {
+          script:
+            'docker run -d -p 8080:8080 --name my-finances my-finances-api',
+          description: 'run API locally in docker',
+        },
+        stop: {
+          script: 'docker stop my-finances && docker container rm my-finances',
+          description: 'stop API running locally in docker',
+        },
+        interact: {
+          script: 'docker run -it my-finances-api /bin/sh',
+          description: 'run API docker container shell',
+        },
+      },
     },
     api: {
       test: {
@@ -44,29 +83,6 @@ module.exports = {
           description: 'run only marked API unit tests',
         },
       },
-      docker: {
-        build: {
-          script: 'pnpm run docker.build --filter ./packages/api',
-          description: 'build API docker image',
-        },
-        run: {
-          script: 'pnpm run docker.run --filter ./packages/api',
-          description: 'run API locally',
-        },
-        stop: {
-          script: 'pnpm run docker.stop --filter ./packages/api',
-          description: 'stop API locally',
-        },
-      },
-      deploy: {
-        script: series(
-          'pnpm run docker.build --filter ./packages/api',
-          'pnpm run gcp.build --filter ./packages/api',
-          'pnpm run gcp.deploy --filter ./packages/api',
-          'firebase deploy'
-        ),
-        description: 'deploy API to GCP',
-      },
     },
     app: {
       run: {
@@ -75,30 +91,6 @@ module.exports = {
           open: series('sleep 1', open('https://localhost:5000/alpha.html')),
         }),
         description: 'run app locally',
-      },
-      build: {
-        script: 'pnpm run build --filter ./packages/app',
-        description: 'remote app',
-      },
-      deploy: {
-        script: series('pnpm run build --filter ./packages/app', 'firebase deploy'),
-        description: 'deploy app to GCP',
-      },
-    },
-    local: {
-      default: {
-        script: concurrent({
-          run: 'node ./local/src/devServer | pino-pretty  --hideObject',
-          open: series('sleep 1', open('https://localhost:8080/alpha.html')),
-        }),
-        description: 'run locally',
-      },
-      certs: {
-        script: series(
-          'mkdir -p ./local/certs',
-          "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost'   -keyout ./local/certs/localhost-key.pem -out ./local/certs/localhost-cert.pem"
-        ),
-        description: 'generate local certificates for test servers',
       },
     },
   },

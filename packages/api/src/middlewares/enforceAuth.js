@@ -43,7 +43,9 @@ const assertSessionIds = async (args) => {
   if (sessionId == payload.sessionId) {
     return args;
   } else {
-    throw new Error(`JWT sessionId '${payload.sessionId}' does not match session token '${sessionId}'`);
+    throw new Error(
+      `JWT sessionId '${payload.sessionId}' does not match session token '${sessionId}'`
+    );
   }
 };
 
