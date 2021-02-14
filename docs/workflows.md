@@ -39,6 +39,7 @@ Note: once Project Setup complete, just type `run` for all available scripts.
 1. build each
     * `run build.api` 
     * `run build app`
+    * or together: `run build`
 1. run locally to manually test
     * `run local`
 1. deploy everything to GCP

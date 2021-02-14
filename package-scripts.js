@@ -20,22 +20,35 @@ module.exports = {
       description: 'reset entire repo',
     },
     build: {
+      default: {
+        script: concurrent({
+          api: 'docker build -t my-finances-api .',
+          app: 'pnpm run build --filter ./packages/app'
+        }),
+        description: 'build App and API docker image'
+      },
       api: {
         script: 'docker build -t my-finances-api .',
         description: 'build API docker image',
       },
       app: {
         script: 'pnpm run build --filter ./packages/app',
-        description: 'build app',
+        description: 'build App',
       },
     },
     deploy: {
-      script: series(
-        "gcloud builds submit --tag gcr.io/my-finances-page/my-finances-api",
-        "gcloud beta run deploy my-finances-api --image gcr.io/my-finances-page/my-finances-api --platform managed --allow-unauthenticated --region=europe-west1 --memory=256Mi",
-        'firebase deploy'
-      ),
-      description: 'build and deploy app and API',
+      default: {
+        script: series(
+          "gcloud builds submit --tag gcr.io/my-finances-page/my-finances-api",
+          "gcloud beta run deploy my-finances-api --image gcr.io/my-finances-page/my-finances-api --platform managed --allow-unauthenticated --region=europe-west1 --memory=256Mi",
+          'firebase deploy'
+        ),
+        description: 'deploy app and API - build first!'
+      },
+      app: {
+        script: 'firebase deploy',
+        description: 'deploy App - build first!'
+      }
     },
     local: {
       default: {

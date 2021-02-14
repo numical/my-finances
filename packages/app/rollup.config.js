@@ -8,7 +8,7 @@ import json from '@rollup/plugin-json';
 
 const production = !process.env.ROLLUP_WATCH;
 
-const targetDir = '../public/alpha';
+const targetDir = '../../public/alpha';
 
 function serve() {
   let server;

@@ -56,8 +56,8 @@ const authorised = async (args) => {
 
 module.exports = (req, res, next) => {
   wrapRequest(req, next)
-    .then(checkCookieExists)
     .then(checkHeaderExists)
+    .then(checkCookieExists)
     .then(extractPayload)
     .then(assertSessionIds)
     .then(authorised)
