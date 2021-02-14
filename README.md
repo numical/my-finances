@@ -1,12 +1,11 @@
 # my-finances
 
-## main links
+## Links
 * [Overview](./docs/overview.md)
 * Getting Started - see [Workflows](./docs/workflows.md)
 
 
-## todo's
-1. docker image with pnpm workspaces
+## Todo's
 1. config - how?
     * GCP Secrets?
     * vs App customize?   
