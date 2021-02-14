@@ -13,7 +13,7 @@ const checkHeaderExists = async (args) => {
       sessionId,
     };
   } else {
-    throw new Error();
+    throw new Error(`No session token '${SESSION_TOKEN}'`);
   }
 };
 
@@ -26,7 +26,7 @@ const checkCookieExists = async (args) => {
       token,
     };
   } else {
-    throw new Error();
+    throw new Error(`No cookie '${cookie.name}'`);
   }
 };
 
@@ -43,7 +43,7 @@ const assertSessionIds = async (args) => {
   if (sessionId == payload.sessionId) {
     return args;
   } else {
-    throw new Error();
+    throw new Error(`JWT sessionId '${payload.sessionId}' does not match session token '${sessionId}'`);
   }
 };
 
@@ -60,6 +60,6 @@ module.exports = (req, res, next) => {
     .then(assertSessionIds)
     .then(authorised)
     .catch((err) => {
-      next(new Unauthorised());
+      next(new Unauthorised(err.message));
     });
 };

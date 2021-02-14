@@ -7,10 +7,10 @@ const { config } = require('./datastores');
 const endPoints = require('./endpoints');
 const { enforceAuth, errorHandler } = require('./middlewares');
 
-const init = async (options = {}) => {
+const init = async (customise = {}) => {
   await config.init();
 
-  const logger = pino();
+  const logger = pino(customise.log);
   logger.info(config.report());
 
   const app = express();
@@ -22,8 +22,8 @@ const init = async (options = {}) => {
   app.use(bodyParser.json());
   app.use(cookieParser());
 
-  if (options.addMiddleware) {
-    options.addMiddleware(app);
+  if (customise.middleware) {
+    customise.middleware(app);
   }
 
   endPoints.forEach(({ path, requiresAuth }) => {

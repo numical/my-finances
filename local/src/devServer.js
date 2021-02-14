@@ -23,8 +23,11 @@ const addFileServing = (app) => {
   app.use(static(paths.webRoot));
 };
 
-const appOptions = {
-  addMiddleware: addFileServing,
+const customise = {
+  middleware: addFileServing,
+  log: {
+    level: 'debug'
+  }
 };
 
 const httpsOptions = {
@@ -34,7 +37,7 @@ const httpsOptions = {
 
 const port = process.env.PORT || 8080;
 
-init(appOptions).then((app) => {
+init(customise).then((app) => {
   https.createServer(httpsOptions, app).listen(port, (err) => {
     if (err) {
       console.error(`my-finances API failed to start on port ${port}`, err);
