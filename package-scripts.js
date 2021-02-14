@@ -31,8 +31,8 @@ module.exports = {
     },
     deploy: {
       script: series(
-        'pnpm run gcp.build --filter ./packages/api',
-        'pnpm run gcp.deploy --filter ./packages/api',
+        "gcloud builds submit --tag gcr.io/my-finances-page/my-finances-api",
+        "gcloud beta run deploy my-finances-api --image gcr.io/my-finances-page/my-finances-api --platform managed --allow-unauthenticated --region=europe-west1 --memory=256Mi",
         'firebase deploy'
       ),
       description: 'build and deploy app and API',

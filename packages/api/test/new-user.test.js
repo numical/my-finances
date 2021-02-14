@@ -1,6 +1,6 @@
 const { test, only } = require('tap');
 const request = require('supertest');
-const { SESSION_TOKEN } = require('../src/common');
+const { SESSION_TOKEN } = require('my-finances-common');
 
 const { post200 } = require('./http-tests');
 const { assertSession } = require('./auth-tests');

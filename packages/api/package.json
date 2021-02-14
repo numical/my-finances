@@ -6,9 +6,7 @@
   "scripts": {
     "test": "tap --no-coverage test/**/*.test.js | pino-pretty --colorize --hideObject",
     "test.only": "tap --no-coverage --only --no-timeout test/**/*.test.js",
-    "test.coverage": "tap test/**/*.test.js --100",
-    "gcp.build": "gcloud builds submit --tag gcr.io/my-finances-page/my-finances-api",
-    "gcp.deploy": "gcloud beta run deploy my-finances-api --image gcr.io/my-finances-page/my-finances-api --platform managed --allow-unauthenticated --region=europe-west1 --memory=256Mi"
+    "test.coverage": "tap test/**/*.test.js --100"
   },
   "author": "mike.evans@numical.com",
   "license": "UNLICENCED",
@@ -18,6 +16,7 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "my-finances-common": "workspace:^0.0.1",
     "pino": "^6.11.1",
     "pino-http": "^5.5.0",
     "uuid": "^8.3.2"

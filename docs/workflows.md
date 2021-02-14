@@ -1,4 +1,5 @@
 # Workflows
+Note: once Project Setup complete, just type `run` for all available scripts.  
 
 ## Project Setup
 1. set up GCP project - [remote/scripts/setup-project.sh](../remote/scripts/setup-project.sh)
