@@ -1,4 +1,4 @@
-const InMemory = require('./InMemory');
+const InMemory = require('../datastores/InMemory');
 const report = require('./report');
 
 class Config extends InMemory {

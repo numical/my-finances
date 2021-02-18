@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const pino = require('pino');
 const pinoHttp = require('pino-http');
-const { config } = require('./datastores');
+const config = require('./config');
 const endPoints = require('./endpoints');
 const { enforceAuth, errorHandler } = require('./middlewares');
 

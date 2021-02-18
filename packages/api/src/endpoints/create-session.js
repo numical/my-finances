@@ -1,4 +1,5 @@
-const { config, users } = require('../datastores');
+const config = require('./config');
+const { users } = require('../datastores');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
 const { BadRequest, NotFound, Unauthorised } = require('../errors');
 
