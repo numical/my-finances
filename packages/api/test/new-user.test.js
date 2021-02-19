@@ -40,7 +40,7 @@ const customize = require('./customize');
       .get(`/user/${userId}`)
       .set(SESSION_TOKEN, sessionId)
       .set('Cookie', cookies);
-    t.equal(fetchStatus, 200, 'can fetch user when auth data sent');
+    t.equal(fetchStatus, 200, 'can fetch user when certs data sent');
 
     t.same(fetchedUser, initialUser);
 

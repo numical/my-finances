@@ -109,6 +109,6 @@ dist
 # IDE
 .idea
 
-# Certificates
-*.pem
+# Certificates / Keys
+**/auth/
 

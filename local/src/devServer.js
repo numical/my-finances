@@ -14,8 +14,8 @@ const validatedPath = (relativePath) => {
 };
 
 const paths = {
-  keyFile: validatedPath('../certs/localhost-key.pem'),
-  certFile: validatedPath('../certs/localhost-cert.pem'),
+  keyFile: validatedPath('../auth/localhost-key.pem'),
+  certFile: validatedPath('../auth/localhost-cert.pem'),
   webRoot: validatedPath('../../public/alpha'),
 };
 

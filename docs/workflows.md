@@ -13,6 +13,8 @@ Note: once Project Setup complete, just type `run` for all available scripts.
 1. add run alias    
     * `cd my-finances`
     * `. run-alias.sh` 
+1. get GCP auth keys
+   * `run remote.keys`
 1. project reset
     * `run reset`
 1. review available scripts
