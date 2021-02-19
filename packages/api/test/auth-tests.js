@@ -1,4 +1,4 @@
-const JWT_COOKIE_REGEX = /^my-finances-session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;
+const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;
 
 const assertSession = (t, response) => {
   const { body, headers } = response;

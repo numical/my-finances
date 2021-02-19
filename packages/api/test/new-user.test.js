@@ -2,12 +2,13 @@ const { test, only } = require('tap');
 const request = require('supertest');
 const { SESSION_TOKEN } = require('my-finances-common');
 
+const { init } = require('../src/app');
 const { post200 } = require('./http-tests');
 const { assertSession } = require('./auth-tests');
-const { init } = require('../src/app');
+const customize = require('./customize');
 
 (async () => {
-  const app = await init();
+  const app = await init(customize);
   const server = request.agent(app);
 
   const auth = {

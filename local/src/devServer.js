@@ -25,8 +25,11 @@ const addFileServing = (app) => {
 
 const customise = {
   middleware: addFileServing,
-  log: {
-    level: 'debug',
+  config: {
+    dataSource: 'memory',
+    log: {
+      level: 'debug',
+    },
   },
 };
 

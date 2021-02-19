@@ -4,7 +4,7 @@
   "description": "Express based API",
   "main": "index.js",
   "scripts": {
-    "test": "tap --no-coverage test/**/*.test.js | pino-pretty --colorize --hideObject",
+    "test": "tap --no-coverage test/**/*.test.js --no-timeout | pino-pretty --colorize --hideObject",
     "test.only": "tap --no-coverage --only --no-timeout test/**/*.test.js",
     "test.coverage": "tap test/**/*.test.js --100"
   },
@@ -22,6 +22,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "pino-pretty": "^4.5.0",
     "prettier": "^2.2.1",
     "supertest": "^6.1.3",
     "tap": "^14.11.0"

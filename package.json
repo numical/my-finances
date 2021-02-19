@@ -10,7 +10,7 @@
     "express": "^4.17.1",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0",
-    "pino-pretty": "^4.5.0",
+    "pnpm": "^5.17.2",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.1.1"
   },

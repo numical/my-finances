@@ -1,6 +1,6 @@
-const InMemory = require('./InMemory');
+const DatastoreProxy = require('./DatastoreProxy');
 
 module.exports = {
-  financialModels: new InMemory(),
-  users: new InMemory(),
+  financialModels: new DatastoreProxy(),
+  users: new DatastoreProxy(),
 };

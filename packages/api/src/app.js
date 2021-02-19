@@ -8,9 +8,9 @@ const endPoints = require('./endpoints');
 const { enforceAuth, errorHandler } = require('./middlewares');
 
 const init = async (customise = {}) => {
-  await config.init();
+  const { log } = await config.init(customise.config);
 
-  const logger = pino(customise.log);
+  const logger = pino(log);
   logger.info(config.report());
 
   const app = express();

@@ -1,13 +1,29 @@
+const { EOL } = require('os');
 const InMemory = require('../datastores/InMemory');
-const report = require('./report');
+const DEFAULTS = require('./defaults');
+const reportEnvironment = require('./report-environment');
 
 class Config extends InMemory {
-  init() {
-    this.set('sessionTimeoutInSeconds', 10 * 60);
-    this.set('foo', 'bar');
+  #records = {};
+
+  async init(overrides = {}) {
+    const all = {
+      ...DEFAULTS,
+      ...overrides,
+    };
+    Object.assign(this.#records, all);
+    return this.#records;
   }
+
+  get(key) {
+    return this.#records[key];
+  }
+
   report() {
-    return report(this.getAll());
+    return Object.entries(this.#records).reduce(
+      (s, [key, value]) => `${s}${EOL}  ${key}: ${value}`,
+      reportEnvironment()
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('../config');
 const { users } = require('../datastores');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
 const { BadRequest, NotFound, Unauthorised } = require('../errors');
@@ -9,13 +9,13 @@ const handler = async (req, res, next) => {
     if (!userId) throw new BadRequest('userId missing');
     if (!pwd) throw new BadRequest('pwd missing');
 
-    const [user, sessionId, sessionTimeoutInSeconds] = await Promise.all([
+    const [user, sessionId] = await Promise.all([
       users.get(userId),
       generateSessionId(),
-      config.get('sessionTimeoutInSeconds'),
     ]);
     if (user) {
       if (pwd === user.pwd) {
+        const sessionTimeoutInSeconds = config.get('sessionTimeoutInSeconds');
         const maxAge = sessionTimeoutInSeconds * 1000;
         const body = {
           sessionId,

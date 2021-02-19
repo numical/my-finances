@@ -8,3 +8,11 @@
 * `firebase deploy`
 * modify domain to point to firebase:
 
+
+# Firestore Setup
+* have to use console
+* native mode / multi-region (eur) as no europe-west1 option
+
+## Is there a useable CLI?
+* https://cloud.google.com/firestore/docs/reference/rest/
+

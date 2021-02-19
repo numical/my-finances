@@ -1,10 +1,11 @@
 const { test } = require('tap');
 const request = require('supertest');
-const { get404, post400 } = require('./http-tests');
 const { init } = require('../src/app');
+const { get404, post400 } = require('./http-tests');
+const customize = require('./customize');
 
 (async () => {
-  const app = await init();
+  const app = await init(customize);
   const server = request(app);
 
   // unknown

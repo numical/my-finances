@@ -4,14 +4,14 @@ importers:
       express: 4.17.1
       nps: 5.10.0
       nps-utils: 1.7.0
-      pino-pretty: 4.5.0
+      pnpm: 5.17.2
       prettier: 2.2.1
       prettier-plugin-svelte: 2.1.4_prettier@2.2.1
     specifiers:
       express: ^4.17.1
       nps: ^5.10.0
       nps-utils: ^1.7.0
-      pino-pretty: ^4.5.0
+      pnpm: ^5.17.2
       prettier: ^2.2.1
       prettier-plugin-svelte: ^2.1.1
   packages/api:
@@ -26,6 +26,7 @@ importers:
       pino-http: 5.5.0
       uuid: 8.3.2
     devDependencies:
+      pino-pretty: 4.5.0
       prettier: 2.2.1
       supertest: 6.1.3
       tap: 14.11.0
@@ -38,6 +39,7 @@ importers:
       my-finances-common: workspace:^0.0.1
       pino: ^6.11.1
       pino-http: ^5.5.0
+      pino-pretty: ^4.5.0
       prettier: ^2.2.1
       supertest: ^6.1.3
       tap: ^14.11.0
@@ -2468,6 +2470,13 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==
+  /pnpm/5.17.2:
+    dev: true
+    engines:
+      node: '>=10.16'
+    hasBin: true
+    resolution:
+      integrity: sha512-X0WEumozKhlYZObL1E+Nmi67f+ZMS+fbpE6vAymlazT2lx0B+Agw9iJsdd//tjAqIzxcsxxgZScx0EIPc42Ulw==
   /prefix-matches/1.0.1:
     dependencies:
       is-object: 1.0.2
