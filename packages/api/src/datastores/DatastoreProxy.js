@@ -1,15 +1,17 @@
 const config = require('../config');
-const Firestore = require('./Firestore');
-const InMemory = require('./InMemory');
 
 class DatastoreProxy {
   #impl;
+  #entity;
+
+  constructor(entity) {
+    this.#entity = entity;
+  }
 
   #getImpl() {
     if (!this.#impl) {
       const dataSource = config.get('dataSource');
-      const Type = dataSource === 'firestore' ? Firestore : InMemory;
-      this.#impl = new Type();
+      this.#impl = new this.#entity[dataSource]();
     }
     return this.#impl;
   }

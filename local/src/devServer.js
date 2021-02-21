@@ -23,10 +23,13 @@ const addFileServing = (app) => {
   app.use(static(paths.webRoot));
 };
 
+// more complex arg processing may come later - minimist / yargs
+const dataSource = process.argv[2] || 'memory';
+
 const customise = {
   middleware: addFileServing,
   config: {
-    dataSource: 'memory',
+    dataSource,
     log: {
       level: 'debug',
     },
@@ -45,7 +48,7 @@ init(customise).then((app) => {
     if (err) {
       console.error(`my-finances API failed to start on port ${port}`, err);
     } else {
-      console.log(`my-finances API listening on port ${port}`);
+      console.log(`my-finances API listening for HTTPS on port ${port}`);
     }
   });
 });

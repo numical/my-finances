@@ -10,8 +10,11 @@
 
 
 # Firestore Setup
-* have to use console
+* Via console or CLI:
+  * `gcloud alpha firestore databases create`
 * native mode / multi-region (eur) as no europe-west1 option
+* **no** schema setup  
+* note: cannot delete
 
 ## Is there a useable CLI?
 * https://cloud.google.com/firestore/docs/reference/rest/

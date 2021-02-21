@@ -12,7 +12,7 @@
 
 <main>
   <h2>User challenge</h2>
-  <label for="email">Email:</label>
+  <label for="email" placeholder="test@test.com">Email:</label>
   <input id="email" bind:value="{email}" />
   <label for="pwd">Password:</label>
   <input id="pwd" bind:value="{pwd}" />
