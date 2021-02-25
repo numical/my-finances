@@ -16,12 +16,16 @@ class DatastoreProxy {
     return this.#impl;
   }
 
-  async get(id) {
-    return this.#getImpl().get(id);
+  async create(id, record) {
+    return this.#getImpl().create(id, record);
   }
 
   async set(id, record) {
     return this.#getImpl().set(id, record);
+  }
+
+  async get(id) {
+    return this.#getImpl().get(id);
   }
 }
 

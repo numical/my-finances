@@ -4,14 +4,15 @@
   "description": "Express based API",
   "main": "index.js",
   "scripts": {
-    "test": "tap --no-coverage test/**/*.test.js --no-timeout | pino-pretty --colorize --hideObject",
-    "test.only": "tap --no-coverage --only --no-timeout test/**/*.test.js",
+    "test": "tap --no-coverage test/**/*.test.js --no-timeout  --bail | pino-pretty --colorize --hideObject",
+    "test.only": "tap --no-coverage --only --no-timeout --bail test/**/*.test.js",
     "test.coverage": "tap test/**/*.test.js --100"
   },
   "author": "mike.evans@numical.com",
   "license": "UNLICENCED",
   "dependencies": {
     "@google-cloud/firestore": "^4.9.4",
+    "ajv": "^7.1.1",
     "body-parser": "^1.19.0",
     "common-tags": "^1.8.0",
     "cookie-parser": "^1.4.5",

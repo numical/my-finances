@@ -3,8 +3,8 @@
 class InMemory {
   #records = {};
 
-  get(id) {
-    return Promise.resolve(this.#records[id]);
+  create(id, record) {
+    return this.set(id, record);
   }
 
   set(id, record) {
@@ -12,6 +12,10 @@ class InMemory {
       this.#records[id] = record;
       resolve(record);
     });
+  }
+
+  get(id) {
+    return Promise.resolve(this.#records[id]);
   }
 }
 

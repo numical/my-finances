@@ -7,24 +7,38 @@ const { post200 } = require('./http-tests');
 const { assertSession } = require('./auth-tests');
 const customize = require('./customize');
 
+const userId = 'hash of test email';
+const email = 'test email';
+const pwd ='hash of password';
+
+const invalidUserCredentials = {
+  'missing email': { userId },
+  'missing pwd': { userId, email },
+  'non-string pwd': { userId, email, pwd: 12345 }
+};
+
+const validUserCredentials = { userId, email, pwd };
+
 (async () => {
   const app = await init(customize);
   const server = request.agent(app);
 
-  const auth = {
-    userId: 'hash of test email',
-    email: 'test email',
-    pwd: 'hash of password',
-  };
-
   test('create new user', async (t) => {
-    const { status: createUserStatus, body: initialUser } = await server
+    for (const [useCase, credentials] of Object.entries(invalidUserCredentials)) {
+      const { status: invalidCredentialsStatus } = await server
+        .post('/users')
+        .send(credentials);
+      t.equal(invalidCredentialsStatus, 400, `rejects invalid credentials - ${useCase}`);
+    }
+
+
+    const { status: createUserStatus, body: user } = await server
       .post('/users')
-      .send(auth);
+      .send(validUserCredentials);
     t.equal(createUserStatus, 200, 'creates user');
 
-    const { userId, email, pwd, keyStores } = initialUser;
-    t.same({ userId, email, pwd }, auth, 'returns user credentials');
+    const { userId, email, pwd, keyStores } = user;
+    t.same({ userId, email, pwd }, validUserCredentials, 'returns user credentials');
     t.ok(keyStores, 'initiates keystores');
 
     const { status: failFetchStatus } = await server.get(`/user/${userId}`);
@@ -42,7 +56,7 @@ const customize = require('./customize');
       .set('Cookie', cookies);
     t.equal(fetchStatus, 200, 'can fetch user when certs data sent');
 
-    t.same(fetchedUser, initialUser);
+    t.same(fetchedUser, user);
 
     t.end();
   });

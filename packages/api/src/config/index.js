@@ -1,17 +1,11 @@
 const { EOL } = require('os');
 const DEFAULTS = require('./defaults');
+const deepMerge = require('./deep-merge');
 const reportEnvironment = require('./report-environment');
 
 const records = {};
 
-const init = async (overrides = {}) => {
-  const all = {
-    ...DEFAULTS,
-    ...overrides,
-  };
-  Object.assign(records, all);
-  return records;
-};
+const init = async (overrides = {}) => deepMerge(records, DEFAULTS, overrides);
 
 const get = (key) => records[key];
 

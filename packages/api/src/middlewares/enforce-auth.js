@@ -1,6 +1,5 @@
 const { SESSION_TOKEN } = require('my-finances-common');
 const { cookie, extractJWT } = require('../auth');
-const { Unauthorised } = require('../errors');
 
 const wrapRequest = (req, next) => Promise.resolve({ req, next });
 
@@ -62,6 +61,7 @@ module.exports = (req, res, next) => {
     .then(assertSessionIds)
     .then(authorised)
     .catch((err) => {
-      next(new Unauthorised(err.message));
+      req.log.warn(`401: ${err.message}`);
+      res.status(401).end();
     });
 };

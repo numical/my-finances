@@ -1,57 +1,83 @@
-# Data 
+# Data
 
 ```mermaid
 erDiagram
-  ACCOUNT ||--|| USER: ""
-  USER ||--|{ KEY-STORE-LINK : ""
-  ACCOUNT ||--|{ KEY-STORE-LINK : ""
-  KEY-STORE-LINK ||--|{ KEY-STORE : ""
-  KEY-STORE ||--|| FINANCIAL-MODEL : ""
+  ACCOUNT ||--o{ USER-ACCOUNT-LINK: holds
+  USER ||--o{  USER-ACCOUNT-LINK: holds
+  USER-ACCOUNT-LINK ||--o{ KEYSTORE-LINK : owns
+  KEYSTORE-LINK }|--|| KEYSTORE : "enables access to"
+  KEYSTORE ||--|| FINANCIAL-MODEL : "anonymises"
   ACCOUNT {
-    int accountId
+    string id
+    string email
   }
   USER {
-    string userid
+    string id
+    string userId
     string pwd
-    int accountId
-    map[string, int] keystores
   }
-  KEY-STORE-LINK {
-    int keystoreLinkId,
-    int keystoreId,
+  USER-ACCOUNT-LINK {
+    string id
+    string accountId
+    string userId
     string type
-    string encryptedKey
    }
-  KEY-STORE {
-    int keystoreId
-    int financialModelId
+  KEYSTORE-LINK {
+    string id
+    string userAccountId
+    string keystoreId
+    string description
+    string encryptionKey
+    string type
+   }
+  KEYSTORE {
+    string id
+    bytes data (incudes financialModel id)
   }
   FINANCIAL-MODEL {
-    int modelId
+    string id
+    bytes data
   }
 ```
 
-### Account
+## Account
+* the commercial relationship with my-finances
 * subscription details
 
-### User
-* userInitial identity
-* note that id and pwd are hashes
+## User
+* the runtime user identity
+* userId is public hash generated from email, so **can change** 
+* pwd is also a hash
 
-### Key Store Link
-* associates a user and/or an account with a keystore
-* includes a type for 'read-only' etc.
-* most importantly holds the encryption key for the keystore - encrypted by the user or account
+## User Account Link
+* associates a user with an account
+* type - enumeration
 
-### Key Store
+## Key Store Link
+* associates a user with a keystore
+* type - enumeration 'read-only', 'read-write'
+* description - encrypted by user
+* encryption key for keystore - encrypted by user
+
+## Key Store
 * 'no knowledge' encrypted
 * holds personal information for model
 * **and** financial model id
 
-### Financial Model
+## Financial Model
 * anonymous
 * analyzable (therefore SQL?)
 * not sure of format yet
+
+# Use Cases
+| | Description | Solution |
+| --- | --- | --- |
+| 1. | private user | userAccountType: 'personal' |
+| 2. | individual IFA | userAccountType: 'personal' |
+| 3. | group IFA | account only |
+| 4. | group IFA member |  userAccountType: 'member' |
+| 5. | IFA client | userAccountType: 'client' |
+| 6. | private user, gives access to IFA | userAccountType: 'client' |
 
 # Database
 * account / user / keystore-link / keystore relations need foreign keys
@@ -74,6 +100,12 @@ erDiagram
   * no creation scripts!
 * see [Firestore setup](./firestore-setup.md)  
 
-
-
-    
+### Firestore Data Structure
+**Only Personal** users for now
+* `/users` collection
+  * `user` doc
+    * `account` map
+    * `keyStores` array
+      * of `keyStore` maps
+* `/financialModels` collection
+  * `financialModel` doc
