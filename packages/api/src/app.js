@@ -6,7 +6,7 @@ const pino = require('pino');
 const pinoHttp = require('pino-http');
 const config = require('./config');
 const { createEndpoints } = require('./endpoints');
-const { errorHandler} = require('./middlewares');
+const { errorHandler } = require('./middlewares');
 
 const init = async (customise = {}) => {
   const { log } = await config.init(customise.config);
@@ -15,11 +15,7 @@ const init = async (customise = {}) => {
   logger.info(config.report());
 
   const app = express();
-  app.use(
-    pinoHttp({
-      logger,
-    })
-  );
+  app.use(pinoHttp({ logger }));
   app.use(bodyParser.json());
   app.use(cookieParser());
 

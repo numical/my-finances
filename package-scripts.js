@@ -51,7 +51,8 @@ module.exports = {
     local: {
       default: {
         script: concurrent({
-          keys: 'export GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json"',
+          keys:
+            'export GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json"',
           run: 'node ./local/src/devServer | pino-pretty --hideObject',
           open: series('sleep 1', open('https://localhost:8080/alpha.html')),
         }),
@@ -82,9 +83,10 @@ module.exports = {
     },
     remote: {
       keys: {
-        script: 'gcloud iam service-accounts keys create ./remote/auth/my-finances-key.json --iam-account=my-finances-page@appspot.gserviceaccount.com',
-        description: 'download service account key for GCP service access'
-      }
+        script:
+          'gcloud iam service-accounts keys create ./remote/auth/my-finances-key.json --iam-account=my-finances-page@appspot.gserviceaccount.com',
+        description: 'download service account key for GCP service access',
+      },
     },
     api: {
       test: {

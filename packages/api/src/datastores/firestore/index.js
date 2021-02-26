@@ -3,5 +3,5 @@ const UserFirestore = require('./UserFirestore');
 
 module.exports = {
   FinancialModelFirestore,
-  UserFirestore
-}
+  UserFirestore,
+};

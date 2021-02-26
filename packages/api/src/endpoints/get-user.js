@@ -1,17 +1,26 @@
 const { users } = require('../datastores');
-const { BadRequest, NotFound } = require('../errors');
+const { STRING, USER } = require('./schemas');
+
+const requestSchema = {
+  properties: {
+    userId: STRING,
+  },
+};
+
+const responseSchema = USER;
 
 const handler = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    if (!userId) throw new BadRequest('userId missing');
 
     const user = await users.get(userId);
 
     if (user) {
+      res.locals.body = user;
       res.status(200).json(user);
     } else {
-      throw new NotFound();
+      req.log.clientInfo(`404: ${req.method} ${req.url}: unknown userId '${userId}'`);
+      res.status(404).end();
     }
   } catch (err) {
     next(err);
@@ -23,4 +32,6 @@ module.exports = {
   path: '/user/:userId',
   handler,
   requiresAuth: true,
+  requestSchema,
+  responseSchema
 };

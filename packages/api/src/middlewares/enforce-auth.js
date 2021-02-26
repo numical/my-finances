@@ -61,7 +61,7 @@ module.exports = (req, res, next) => {
     .then(assertSessionIds)
     .then(authorised)
     .catch((err) => {
-      req.log.warn(`401: ${err.message}`);
+      req.log.clientInfo(`401: ${req.method} ${req.url}: ${err.message}`);
       res.status(401).end();
     });
 };

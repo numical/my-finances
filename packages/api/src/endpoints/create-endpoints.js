@@ -8,8 +8,8 @@ const ping = require('./ping');
 const endPoints = [createSession, createUser, getFinancialModel, getUser, ping];
 
 module.exports = (app, schemaValidator) => {
-  endPoints.forEach(endPoint => {
-    const { verb, path} = endPoint;
+  endPoints.forEach((endPoint) => {
+    const { verb, path } = endPoint;
     app[verb](path, ...createCallbacks(endPoint, schemaValidator));
   });
-}
+};

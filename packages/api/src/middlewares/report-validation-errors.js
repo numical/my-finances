@@ -11,7 +11,7 @@ const extractMessage = error =>
 
 const extractMessage = JSON.stringify;
 
+const buildReport = (report, error) => `${report}${extractMessage(error)}; `;
 
-const buildReport = (report, error) =>`${report}${extractMessage(error)}; `;
-
-module.exports = ({ errors }, prefix = '') => errors.reduce(buildReport, prefix);
+module.exports = ({ errors }, prefix = '') =>
+  errors.reduce(buildReport, prefix);

@@ -9,12 +9,12 @@ const customize = require('./customize');
 
 const userId = 'hash of test email';
 const email = 'test email';
-const pwd ='hash of password';
+const pwd = 'hash of password';
 
 const invalidUserCredentials = {
   'missing email': { userId },
   'missing pwd': { userId, email },
-  'non-string pwd': { userId, email, pwd: 12345 }
+  'non-string pwd': { userId, email, pwd: 12345 },
 };
 
 const validUserCredentials = { userId, email, pwd };
@@ -24,13 +24,18 @@ const validUserCredentials = { userId, email, pwd };
   const server = request.agent(app);
 
   test('create new user', async (t) => {
-    for (const [useCase, credentials] of Object.entries(invalidUserCredentials)) {
+    for (const [useCase, credentials] of Object.entries(
+      invalidUserCredentials
+    )) {
       const { status: invalidCredentialsStatus } = await server
         .post('/users')
         .send(credentials);
-      t.equal(invalidCredentialsStatus, 400, `rejects invalid credentials - ${useCase}`);
+      t.equal(
+        invalidCredentialsStatus,
+        400,
+        `rejects invalid credentials - ${useCase}`
+      );
     }
-
 
     const { status: createUserStatus, body: user } = await server
       .post('/users')
@@ -38,7 +43,11 @@ const validUserCredentials = { userId, email, pwd };
     t.equal(createUserStatus, 200, 'creates user');
 
     const { userId, email, pwd, keyStores } = user;
-    t.same({ userId, email, pwd }, validUserCredentials, 'returns user credentials');
+    t.same(
+      { userId, email, pwd },
+      validUserCredentials,
+      'returns user credentials'
+    );
     t.ok(keyStores, 'initiates keystores');
 
     const { status: failFetchStatus } = await server.get(`/user/${userId}`);

@@ -1,21 +1,15 @@
 const { users } = require('../datastores');
-const { BadRequest } = require('../errors');
+const { STRING, USER } = require('./schemas');
 
 const requestSchema = {
   properties: {
-    userId: { type: 'string' },
-    email: { type: 'string' },
-    pwd: { type: 'string' },
+    userId: STRING ,
+    email: STRING,
+    pwd: STRING,
   },
 };
 
-const responseSchema = {
-  properties: {
-    userId: { type: 'string' },
-    email: { type: 'string' },
-    pwd: { type: 'string' }
-  },
-};
+const responseSchema = USER;
 
 const handler = async (req, res, next) => {
   try {
@@ -23,7 +17,8 @@ const handler = async (req, res, next) => {
 
     const exists = await users.get(userId);
     if (exists) {
-      throw new BadRequest();
+      res.status(400).end();
+      return;
     }
 
     const user = await users.set(userId, {
@@ -35,6 +30,7 @@ const handler = async (req, res, next) => {
       },
     });
 
+    res.locals.body = user;
     res.status(200).json(user);
   } catch (err) {
     next(err);

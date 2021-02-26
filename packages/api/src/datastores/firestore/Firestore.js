@@ -1,15 +1,15 @@
 const { Firestore: FirestoreDb } = require('@google-cloud/firestore');
 
 const SET_OPTIONS = {
-  merge: true
-}
+  merge: true,
+};
 
 let db;
 
 const initialiseDb = () => {
   if (db) return;
-  db  = new FirestoreDb();
-}
+  db = new FirestoreDb();
+};
 
 class Firestore {
   #collection;

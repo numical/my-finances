@@ -4,10 +4,10 @@ const InMemory = require('./memory/InMemory');
 module.exports = {
   user: {
     memory: InMemory,
-    firestore: UserFirestore
+    firestore: UserFirestore,
   },
   financialModel: {
     memory: InMemory,
-    firestore: FinancialModelFirestore
-  }
-}
+    firestore: FinancialModelFirestore,
+  },
+};

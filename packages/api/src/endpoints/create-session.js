@@ -1,13 +1,25 @@
 const config = require('../config');
 const { users } = require('../datastores');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
-const { BadRequest, NotFound, Unauthorised } = require('../errors');
+const { STRING, NUMBER } = require('./schemas');
+
+const requestSchema = {
+  properties: {
+    userId: STRING ,
+    pwd: STRING,
+  },
+};
+
+const responseSchema = {
+  properties: {
+    sessionId: STRING ,
+    timeout: NUMBER,
+  },
+};
 
 const handler = async (req, res, next) => {
   try {
     const { userId, pwd } = req.body;
-    if (!userId) throw new BadRequest('userId missing');
-    if (!pwd) throw new BadRequest('pwd missing');
 
     const [user, sessionId] = await Promise.all([
       users.get(userId),
@@ -23,12 +35,15 @@ const handler = async (req, res, next) => {
         };
         const jwt = await generateJWT(body);
         res.cookie(cookie.name, jwt, { ...cookie.options, maxAge });
+        res.locals.body = body;
         res.status(200).json(body);
       } else {
-        throw new Unauthorised();
+        req.log.clientInfo(`401: ${req.method} ${req.url}: password incorrect for userId '${userId}'`);
+        res.status(401).end()
       }
     } else {
-      throw new NotFound();
+      req.log.clientInfo(`404: ${req.method} ${req.url}: unknown userId '${userId}'`);
+      res.status(404).end();
     }
   } catch (err) {
     next(err);
@@ -40,4 +55,6 @@ module.exports = {
   path: '/sessions',
   handler,
   requiresAuth: false,
+  requestSchema,
+  responseSchema
 };
