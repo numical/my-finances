@@ -1,15 +1,13 @@
 const enforceAuth = require('./enforce-auth');
 const errorHandler = require('./error-handler');
-const {
-  schemaValidator,
-  validateRequest,
-  validateResponse,
-} = require('./enforce-schema');
+const enforceSchema = require('./enforce-schema');
+const validateRequest = require('./validate-request');
+const validateResponse = require('./validate-response');
 
 module.exports = {
   enforceAuth,
+  enforceSchema,
   errorHandler,
-  schemaValidator,
   validateRequest,
   validateResponse,
 };
