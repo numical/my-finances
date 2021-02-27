@@ -1,18 +1,18 @@
 const config = require('../config');
 const { users } = require('../datastores');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
-const { STRING, NUMBER } = require('./schemas');
+const { STRING, NUMBER } = require('../schemas');
 
 const requestSchema = {
   properties: {
-    userId: STRING ,
+    userId: STRING,
     pwd: STRING,
   },
 };
 
 const responseSchema = {
   properties: {
-    sessionId: STRING ,
+    sessionId: STRING,
     timeout: NUMBER,
   },
 };
@@ -38,11 +38,15 @@ const handler = async (req, res, next) => {
         res.locals.body = body;
         res.status(200).json(body);
       } else {
-        req.log.clientInfo(`401: ${req.method} ${req.url}: password incorrect for userId '${userId}'`);
-        res.status(401).end()
+        req.log.clientInfo(
+          `401: ${req.method} ${req.url}: password incorrect for userId '${userId}'`
+        );
+        res.status(401).end();
       }
     } else {
-      req.log.clientInfo(`404: ${req.method} ${req.url}: unknown userId '${userId}'`);
+      req.log.clientInfo(
+        `404: ${req.method} ${req.url}: unknown userId '${userId}'`
+      );
       res.status(404).end();
     }
   } catch (err) {
@@ -56,5 +60,5 @@ module.exports = {
   handler,
   requiresAuth: false,
   requestSchema,
-  responseSchema
+  responseSchema,
 };

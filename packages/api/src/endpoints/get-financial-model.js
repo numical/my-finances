@@ -1,5 +1,5 @@
 const { financialModels } = require('../datastores');
-const { STRING, DICTIONARY } = require('./schemas');
+const { STRING, DICTIONARY } = require('../schemas');
 
 const requestSchema = {
   properties: {
@@ -18,7 +18,9 @@ const handler = async (req, res, next) => {
     if (model) {
       res.status(200).json(model);
     } else {
-      req.log.clientInfo(`404: ${req.method} ${req.url}: unknown modelId '${modelId}'`);
+      req.log.clientInfo(
+        `404: ${req.method} ${req.url}: unknown modelId '${modelId}'`
+      );
       res.status(404).end();
     }
   } catch (err) {
@@ -32,5 +34,5 @@ module.exports = {
   handler,
   requiresAuth: true,
   requestSchema,
-  responseSchema
+  responseSchema,
 };

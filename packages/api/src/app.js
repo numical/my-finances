@@ -1,12 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const SchemaValidator = require('ajv/dist/jtd').default;
 const pino = require('pino');
 const pinoHttp = require('pino-http');
 const config = require('./config');
 const { createEndpoints } = require('./endpoints');
-const { errorHandler } = require('./middlewares');
+const { errorHandler, schemaValidator } = require('./middlewares');
 
 const init = async (customise = {}) => {
   const { log } = await config.init(customise.config);
@@ -18,13 +17,13 @@ const init = async (customise = {}) => {
   app.use(pinoHttp({ logger }));
   app.use(bodyParser.json());
   app.use(cookieParser());
+  app.use(schemaValidator(logger));
 
   if (customise.middleware) {
     customise.middleware(app);
   }
 
-  const schemaValidator = new SchemaValidator({ logger });
-  createEndpoints(app, schemaValidator);
+  createEndpoints(app);
 
   app.use(errorHandler);
 

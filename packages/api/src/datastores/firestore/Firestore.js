@@ -29,7 +29,14 @@ class Firestore {
     return snapshot.data();
   }
 
-  async set(id, record) {
+  async create(id, record) {
+    const ref = this.#getDocRef(id);
+    await ref.create(record, SET_OPTIONS);
+    const snapshot = await ref.get();
+    return snapshot.data();
+  }
+
+  async update(id, record) {
     const ref = this.#getDocRef(id);
     await ref.set(record, SET_OPTIONS);
     const snapshot = await ref.get();

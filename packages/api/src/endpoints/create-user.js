@@ -1,9 +1,9 @@
 const { users } = require('../datastores');
-const { STRING, USER } = require('./schemas');
+const { STRING, USER } = require('../schemas');
 
 const requestSchema = {
   properties: {
-    userId: STRING ,
+    userId: STRING,
     email: STRING,
     pwd: STRING,
   },
@@ -21,7 +21,7 @@ const handler = async (req, res, next) => {
       return;
     }
 
-    const user = await users.set(userId, {
+    const user = await users.create(userId, {
       userId,
       email,
       pwd,
@@ -43,5 +43,5 @@ module.exports = {
   handler,
   requiresAuth: false,
   requestSchema,
-  responseSchema
+  responseSchema,
 };

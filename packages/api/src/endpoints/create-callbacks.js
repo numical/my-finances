@@ -4,17 +4,17 @@ const {
   validateResponse,
 } = require('../middlewares');
 
-module.exports = (endpoint, schemaValidator) => {
+module.exports = (endpoint) => {
   const { handler, requiresAuth, requestSchema, responseSchema } = endpoint;
   const callbacks = [];
   if (requiresAuth) {
     callbacks.push(enforceAuth);
   }
   if (requestSchema) {
-    callbacks.push(validateRequest(schemaValidator, requestSchema));
+    callbacks.push(validateRequest(requestSchema));
   }
   if (responseSchema) {
-    callbacks.push(validateResponse(schemaValidator, responseSchema));
+    callbacks.push(validateResponse(responseSchema));
   }
   callbacks.push(handler);
   return callbacks;

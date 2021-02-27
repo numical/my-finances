@@ -20,8 +20,8 @@ class DatastoreProxy {
     return this.#getImpl().create(id, record);
   }
 
-  async set(id, record) {
-    return this.#getImpl().set(id, record);
+  async update(id, record) {
+    return this.#getImpl().update(id, record);
   }
 
   async get(id) {

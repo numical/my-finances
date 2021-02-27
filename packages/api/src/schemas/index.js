@@ -1,13 +1,13 @@
-const NUMBER = { type: 'float64'};
+const NUMBER = { type: 'float64' };
 const STRING = { type: 'string' };
-const DICTIONARY = { "values": { "type": "string" } };
+const DICTIONARY = { values: { type: 'string' } };
 
 const USER = {
   properties: {
-    userId: STRING ,
+    userId: STRING,
     email: STRING,
     pwd: STRING,
-    keyStores: DICTIONARY
+    keyStores: DICTIONARY,
   },
 };
 
@@ -15,5 +15,5 @@ module.exports = {
   NUMBER,
   STRING,
   DICTIONARY,
-  USER
-}
+  USER,
+};

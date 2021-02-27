@@ -4,14 +4,16 @@ class InMemory {
   #records = {};
 
   create(id, record) {
-    return this.set(id, record);
+    if (this.#records[id]) {
+      return Promise.reject(`id '${id}' already exists`);
+    } else {
+      return this.update(id, record);
+    }
   }
 
-  set(id, record) {
-    return new Promise((resolve) => {
-      this.#records[id] = record;
-      resolve(record);
-    });
+  update(id, record) {
+    this.#records[id] = record;
+    return Promise.resolve(record);
   }
 
   get(id) {

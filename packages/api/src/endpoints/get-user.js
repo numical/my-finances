@@ -1,5 +1,5 @@
 const { users } = require('../datastores');
-const { STRING, USER } = require('./schemas');
+const { STRING, USER } = require('../schemas');
 
 const requestSchema = {
   properties: {
@@ -19,7 +19,9 @@ const handler = async (req, res, next) => {
       res.locals.body = user;
       res.status(200).json(user);
     } else {
-      req.log.clientInfo(`404: ${req.method} ${req.url}: unknown userId '${userId}'`);
+      req.log.clientInfo(
+        `404: ${req.method} ${req.url}: unknown userId '${userId}'`
+      );
       res.status(404).end();
     }
   } catch (err) {
@@ -33,5 +35,5 @@ module.exports = {
   handler,
   requiresAuth: true,
   requestSchema,
-  responseSchema
+  responseSchema,
 };
