@@ -1,13 +1,15 @@
-const Ajv = require('ajv/dist/jtd').default;
+const noOp = require('./no-op');
 const report = require('./report-validation-errors');
 
-module.exports = (logger) => {
-  const ajv = new Ajv({ logger });
+const isValidationEnabled = ({ validate }) =>
+  Object.values(validate).some((value) => !!value);
+
+const enableValidation = (schemaValidator) => {
   const cache = new Map();
   const enforceSchema = (schema, data) => {
     let validate = cache.get(schema);
     if (!validate) {
-      validate = ajv.compile(schema);
+      validate = schemaValidator.compile(schema);
       cache.set(schema, validate);
     }
     if (validate(data)) {
@@ -21,3 +23,6 @@ module.exports = (logger) => {
     next();
   };
 };
+
+module.exports = ({ config, schemaValidator }) =>
+  isValidationEnabled(config) ? enableValidation(schemaValidator) : noOp;

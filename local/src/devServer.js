@@ -2,7 +2,7 @@ const https = require('https');
 const { existsSync, readFileSync } = require('fs');
 const { resolve } = require('path');
 const { static } = require('express');
-const { init } = require('../../packages/api/src/app');
+const createApp = require('../../packages/api/src/app');
 
 const validatedPath = (relativePath) => {
   const absolutePath = resolve(__dirname, relativePath);
@@ -43,7 +43,7 @@ const httpsOptions = {
 
 const port = process.env.PORT || 8080;
 
-init(customise).then((app) => {
+createApp(customise).then((app) => {
   https.createServer(httpsOptions, app).listen(port, (err) => {
     if (err) {
       console.error(`my-finances API failed to start on port ${port}`, err);

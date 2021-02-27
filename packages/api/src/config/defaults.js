@@ -1,6 +1,11 @@
 const CAN_OVERRIDE = {
   sessionTimeoutInSeconds: 10 * 60,
   dataSource: 'firestore',
+  validate: {
+    request: true,
+    response: true,
+    data: true,
+  },
 };
 
 const CANNOT_OVERRIDE = {

@@ -7,9 +7,9 @@ const ping = require('./ping');
 
 const endPoints = [createSession, createUser, getFinancialModel, getUser, ping];
 
-module.exports = (app) => {
+module.exports = ({ app, config }) => {
   endPoints.forEach((endPoint) => {
     const { verb, path } = endPoint;
-    app[verb](path, ...createCallbacks(endPoint));
+    app[verb](path, ...createCallbacks({ config, endPoint }));
   });
 };

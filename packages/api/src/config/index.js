@@ -3,22 +3,21 @@ const { CAN_OVERRIDE, CANNOT_OVERRIDE } = require('./defaults');
 const deepMerge = require('./deep-merge');
 const reportEnvironment = require('./report-environment');
 
-const records = {};
+const config = {};
 
 const init = async (overrides = {}) =>
-  deepMerge(records, CAN_OVERRIDE, overrides, CANNOT_OVERRIDE);
-
-const get = (key) => records[key];
+  deepMerge(config, CAN_OVERRIDE, overrides, CANNOT_OVERRIDE);
 
 const report = () =>
-  Object.entries(records).reduce(
-    (s, [key, value]) =>
-      `${s}${EOL}  ${key}: ${JSON.stringify(value, null, 2)}`,
-    reportEnvironment()
-  );
+  Object.entries(config)
+    .filter(([key, value]) => typeof value !== 'function')
+    .reduce(
+      (s, [key, value]) =>
+        `${s}${EOL}  ${key}: ${JSON.stringify(value, null, 2)}`,
+      reportEnvironment()
+    );
 
-module.exports = {
-  init,
-  get,
-  report,
-};
+config.init = init;
+config.report = report;
+
+module.exports = config;

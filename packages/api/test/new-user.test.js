@@ -2,7 +2,7 @@ const { test, only } = require('tap');
 const request = require('supertest');
 const { SESSION_TOKEN } = require('my-finances-common');
 
-const { init } = require('../src/app');
+const createApp = require('../src/app');
 const { post200 } = require('./http-tests');
 const { assertSession } = require('./auth-tests');
 const customize = require('./customize');
@@ -20,7 +20,7 @@ const invalidUserCredentials = {
 const validUserCredentials = { userId, email, pwd };
 
 (async () => {
-  const app = await init(customize);
+  const app = await createApp(customize);
   const server = request.agent(app);
 
   test('create new user', async (t) => {

@@ -1,5 +1,4 @@
 const config = require('../config');
-const { users } = require('../datastores');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
 const { STRING, NUMBER } = require('../schemas');
 
@@ -20,6 +19,7 @@ const responseSchema = {
 const handler = async (req, res, next) => {
   try {
     const { userId, pwd } = req.body;
+    const { users } = req.datastores;
 
     const [user, sessionId] = await Promise.all([
       users.get(userId),
@@ -27,8 +27,7 @@ const handler = async (req, res, next) => {
     ]);
     if (user) {
       if (pwd === user.pwd) {
-        const sessionTimeoutInSeconds = config.get('sessionTimeoutInSeconds');
-        const maxAge = sessionTimeoutInSeconds * 1000;
+        const maxAge = config.sessionTimeoutInSeconds * 1000;
         const body = {
           sessionId,
           timeout: Date.now() + maxAge,

@@ -1,7 +1,13 @@
-const { financialModel, user } = require('./entity-implementations');
-const DatastoreProxy = require('./DatastoreProxy');
+const { FinancialModelFirestore, UserFirestore } = require('./firestore');
+const InMemory = require('./memory/InMemory');
 
 module.exports = {
-  financialModels: new DatastoreProxy(financialModel),
-  users: new DatastoreProxy(user),
+  users: {
+    memory: InMemory,
+    firestore: UserFirestore,
+  },
+  financialModels: {
+    memory: InMemory,
+    firestore: FinancialModelFirestore,
+  },
 };

@@ -1,4 +1,3 @@
-const { users } = require('../datastores');
 const { STRING, USER } = require('../schemas');
 
 const requestSchema = {
@@ -12,6 +11,7 @@ const responseSchema = USER;
 const handler = async (req, res, next) => {
   try {
     const { userId } = req.params;
+    const { users } = req.datastores;
 
     const user = await users.get(userId);
 

@@ -1,4 +1,3 @@
-const { financialModels } = require('../datastores');
 const { STRING, DICTIONARY } = require('../schemas');
 
 const requestSchema = {
@@ -12,6 +11,7 @@ const responseSchema = DICTIONARY;
 const handler = async (req, res, next) => {
   try {
     const { modelId } = req.params;
+    const { financialModels } = req.datastores;
 
     const model = await financialModels.get(modelId);
 

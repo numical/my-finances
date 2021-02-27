@@ -1,4 +1,3 @@
-const { users } = require('../datastores');
 const { STRING, USER } = require('../schemas');
 
 const requestSchema = {
@@ -14,6 +13,7 @@ const responseSchema = USER;
 const handler = async (req, res, next) => {
   try {
     const { userId, email, pwd } = req.body;
+    const { users } = req.datastores;
 
     const exists = await users.get(userId);
     if (exists) {

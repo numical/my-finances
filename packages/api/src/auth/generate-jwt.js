@@ -6,7 +6,7 @@ const getSecret = require('./get-secret');
 const generate = promisify(sign);
 
 module.exports = async (payload) => {
-  const expiresIn = config.get('sessionTimeoutInSeconds');
+  const expiresIn = config.sessionTimeoutInSeconds;
   const secret = await getSecret();
   return generate(payload, secret, { expiresIn });
 };
