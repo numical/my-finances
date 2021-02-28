@@ -15,13 +15,13 @@ const handler = async (req, res, next) => {
     const { userId, email, pwd } = req.body;
     const { users } = req.dataStores;
 
-    const exists = await users.get(userId);
-    if (exists) {
+    const count = await users.count({ userId });
+    if (count > 0) {
       res.status(400).end();
       return;
     }
 
-    const user = await users.create(userId, {
+    const user = await users.create({
       userId,
       email,
       pwd,

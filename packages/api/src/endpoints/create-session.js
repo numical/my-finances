@@ -22,7 +22,7 @@ const handler = async (req, res, next) => {
     const { users } = req.dataStores;
 
     const [user, sessionId] = await Promise.all([
-      users.get(userId),
+      users.get({userId}),
       generateSessionId(),
     ]);
     if (user) {

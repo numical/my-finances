@@ -1,6 +1,7 @@
 // Cloud Run instances hang around for 10 mins
 
-const { v4: uuidv4 } = (require = 'uuid');
+const { v4: uuidv4 } = require('uuid');
+const { isObject } = require('../../util');
 
 class InMemory {
   #records = {};
@@ -22,21 +23,25 @@ class InMemory {
     return Promise.resolve(record);
   }
 
-  get(value, field) {
-    const result = field
-      ? Object.values(this.#records).filter((record) => record[field] === value)
-      : this.#records[id];
+  get(id) {
+    return Promise.resolve(this.#records[id]);
+  }
+
+  search(values) {
+    const result =  Object.entries(values).reduce(
+      (records, [field, value]) =>
+        records.filter((record) => record[field] === value),
+      Object.values(this.#records)
+    );
     return Promise.resolve(result);
   }
 
-  count(value, field) {
-    const result = field
-      ? Object.values(this.#records).filter((record) => record[field] === value)
-          .size
-      : this.#records[id]
-      ? 1
-      : 0;
-    return Promise.resolve(result);
+  count(value) {
+    return isObject(value)
+      ? this.search(value).then(records => records.size)
+      : this.#records[value]
+      ? Promise.resolve(1)
+      : Promise.resolve(0);
   }
 }
 
