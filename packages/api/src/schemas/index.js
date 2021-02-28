@@ -1,3 +1,5 @@
+const createEnforceSchemaFunction = require('./create-enforce-schema-function');
+
 const NUMBER = { type: 'float64' };
 const STRING = { type: 'string' };
 const DICTIONARY = { values: { type: 'string' } };
@@ -12,6 +14,7 @@ const USER = {
 };
 
 module.exports = {
+  init: createEnforceSchemaFunction,
   NUMBER,
   STRING,
   DICTIONARY,

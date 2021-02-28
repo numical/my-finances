@@ -11,7 +11,7 @@ const responseSchema = DICTIONARY;
 const handler = async (req, res, next) => {
   try {
     const { modelId } = req.params;
-    const { financialModels } = req.datastores;
+    const { financialModels } = req.dataStores;
 
     const model = await financialModels.get(modelId);
 

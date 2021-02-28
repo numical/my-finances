@@ -1,8 +1,8 @@
 const Firestore = require('./Firestore');
 
 class UserFirestore extends Firestore {
-  constructor() {
-    super('users');
+  constructor(args) {
+    super({ ...args, collection: 'users' });
   }
 }
 

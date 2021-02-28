@@ -13,7 +13,7 @@ const responseSchema = USER;
 const handler = async (req, res, next) => {
   try {
     const { userId, email, pwd } = req.body;
-    const { users } = req.datastores;
+    const { users } = req.dataStores;
 
     const exists = await users.get(userId);
     if (exists) {

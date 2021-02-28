@@ -11,7 +11,7 @@ const responseSchema = USER;
 const handler = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const { users } = req.datastores;
+    const { users } = req.dataStores;
 
     const user = await users.get(userId);
 

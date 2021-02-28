@@ -3,30 +3,32 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const pino = require('pino');
 const pinoHttp = require('pino-http');
-const Ajv = require('ajv/dist/jtd').default;
-const { init, report } = require('./config');
-const { createEndpoints } = require('./endpoints');
-const { enforceSchema, errorHandler, persistence } = require('./middlewares');
+const config = require('./config');
+const endPoints = require('./endpoints');
+const persistence = require('./persistence');
+const schemas = require('./schemas')
+const { attachServices, errorHandler } = require('./middlewares');
 
 module.exports = async (customise = {}) => {
-  const config = await init(customise.config);
+  await config.init(customise.config);
 
   const logger = pino(config.log);
-  logger.info(report());
-  const schemaValidator = new Ajv({ logger });
+  logger.info(config.report());
+
+  const enforceSchema = schemas.init({logger});
+  const dataStores = persistence.init({config, enforceSchema});
 
   const app = express();
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
-  app.use(enforceSchema({ config, schemaValidator }));
-  app.use(persistence({ config, schemaValidator }));
+  app.use(attachServices({  dataStores, enforceSchema }));
 
   if (customise.middleware) {
     customise.middleware(app);
   }
 
-  createEndpoints({ app, config });
+  endPoints.init({ app, config });
 
   app.use(errorHandler);
 

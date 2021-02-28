@@ -19,7 +19,7 @@ const responseSchema = {
 const handler = async (req, res, next) => {
   try {
     const { userId, pwd } = req.body;
-    const { users } = req.datastores;
+    const { users } = req.dataStores;
 
     const [user, sessionId] = await Promise.all([
       users.get(userId),
