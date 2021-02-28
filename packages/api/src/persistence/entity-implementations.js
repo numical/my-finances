@@ -1,13 +1,17 @@
-const { FinancialModelFirestore, UserFirestore } = require('./firestore');
+const { FinancialModels, KeyStores, Users } = require('./firestore');
 const InMemory = require('./memory/InMemory');
 
 module.exports = {
   users: {
     memory: InMemory,
-    firestore: UserFirestore,
+    firestore: Users,
+  },
+  keyStore: {
+    memory: InMemory,
+    firestore: KeyStores,
   },
   financialModels: {
     memory: InMemory,
-    firestore: FinancialModelFirestore,
+    firestore: FinancialModels,
   },
 };

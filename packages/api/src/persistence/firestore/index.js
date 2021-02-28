@@ -1,7 +1,9 @@
-const FinancialModelFirestore = require('./FinancialModelFirestore');
-const UserFirestore = require('./UserFirestore');
+const FinancialModels = require('./FinancialModels');
+const KeyStores = require('./KeyStores');
+const Users = require('./Users');
 
 module.exports = {
-  FinancialModelFirestore,
-  UserFirestore,
+  FinancialModels,
+  KeyStores,
+  Users,
 };

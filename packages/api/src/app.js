@@ -6,7 +6,7 @@ const pinoHttp = require('pino-http');
 const config = require('./config');
 const endPoints = require('./endpoints');
 const persistence = require('./persistence');
-const schemas = require('./schemas')
+const schemas = require('./schemas');
 const { attachServices, errorHandler } = require('./middlewares');
 
 module.exports = async (customise = {}) => {
@@ -15,14 +15,14 @@ module.exports = async (customise = {}) => {
   const logger = pino(config.log);
   logger.info(config.report());
 
-  const enforceSchema = schemas.init({logger});
-  const dataStores = persistence.init({config, enforceSchema});
+  const enforceSchema = schemas.init({ logger });
+  const dataStores = persistence.init({ config, enforceSchema });
 
   const app = express();
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
-  app.use(attachServices({  dataStores, enforceSchema }));
+  app.use(attachServices({ dataStores, enforceSchema }));
 
   if (customise.middleware) {
     customise.middleware(app);

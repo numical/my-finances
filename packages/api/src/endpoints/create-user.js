@@ -25,9 +25,7 @@ const handler = async (req, res, next) => {
       userId,
       email,
       pwd,
-      keyStores: {
-        default: '',
-      },
+      keyStores: [],
     });
 
     res.locals.body = user;

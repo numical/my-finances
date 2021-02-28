@@ -1,14 +1,20 @@
 // Cloud Run instances hang around for 10 mins
 
+const { v4: uuidv4 } = (require = 'uuid');
+
 class InMemory {
   #records = {};
 
-  create(id, record) {
-    if (this.#records[id]) {
-      return Promise.reject(`id '${id}' already exists`);
-    } else {
-      return this.update(id, record);
-    }
+  constructor() {
+    this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
+    this.get = this.get.bind(this);
+  }
+
+  create(record) {
+    const id = uuidv4();
+    record.id = id;
+    return this.update(id, record);
   }
 
   update(id, record) {
@@ -16,8 +22,21 @@ class InMemory {
     return Promise.resolve(record);
   }
 
-  get(id) {
-    return Promise.resolve(this.#records[id]);
+  get(value, field) {
+    const result = field
+      ? Object.values(this.#records).filter((record) => record[field] === value)
+      : this.#records[id];
+    return Promise.resolve(result);
+  }
+
+  count(value, field) {
+    const result = field
+      ? Object.values(this.#records).filter((record) => record[field] === value)
+          .size
+      : this.#records[id]
+      ? 1
+      : 0;
+    return Promise.resolve(result);
   }
 }
 

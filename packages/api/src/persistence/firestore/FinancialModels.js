@@ -1,9 +1,9 @@
 const Firestore = require('./Firestore');
 
-class FinancialModelFirestore extends Firestore {
+class FinancialModels extends Firestore {
   constructor() {
     super({ ...args, collection: 'financialModels' });
   }
 }
 
-module.exports = FinancialModelFirestore;
+module.exports = FinancialModels;

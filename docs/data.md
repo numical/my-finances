@@ -105,7 +105,7 @@ erDiagram
 * `/users` collection
   * `user` doc
     * `account` map
-    * `keyStores` array
-      * of `keyStore` maps
+      * email
+    * `keyStores` array of keyStoreIds
 * `/financialModels` collection
   * `financialModel` doc
