@@ -7,41 +7,74 @@ class InMemory {
   #records = {};
 
   constructor() {
+    this.count = this.count.bind(this);
     this.create = this.create.bind(this);
-    this.update = this.update.bind(this);
     this.get = this.get.bind(this);
+    this.search = this.search.bind(this);
+    this.update = this.update.bind(this);
   }
 
-  create(record) {
+  /**
+   *
+   * @param {Object} record
+   * @returns {Promise<Object>}  - record with id added
+   */
+  async create(record) {
     const id = uuidv4();
-    record.id = id;
-    return this.update(id, record);
+    const withId = { ...record, id };
+    return this.update(id, withId);
   }
 
-  update(id, record) {
+  /**
+   *
+   * @param {string} id
+   * @param {Object} record
+   * @returns {Promise<Object>}
+   */
+  async update(id, record) {
     this.#records[id] = record;
-    return Promise.resolve(record);
+    return record;
   }
 
-  get(id) {
-    return Promise.resolve(this.#records[id]);
+  /**
+   *
+   * @param {string} id
+   * @returns {Promise<Object>} or null
+   */
+  async get(id) {
+    if (isObject(id)) {
+      throw new Error(`datastore get expects a primitive, not an object ${JSON.stringify(id)}`);
+    }
+    return this.#records[id] || null;
   }
 
-  search(values) {
-    const result =  Object.entries(values).reduce(
+  /**
+   *
+   * @param {Object} values
+   * @returns {Promise<Array<Object>>} - could be empty
+   */
+  async search(values) {
+    return Object.entries(values).reduce(
       (records, [field, value]) =>
         records.filter((record) => record[field] === value),
       Object.values(this.#records)
     );
-    return Promise.resolve(result);
   }
 
-  count(value) {
-    return isObject(value)
-      ? this.search(value).then(records => records.size)
-      : this.#records[value]
-      ? Promise.resolve(1)
-      : Promise.resolve(0);
+  /**
+   *
+   * @param {Object} value
+   * @returns {Promise<number>}
+   */
+  async count(value) {
+    if (isObject(value)) {
+      const records = await this.search(value);
+      return records.length;
+    } else if (this.#records[value]) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }
 

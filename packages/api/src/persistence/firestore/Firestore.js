@@ -4,6 +4,10 @@ const createValidationFn = require('./create-validation-fn');
 
 let db;
 
+/**
+ * See InMemory.js for contract.
+ * Yes, yes, this would be easier with a TypeScript interface...
+ */
 class Firestore {
   constructor(args) {
     if (!db) {

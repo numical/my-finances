@@ -21,8 +21,8 @@ const handler = async (req, res, next) => {
     const { userId, pwd } = req.body;
     const { users } = req.dataStores;
 
-    const [user, sessionId] = await Promise.all([
-      users.get({userId}),
+    const [[user], sessionId] = await Promise.all([
+      users.search({userId}),
       generateSessionId(),
     ]);
     if (user) {
@@ -44,9 +44,9 @@ const handler = async (req, res, next) => {
       }
     } else {
       req.log.clientInfo(
-        `404: ${req.method} ${req.url}: unknown userId '${userId}'`
+        `400: ${req.method} ${req.url}: unknown userId '${userId}'`
       );
-      res.status(404).end();
+      res.status(400).end();
     }
   } catch (err) {
     next(err);

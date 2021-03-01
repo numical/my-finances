@@ -13,7 +13,7 @@ const handler = async (req, res, next) => {
     const { userId } = req.params;
     const { users } = req.dataStores;
 
-    const user = await users.get(userId);
+    const [user] = await users.search({userId});
 
     if (user) {
       res.locals.body = user;

@@ -1,5 +1,5 @@
-const createFn = (collection, schema, enforceSchema) => {
-  const validate = (operation, record) => {
+const createValidationFn = (collection, schema, enforceSchema) => {
+  const validateSingleRecord = (operation, record) => {
     const errors = enforceSchema(schema, record);
     if (errors) {
       throw new Error(
@@ -9,19 +9,20 @@ const createFn = (collection, schema, enforceSchema) => {
       );
     }
   };
-  return (operation, record) => {
+  const validateMultipleRecords = (operation, record) => {
     if (Array.isArray(record)) {
-      record.forEach(validate.bind(null, operation));
+      record.forEach(validateSingleRecord.bind(null, operation));
     } else {
-      validate(operation, record);
+      validateSingleRecord(operation, record);
     }
     return record
   }
+  return validateMultipleRecords;
 };
 
 const noOp = (operation, record) => record;
 
 module.exports = ({ collection, config, schema, enforceSchema }) =>
   config.validate.data && schema
-    ? createFn(collection, schema, enforceSchema)
+    ? createValidationFn(collection, schema, enforceSchema)
     : noOp;

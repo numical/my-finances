@@ -102,6 +102,10 @@ module.exports = {
           script: prun('test.only --filter ./packages/api'),
           description: 'run only marked API unit tests',
         },
+        gory: {
+          script: prun('test.gory --filter ./packages/api'),
+          description: 'run API unit tests with all details logged',
+        },
       },
     },
     app: {
