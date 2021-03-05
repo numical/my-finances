@@ -11,6 +11,7 @@
       result = JSON.stringify(await fn());
       colour = 'black';
     } catch (err) {
+      console.log(err);
       result = err.message;
       colour = 'red';
     }

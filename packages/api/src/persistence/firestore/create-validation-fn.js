@@ -1,4 +1,4 @@
-const createValidationFn = (collection, schema, enforceSchema) => {
+const createValidationFn = (collection, enforceSchema, schema) => {
   const validateSingleRecord = (operation, record) => {
     const errors = enforceSchema(schema, record);
     if (errors) {
@@ -15,14 +15,14 @@ const createValidationFn = (collection, schema, enforceSchema) => {
     } else {
       validateSingleRecord(operation, record);
     }
-    return record
-  }
+    return record;
+  };
   return validateMultipleRecords;
 };
 
 const noOp = (operation, record) => record;
 
-module.exports = ({ collection, config, schema, enforceSchema }) =>
+module.exports = ({ collection, config, enforceSchema, schema }) =>
   config.validate.data && schema
-    ? createValidationFn(collection, schema, enforceSchema)
+    ? createValidationFn(collection, enforceSchema, schema)
     : noOp;

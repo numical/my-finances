@@ -6,6 +6,9 @@ const STRING_ARRAY = { elements: { type: 'string' } };
 const DICTIONARY = { values: { type: 'string' } };
 
 const USER = {
+  metadata: {
+    id: 'user',
+  },
   properties: {
     id: STRING,
     userId: STRING,

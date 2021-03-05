@@ -1,7 +1,5 @@
 const { concurrent, open, series } = require('nps-utils');
 
-const prun = (s) => `npx pnpm run ${s}`;
-
 module.exports = {
   default: 'nps help',
   scripts: {
@@ -21,7 +19,7 @@ module.exports = {
       default: {
         script: concurrent({
           api: 'docker build -t my-finances-api .',
-          app: prun('build --filter ./packages/app'),
+          app: 'pnpm run build --filter ./packages/app',
         }),
         description: 'build App and API docker image',
       },
@@ -30,9 +28,17 @@ module.exports = {
         description: 'build API docker image',
       },
       app: {
-        script: prun('build --filter ./packages/app'),
+        script: 'pnpm run build --filter ./packages/app',
         description: 'build App',
       },
+      outdated: {
+        script: 'pnpm -r outdated',
+        description: 'list outdated dependencies'
+      },
+      update: {
+        script: 'pnpm -r update',
+        description: 'update dependencies'
+      }
     },
     deploy: {
       default: {
@@ -51,12 +57,17 @@ module.exports = {
     local: {
       default: {
         script: concurrent({
-          keys:
-            'export GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json"',
           run: 'node ./local/src/devServer | pino-pretty --hideObject',
           open: series('sleep 1', open('https://localhost:8080/alpha.html')),
         }),
         description: 'run locally',
+      },
+      toGCP: {
+        script: concurrent({
+          run: 'GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json" node ./local/src/devServer firestore | pino-pretty --hideObject',
+          open: series('sleep 1', open('https://localhost:8080/alpha.html')),
+        }),
+        description: 'run locally, connecting to firestore',
       },
       certs: {
         script: series(
@@ -87,23 +98,29 @@ module.exports = {
           'gcloud iam service-accounts keys create ./remote/auth/my-finances-key.json --iam-account=my-finances-page@appspot.gserviceaccount.com',
         description: 'download service account key for GCP service access',
       },
+      delete: {
+        db: {
+          script: 'firebase firestore:delete --recursive --all-collections --yes',
+          description: 'clear the entire database'
+        }
+      }
     },
     api: {
       test: {
         default: {
-          script: prun('test --filter ./packages/api'),
+          script: 'pnpm run test --filter ./packages/api',
           description: 'run API unit tests',
         },
         coverage: {
-          script: prun('test.coverage --filter ./packages/api'),
+          script: 'pnpm run test.coverage --filter ./packages/api',
           description: 'run API unit tests with coverage',
         },
         only: {
-          script: prun('test.only --filter ./packages/api'),
+          script: 'pnpm run test.only --filter ./packages/api',
           description: 'run only marked API unit tests',
         },
         gory: {
-          script: prun('test.gory --filter ./packages/api'),
+          script: 'pnpm run test.gory --filter ./packages/api',
           description: 'run API unit tests with all details logged',
         },
       },
@@ -111,7 +128,7 @@ module.exports = {
     app: {
       run: {
         script: concurrent({
-          run: prun('dev --filter ./packages/app'),
+          run: 'pnpm run dev --filter ./packages/app',
           open: series('sleep 1', open('https://localhost:5000/alpha.html')),
         }),
         description: 'run app locally',

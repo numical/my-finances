@@ -43,7 +43,9 @@ class InMemory {
    */
   async get(id) {
     if (isObject(id)) {
-      throw new Error(`datastore get expects a primitive, not an object ${JSON.stringify(id)}`);
+      throw new Error(
+        `datastore get expects a primitive, not an object ${JSON.stringify(id)}`
+      );
     }
     return this.#records[id] || null;
   }

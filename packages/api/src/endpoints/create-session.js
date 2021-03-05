@@ -21,32 +21,40 @@ const handler = async (req, res, next) => {
     const { userId, pwd } = req.body;
     const { users } = req.dataStores;
 
-    const [[user], sessionId] = await Promise.all([
-      users.search({userId}),
+    const [existingUsers, sessionId] = await Promise.all([
+      users.search({ userId }),
       generateSessionId(),
     ]);
-    if (user) {
-      if (pwd === user.pwd) {
-        const maxAge = config.sessionTimeoutInSeconds * 1000;
-        const body = {
-          sessionId,
-          timeout: Date.now() + maxAge,
-        };
-        const jwt = await generateJWT(body);
-        res.cookie(cookie.name, jwt, { ...cookie.options, maxAge });
-        res.locals.body = body;
-        res.status(200).json(body);
-      } else {
+    switch(existingUsers.length) {
+      case 0:
         req.log.clientInfo(
-          `401: ${req.method} ${req.url}: password incorrect for userId '${userId}'`
+          `400: ${req.method} ${req.url}: unknown userId '${userId}'`
         );
-        res.status(401).end();
-      }
-    } else {
-      req.log.clientInfo(
-        `400: ${req.method} ${req.url}: unknown userId '${userId}'`
-      );
-      res.status(400).end();
+        res.status(400).end();
+        break;
+      case 1:
+        if (pwd === existingUsers[0].pwd) {
+          const maxAge = config.sessionTimeoutInSeconds * 1000;
+          const body = {
+            sessionId,
+            timeout: Date.now() + maxAge,
+          };
+          const jwt = await generateJWT(body);
+          res.cookie(cookie.name, jwt, { ...cookie.options, maxAge });
+          res.locals.body = body;
+          res.status(200).json(body);
+        } else {
+          req.log.clientInfo(
+            `401: ${req.method} ${req.url}: password incorrect for userId '${userId}'`
+          );
+          res.status(401).end();
+        }
+        break;
+      default:
+        req.log.error(
+          `500: ${req.method} ${req.url}: multiple records for userId '${userId}'`
+        );
+        res.status(500).end();
     }
   } catch (err) {
     next(err);

@@ -9,5 +9,6 @@ module.exports = () => stripIndent`
     CPU type: ${os.cpus()[0].model}
     total memory: ${formatBytes(os.totalmem())} 
   ENV:
-    NODE_ENV: ${process.env.NODE_ENV}
+    GOOGLE_APPLICATION_CREDENTIALS: ${process.env.GOOGLE_APPLICATION_CREDENTIALS}
+    NODE_ENV: ${process.env.NODE_ENV} (currently not used)
 `;

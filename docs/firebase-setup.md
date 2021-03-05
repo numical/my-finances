@@ -7,7 +7,7 @@
 * add files to `public` directory
 * `firebase deploy`
 * modify domain to point to firebase:
-
+  * https://firebase.google.com/docs/hosting/custom-domain
 
 # Firestore Setup
 * Via console or CLI:
@@ -17,5 +17,6 @@
 * note: cannot delete
 
 ## Is there a useable CLI?
-* https://cloud.google.com/firestore/docs/reference/rest/
+* https://firebase.google.com/docs/cli
+* follow setup instructions
 

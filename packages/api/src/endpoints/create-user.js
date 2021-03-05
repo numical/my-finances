@@ -15,9 +15,10 @@ const handler = async (req, res, next) => {
     const { userId, email, pwd } = req.body;
     const { users } = req.dataStores;
 
-    const count = await users.count({ userId });
+    const count = await users.count({ email });
     if (count > 0) {
-      res.status(400).end();
+      // TODO: reveal this info or not?
+      res.status(400).send(`Email address ${email} already in use.`).end();
       return;
     }
 
