@@ -62,7 +62,7 @@ module.exports = {
         }),
         description: 'run locally',
       },
-      toGCP: {
+      gcp: {
         script: concurrent({
           run: 'GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json" node ./local/src/devServer firestore | pino-pretty --hideObject',
           open: series('sleep 1', open('https://localhost:8080/alpha.html')),

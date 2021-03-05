@@ -1,12 +1,21 @@
 <script>
   import { authStore } from '../stores';
+  import { hash } from '../browser-functions';
 
   let email = '';
   let pwd = '';
 
-  const onClick = () => {
-    authStore.setValue('email', email);
-    authStore.setValue('pwd', pwd);
+  const onClick = async() => {
+    const [emailHash, pwdHash] = await Promise.all([
+      hash(email),
+      hash(email, pwd),
+    ]);
+    authStore.setValues({
+      email,
+      emailHash,
+      pwd,
+      pwdHash
+    });
   };
 </script>
 

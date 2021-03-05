@@ -1,20 +1,14 @@
-import { get } from 'svelte/store';
 import wrapFetch from './wrap-fetch';
 import { authStore } from '../stores';
-import { hash } from '../browser-functions';
 
-let email, pwd;
+let email, emailHash, pwdHash;
 authStore.subscribe((auth) => {
   email = auth.email;
-  pwd: auth.pwd;
+  emailHash = auth.emailHash;
+  pwdHash = auth.pwdHash;
 });
 
 const createUser = async () => {
-  const [emailHash, pwdHash] = await Promise.all([
-    hash(email),
-    hash(email, pwd),
-  ]);
-
   const body = {
     userId: emailHash,
     email,
@@ -27,7 +21,7 @@ const createUser = async () => {
   });
 
   authStore.setValues({
-    userId: user.userId,
+    emailHash: user.userId,
     pwdHash: user.pwd,
   });
 

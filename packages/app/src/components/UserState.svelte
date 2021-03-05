@@ -2,7 +2,7 @@
   import { authStore } from '../stores';
 
   $: email = $authStore.email;
-  $: userId = $authStore.userId;
+  $: emailHash = $authStore.emailHash;
   $: pwd = $authStore.pwd;
   $: pwdHash = $authStore.pwdHash;
   $: sessionId = $authStore.sessionId;
@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <tc>id:</tc>
-      <tc>{userId}</tc>
+      <tc>{emailHash}</tc>
     </tr>
     <tr>
       <tc>password:</tc>
