@@ -1,8 +1,9 @@
-const { STRING, DICTIONARY } = require('../schemas');
+const { baseObject, DBID, DICTIONARY } = require('../schemas');
 
 const requestSchema = {
+  ...baseObject('create_financial_model_request'),
   properties: {
-    modelId: STRING,
+    modelId: DBID,
   },
 };
 

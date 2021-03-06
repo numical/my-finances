@@ -1,11 +1,12 @@
-const { STRING, USER } = require('../schemas');
+const { baseObject, EMAIL, HASH, STRING, USER } = require('../schemas');
 
 const requestSchema = {
+  ...baseObject('create_user_request'),
   properties: {
-    userId: STRING,
-    email: STRING,
+    userId: HASH,
+    email: EMAIL,
     pwd: STRING,
-  },
+  }
 };
 
 const responseSchema = USER;

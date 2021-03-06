@@ -1,8 +1,10 @@
+const DUMMY_ID = "TwentyCharDBIDFormat";
+
 module.exports = async (
   { collection, db, transformToDoc, validate },
   record
 ) => {
-  const document = transformToDoc({ ...record, id: 'pre-creation dummy id' });
+  const document = transformToDoc({ ...record, id: DUMMY_ID});
   validate('pre-create', document );
   // special case as id auto generated
   delete document.id;

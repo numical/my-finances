@@ -20,6 +20,7 @@ importers:
     dependencies:
       '@google-cloud/firestore': 4.9.6
       ajv: 7.1.1
+      ajv-keywords: 4.0.0_ajv@7.1.1
       body-parser: 1.19.0
       common-tags: 1.8.0
       cookie-parser: 1.4.5
@@ -37,6 +38,7 @@ importers:
     specifiers:
       '@google-cloud/firestore': ^4.9.6
       ajv: ^7.1.1
+      ajv-keywords: ^4.0.0
       body-parser: ^1.19.0
       common-tags: ^1.8.0
       cookie-parser: ^1.4.5
@@ -363,6 +365,14 @@ packages:
       node: '>= 6.0.0'
     resolution:
       integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
+  /ajv-keywords/4.0.0_ajv@7.1.1:
+    dependencies:
+      ajv: 7.1.1
+    dev: false
+    peerDependencies:
+      ajv: ^7.0.0
+    resolution:
+      integrity: sha512-baL4pEYniCF5E/5Cj28f1DmPXGGASQIeCFfntY94vJPtrq0fei3iNt/TP5f2IwEH4opCzcOOvL6hKsi2IHaecg==
   /ajv/6.12.6:
     dependencies:
       fast-deep-equal: 3.1.3

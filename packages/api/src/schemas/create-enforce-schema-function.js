@@ -1,4 +1,4 @@
-const Ajv = require('ajv/dist/jtd').default;
+const createAjv = require('./create-ajv');
 const report = require('./report-validation-errors');
 
 const cache = new Map();
@@ -25,8 +25,7 @@ const enforceSchemaFunction = (schema, data) => {
 
 const createEnforceSchemaFunction = ({ logger }) => {
   if (!ajv) {
-    ajv = new Ajv({ logger });
-    ajv.addKeyword('id');
+    ajv = createAjv(logger);
   }
   return enforceSchemaFunction;
 };

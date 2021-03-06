@@ -1,7 +1,10 @@
 // Cloud Run instances hang around for 10 mins
 
-const { v4: uuidv4 } = require('uuid');
+const {  randomBytes } = require("crypto");
 const { isObject } = require('../../util');
+
+// must match Firestore ID format 20
+const createId = () => randomBytes(10).toString('hex');
 
 class InMemory {
   #records = {};
@@ -20,7 +23,7 @@ class InMemory {
    * @returns {Promise<Object>}  - record with id added
    */
   async create(record) {
-    const id = uuidv4();
+    const id = createId();
     const withId = { ...record, id };
     return this.update(id, withId);
   }

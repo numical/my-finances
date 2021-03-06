@@ -1,14 +1,13 @@
-const { STRING, STRING_ARRAY } = require('../../schemas');
+const { baseObject, STRING, STRING_ARRAY } = require('../../schemas');
 
 const USER_DOC = {
-  metadata: {
-    id: 'user_doc',
-  },
+  ...baseObject('user_doc'),
   properties: {
     id: STRING,
     userId: STRING,
     pwd: STRING,
     account: {
+      ...baseObject(),
       properties: {
         email: STRING,
       },
@@ -18,17 +17,13 @@ const USER_DOC = {
 };
 
 const KEYSTORE_DOC = {
-  metadata: {
-    id: 'keystore_doc',
-  },
+  ...baseObject('keystore_doc'),
   id: STRING,
 };
 
 const FINANCIAL_MODEL_DOC = {
-  metadata: {
-    id: 'financial_model_doc',
-  },
-  id: STRING,
+    ...baseObject('financial_model_doc'),
+  id: STRING
 };
 
 module.exports = {

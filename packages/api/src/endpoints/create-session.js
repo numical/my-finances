@@ -1,19 +1,21 @@
 const config = require('../config');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
-const { STRING, NUMBER } = require('../schemas');
+const { baseObject, HASH, NUMBER, STRING, UUID } = require('../schemas');
 
 const requestSchema = {
+  ...baseObject('create_session_request'),
   properties: {
-    userId: STRING,
+    userId: HASH,
     pwd: STRING,
-  },
+  }
 };
 
 const responseSchema = {
+  ...baseObject('create_session_response'),
   properties: {
-    sessionId: STRING,
+    sessionId: UUID,
     timeout: NUMBER,
-  },
+  }
 };
 
 const handler = async (req, res, next) => {

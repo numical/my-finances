@@ -1,28 +1,36 @@
+const baseObject = require('./base-object');
 const createEnforceSchemaFunction = require('./create-enforce-schema-function');
 
-const NUMBER = { type: 'float64' };
-const STRING = { type: 'string' };
-const STRING_ARRAY = { elements: { type: 'string' } };
-const DICTIONARY = { values: { type: 'string' } };
+
+const NUMBER = { type: 'number' };
+const STRING = { type: 'string'};
+
+const DBID = { ...STRING, format: 'dbid'};
+const DICTIONARY = { type: 'object', additionalProperties: STRING };
+const EMAIL = { ...STRING, format: 'email' };
+const HASH = { ...STRING, format: 'hash' };
+const UUID = { ...STRING, format: 'uuid' };
 
 const USER = {
-  metadata: {
-    id: 'user',
-  },
+  ...baseObject('user'),
   properties: {
-    id: STRING,
-    userId: STRING,
-    email: STRING,
-    pwd: STRING,
-    keyStores: STRING_ARRAY,
+    id: DBID,
+    userId: HASH,
+    email: EMAIL,
+    pwd: HASH,
+    keyStores: { type: 'array', uniqueItems: true, items: DBID },
   },
 };
 
 module.exports = {
+  baseObject,
+  DBID,
+  DICTIONARY,
+  EMAIL,
+  HASH,
   init: createEnforceSchemaFunction,
   NUMBER,
   STRING,
-  STRING_ARRAY,
-  DICTIONARY,
   USER,
+  UUID
 };
