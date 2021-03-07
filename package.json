@@ -2,6 +2,13 @@
   "name": "my-finances",
   "version": "0.0.1",
   "description": "my finances monorepo",
+  "author": "mike.evans@numical.com",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/numical/my-finances.git"
+  },
+  "homepage": "https://github.com/numical/my-finances#readme",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -17,15 +24,5 @@
   },
   "scripts": {
     "start": "nps"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/numical/my-finances.git"
-  },
-  "author": "mike.evans@numical.com",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/numical/my-finances/issues"
-  },
-  "homepage": "https://github.com/numical/my-finances#readme"
+  }
 }

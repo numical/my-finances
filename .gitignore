@@ -112,3 +112,7 @@ dist
 # Certificates / Keys
 **/auth/
 
+# Builds
+public/alpha/bundle.*
+
+

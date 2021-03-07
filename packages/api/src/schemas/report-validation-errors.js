@@ -1,4 +1,4 @@
-const extractMessage = error => {
+const extractMessage = (error) => {
   switch (error.keyword) {
     case 'required':
       return error.message;
@@ -11,7 +11,7 @@ const extractMessage = error => {
     default:
       return JSON.stringify(error);
   }
-}
+};
 
 const buildReport = (report, error) => `${report}${extractMessage(error)}; `;
 

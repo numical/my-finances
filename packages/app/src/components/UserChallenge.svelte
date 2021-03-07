@@ -5,7 +5,7 @@
   let email = '';
   let pwd = '';
 
-  const onClick = async() => {
+  const onClick = async () => {
     const [emailHash, pwdHash] = await Promise.all([
       hash(email),
       hash(email, pwd),
@@ -14,7 +14,7 @@
       email,
       emailHash,
       pwd,
-      pwdHash
+      pwdHash,
     });
   };
 </script>

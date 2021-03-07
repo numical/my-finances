@@ -6,7 +6,7 @@ const requestSchema = {
     userId: HASH,
     email: EMAIL,
     pwd: STRING,
-  }
+  },
 };
 
 const responseSchema = USER;

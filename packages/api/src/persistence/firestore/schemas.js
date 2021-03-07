@@ -22,8 +22,8 @@ const KEYSTORE_DOC = {
 };
 
 const FINANCIAL_MODEL_DOC = {
-    ...baseObject('financial_model_doc'),
-  id: STRING
+  ...baseObject('financial_model_doc'),
+  id: STRING,
 };
 
 module.exports = {

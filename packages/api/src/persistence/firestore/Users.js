@@ -7,26 +7,26 @@ const transformToDoc = (user) => ({
   userId: user.userId,
   pwd: user.pwd,
   account: {
-    email: user.email
+    email: user.email,
   },
-  keyStores: user.keyStores
-})
+  keyStores: user.keyStores,
+});
 
 const transformFromDoc = (document) => ({
   id: document.id,
   userId: document.userId,
   pwd: document.pwd,
   email: document.account.email,
-  keyStores: document.keyStores
+  keyStores: document.keyStores,
 });
 
 const transformSearchField = ([field, value]) => {
   if (field === 'email') {
-    return [new FieldPath('account', 'email'), value]
+    return [new FieldPath('account', 'email'), value];
   } else {
     return [field, value];
   }
-}
+};
 
 class Users extends Firestore {
   constructor(args) {
@@ -36,7 +36,7 @@ class Users extends Firestore {
       schema: USER_DOC,
       transformFromDoc,
       transformToDoc,
-      transformSearchField
+      transformSearchField,
     });
   }
 }

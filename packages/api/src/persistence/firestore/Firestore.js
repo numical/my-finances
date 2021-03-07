@@ -18,7 +18,7 @@ class Firestore {
     enforceSchema,
     transformToDoc = identity,
     transformFromDoc = identity,
-    transformSearchField = identity
+    transformSearchField = identity,
   }) {
     if (!db) {
       db = new FirestoreDb();
@@ -30,7 +30,14 @@ class Firestore {
       enforceSchema,
       schema,
     });
-    const args = { collection, db, transformToDoc, transformFromDoc, transformSearchField, validate };
+    const args = {
+      collection,
+      db,
+      transformToDoc,
+      transformFromDoc,
+      transformSearchField,
+      validate,
+    };
     this.count = count.bind(this, args);
     this.create = create.bind(this, args);
     this.get = get.bind(this, args);

@@ -7,14 +7,15 @@ const { post200 } = require('./http-tests');
 const { assertSession } = require('./auth-tests');
 const customize = require('./customize');
 
-const userId = '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
+const userId =
+  '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
 const email = 'test.email@acme.org';
 const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
 
 const invalidUserCredentials = {
   'missing email': { userId },
   'missing pwd': { userId, email },
-  'invalid user id': { userId: 'not a 64 character hash', email, pwd},
+  'invalid user id': { userId: 'not a 64 character hash', email, pwd },
   'invalid email': { userId, email: 'not a valid email address', pwd },
   'invalid pwd': { userId, email, pwd: 12345 },
 };
