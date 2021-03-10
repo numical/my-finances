@@ -6,7 +6,7 @@ const requestSchema = {
     userId: HASH,
     email: EMAIL,
     pwd: STRING,
-  }
+  },
 };
 
 const responseSchema = USER;
@@ -27,7 +27,7 @@ const handler = async (req, res, next) => {
       userId,
       email,
       pwd,
-      keyStores: [],
+      financialModels: {},
     });
 
     res.locals.body = user;

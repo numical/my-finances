@@ -4,7 +4,7 @@ const requestSchema = {
   ...baseObject('get_user_request'),
   properties: {
     userId: HASH,
-  }
+  },
 };
 
 const responseSchema = USER;

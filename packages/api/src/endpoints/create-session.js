@@ -7,7 +7,7 @@ const requestSchema = {
   properties: {
     userId: HASH,
     pwd: STRING,
-  }
+  },
 };
 
 const responseSchema = {
@@ -15,7 +15,7 @@ const responseSchema = {
   properties: {
     sessionId: UUID,
     timeout: NUMBER,
-  }
+  },
 };
 
 const handler = async (req, res, next) => {
@@ -27,7 +27,7 @@ const handler = async (req, res, next) => {
       users.search({ userId }),
       generateSessionId(),
     ]);
-    switch(existingUsers.length) {
+    switch (existingUsers.length) {
       case 0:
         req.log.clientInfo(
           `400: ${req.method} ${req.url}: unknown userId '${userId}'`

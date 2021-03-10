@@ -1,11 +1,10 @@
 const baseObject = require('./base-object');
 const createEnforceSchemaFunction = require('./create-enforce-schema-function');
 
-
 const NUMBER = { type: 'number' };
-const STRING = { type: 'string'};
+const STRING = { type: 'string' };
 
-const DBID = { ...STRING, format: 'dbid'};
+const DBID = { ...STRING, format: 'dbid' };
 const DICTIONARY = { type: 'object', additionalProperties: STRING };
 const EMAIL = { ...STRING, format: 'email' };
 const HASH = { ...STRING, format: 'hash' };
@@ -18,7 +17,7 @@ const USER = {
     userId: HASH,
     email: EMAIL,
     pwd: HASH,
-    keyStores: { type: 'array', uniqueItems: true, items: DBID },
+    financialModels: DICTIONARY,
   },
 };
 
@@ -32,5 +31,5 @@ module.exports = {
   NUMBER,
   STRING,
   USER,
-  UUID
+  UUID,
 };

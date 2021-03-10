@@ -10,6 +10,6 @@ export default async (...s) => {
   const hashHex = hashArray
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
-  console.log(`hash length = ${hashHex.length}`)
+  console.log(`hash length = ${hashHex.length}`);
   return hashHex;
 };

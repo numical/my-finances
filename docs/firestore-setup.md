@@ -8,24 +8,24 @@
 ## Collections / Fields
 
 ### Indexed
-| Accounts | Users | KeystoreLinks | Keystores | FinancialModels | TYPE | 
+| Accounts | Users | ModelLinks | FinancialModels | AnalysisModels | TYPE | 
 | --- | --- | ---- | ---- | ---- | --- | 
 | id | id | id | id | id | auto-generated string |
 | | accountId | accountId (*) | | | reference |
 | | | userId (*)|  | | reference |
-| | | keystoreId | | | reference |
+| | | financialModelId | | | reference |
 | type | type | type | | | enum string|
 | status | status | status | | | enum string|
 (*): either/or
 
 ### Non-Indexed Meta
-| Accounts | Users | KeystoreLinks | Keystores | FinancialModels | TYPE |
+| Accounts | Users | ModelLinks | FinancialModels | AnalysisModels | TYPE |
 | --- | --- | ---- | ---- | ---- | --- |
 | version | version | version | version | version | number |
 | created | created | created | created | created | timestamp |
 
 ### Not Indexed
-| Accounts | Users | KeystoreLinks | Keystores | FinancialModels | TYPE |
+| Accounts | Users | ModelLinks | FinancialModels | AnalysisModels | TYPE |
 | --- | --- | ---- | ---- | ---- | --- |
 | email | | | | | string |
 | | password | | | | string |
@@ -41,8 +41,8 @@
 | Account.status | active |
 | Users.type | test |
 | Users.status | active |
-| KeystoreLinks.type | read-write |
-| KeystoreLinks.status | active |
+| ModelLinks.type | read-write |
+| ModelLinks.status | active |
 
 ## Setup Spike
 * using UI console - painful!

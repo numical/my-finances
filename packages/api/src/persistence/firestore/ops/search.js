@@ -1,13 +1,13 @@
 module.exports = async (
   { collection, db, transformFromDoc, transformSearchField, validate },
-  values,
+  values
 ) => {
   const collectionRef = db.collection(collection);
   const query = Object.entries(values)
     .map(transformSearchField)
     .reduce(
       (query, [field, value]) => query.where(field, '==', value),
-      collectionRef,
+      collectionRef
     );
   const querySnapshot = await query.get();
   switch (querySnapshot.size) {

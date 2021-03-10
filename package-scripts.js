@@ -33,12 +33,12 @@ module.exports = {
       },
       outdated: {
         script: 'pnpm -r outdated',
-        description: 'list outdated dependencies'
+        description: 'list outdated dependencies',
       },
       update: {
         script: 'pnpm -r update',
-        description: 'update dependencies'
-      }
+        description: 'update dependencies',
+      },
     },
     deploy: {
       default: {
@@ -64,7 +64,8 @@ module.exports = {
       },
       gcp: {
         script: concurrent({
-          run: 'GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json" node ./local/src/devServer firestore | pino-pretty --hideObject',
+          run:
+            'GOOGLE_APPLICATION_CREDENTIALS="./remote/auth/my-finances-key.json" node ./local/src/devServer firestore | pino-pretty --hideObject',
           open: series('sleep 1', open('https://localhost:8080/alpha.html')),
         }),
         description: 'run locally, connecting to firestore',
@@ -100,10 +101,11 @@ module.exports = {
       },
       delete: {
         db: {
-          script: 'firebase firestore:delete --recursive --all-collections --yes',
-          description: 'clear the entire database'
-        }
-      }
+          script:
+            'firebase firestore:delete --recursive --all-collections --yes',
+          description: 'clear the entire database',
+        },
+      },
     },
     api: {
       test: {

@@ -3,7 +3,7 @@ const BASE = {
   allRequired: true,
 };
 
-module.exports = id => {
+module.exports = (id) => {
   const obj = { ...BASE };
   if (id) {
     obj.metadata = {
