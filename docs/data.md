@@ -4,9 +4,9 @@
 erDiagram
   ACCOUNT ||--o{ USER-ACCOUNT-LINK: holds
   USER ||--o{  USER-ACCOUNT-LINK: holds
-  USER-ACCOUNT-LINK ||--o{ KEYSTORE-LINK : owns
-  KEYSTORE-LINK }|--|| KEYSTORE : "enables access to"
-  KEYSTORE ||--|| FINANCIAL-MODEL : "anonymises"
+  USER-ACCOUNT-LINK ||--o{ MODEL-LINK : owns
+  MODEL-LINK }|--|| FINANCIAL-MODEL : "enables access to"
+  FINANCIAL-MODEL ||--|| ANALYSIS-MODEL : "anonymised and unencrypted to"
   ACCOUNT {
     string id
     string email
@@ -22,19 +22,19 @@ erDiagram
     string userId
     string type
    }
-  KEYSTORE-LINK {
+  MODEL-LINK {
     string id
     string userAccountId
-    string keystoreId
+    string financialModelId
     string description
     string encryptionKey
     string type
    }
-  KEYSTORE {
-    string id
-    bytes data (incudes financialModel id)
-  }
   FINANCIAL-MODEL {
+    string id
+    bytes data 
+  }
+  ANALYSIS-MODEL {
     string id
     bytes data
   }
@@ -53,18 +53,17 @@ erDiagram
 * associates a user with an account
 * type - enumeration
 
-## Key Store Link
-* associates a user with a keystore
+## Model Link
+* associates a user with a model
 * type - enumeration 'read-only', 'read-write'
 * description - encrypted by user
-* encryption key for keystore - encrypted by user
-
-## Key Store
-* 'no knowledge' encrypted
-* holds personal information for model
-* **and** financial model id
+* encryption key for financial model - encrypted by user
 
 ## Financial Model
+* 'no knowledge' encrypted
+* holds personal information for model
+
+## Analysis Model
 * anonymous
 * analyzable (therefore SQL?)
 * not sure of format yet
@@ -80,11 +79,11 @@ erDiagram
 | 6. | private user, gives access to IFA | userAccountType: 'client' |
 
 # Database
-* account / user / keystore-link / keystore relations need foreign keys
+* account / user / model-link / financialModel relations need foreign keys
   * structured => SQL
   * but flexibility of no-sql might be good for development  
   * definitely transactional
-* financial model needs to be uploaded to BigQuery / whatever analysis engine
+* analysis model needs to be uploaded to BigQuery / whatever analysis engine
 * but all db's in GCP relatively pricey
   
 ## Firestore
@@ -106,6 +105,8 @@ erDiagram
   * `user` doc
     * `account` map
       * email
-    * `keyStores` array of keyStoreIds
-* `/financialModels` collection
-  * `financialModel` doc
+    * `financialModels` - sub collection
+  
+The future:
+* create separate `account` collection
+* create `analysisModels` collection

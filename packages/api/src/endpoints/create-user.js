@@ -27,7 +27,7 @@ const handler = async (req, res, next) => {
       userId,
       email,
       pwd,
-      keyStores: [],
+      financialModels: {},
     });
 
     res.locals.body = user;

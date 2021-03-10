@@ -45,13 +45,13 @@ const validUserCredentials = { userId, email, pwd };
       .send(validUserCredentials);
     t.equal(createUserStatus, 200, 'creates user');
 
-    const { userId, email, pwd, keyStores } = user;
+    const { userId, email, pwd, financialModels } = user;
     t.same(
       { userId, email, pwd },
       validUserCredentials,
       'returns user credentials'
     );
-    t.ok(keyStores, 'initiates keystores');
+    t.ok(financialModels, 'initiates financial models');
 
     const { status: failFetchStatus } = await server.get(`/user/${userId}`);
     t.equal(failFetchStatus, 401, 'cannot fetch user until session created');

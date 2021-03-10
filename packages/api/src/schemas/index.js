@@ -17,7 +17,7 @@ const USER = {
     userId: HASH,
     email: EMAIL,
     pwd: HASH,
-    keyStores: { type: 'array', uniqueItems: true, items: DBID },
+    financialModels: DICTIONARY,
   },
 };
 

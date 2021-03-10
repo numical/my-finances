@@ -12,3 +12,9 @@
 ## Possibilities
 * 2FA - [speakeasy](https://www.npmjs.com/package/speakeasy)
 * service worker wrapper for cache-first loading - [google workbox](https://developers.google.com/web/tools/workbox)
+
+
+## Problems
+No git hook solution working at the moment with pnpm:
+* [pre-commit](https://www.npmjs.com/package/pre-commit)
+* [husky](https://www.npmjs.com/package/husky)
