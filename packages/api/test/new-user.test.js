@@ -1,11 +1,7 @@
 const { test, only } = require('tap');
-const request = require('supertest');
 const { SESSION_TOKEN } = require('my-finances-common');
-
-const createApp = require('../src/app');
-const { post200 } = require('./http-tests');
-const { assertSession } = require('./auth-tests');
-const customize = require('./customize');
+const assertSession = require('./util/assert-session');
+const testApi = require('./util/test-api');
 
 const userId =
   '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
@@ -22,15 +18,12 @@ const invalidUserCredentials = {
 
 const validUserCredentials = { userId, email, pwd };
 
-(async () => {
-  const app = await createApp(customize);
-  const server = request.agent(app);
-
+testApi((api) => {
   test('create new user', async (t) => {
     for (const [useCase, credentials] of Object.entries(
       invalidUserCredentials
     )) {
-      const { status: invalidCredentialsStatus } = await server
+      const { status: invalidCredentialsStatus } = await api
         .post('/users')
         .send(credentials);
       t.equal(
@@ -40,7 +33,7 @@ const validUserCredentials = { userId, email, pwd };
       );
     }
 
-    const { status: createUserStatus, body: user } = await server
+    const { status: createUserStatus, body: user } = await api
       .post('/users')
       .send(validUserCredentials);
     t.equal(createUserStatus, 200, 'creates user');
@@ -51,18 +44,16 @@ const validUserCredentials = { userId, email, pwd };
       validUserCredentials,
       'returns user credentials'
     );
-    t.ok(financialModels, 'initiates financial models');
+    t.ok(financialModels, 'instantiates financial models collection');
 
-    const { status: failFetchStatus } = await server.get(`/user/${userId}`);
+    const { status: failFetchStatus } = await api.get(`/user/${userId}`);
     t.equal(failFetchStatus, 401, 'cannot fetch user until session created');
 
-    const sessionResponse = await server
-      .post('/sessions')
-      .send({ userId, pwd });
+    const sessionResponse = await api.post('/sessions').send({ userId, pwd });
     t.equal(sessionResponse.status, 200, 'creates session');
     const { sessionId, cookies } = assertSession(t, sessionResponse);
 
-    const { status: fetchStatus, body: fetchedUser } = await server
+    const { status: fetchStatus, body: fetchedUser } = await api
       .get(`/user/${userId}`)
       .set(SESSION_TOKEN, sessionId)
       .set('Cookie', cookies);
@@ -72,4 +63,4 @@ const validUserCredentials = { userId, email, pwd };
 
     t.end();
   });
-})();
+});

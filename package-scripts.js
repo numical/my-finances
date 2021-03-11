@@ -113,6 +113,10 @@ module.exports = {
           script: 'pnpm run test --filter ./packages/api',
           description: 'run API unit tests',
         },
+        debug: {
+          script: 'pnpm run test.debug --filter ./packages/api',
+          description: 'run API unit tests with all details logged',
+        },
         coverage: {
           script: 'pnpm run test.coverage --filter ./packages/api',
           description: 'run API unit tests with coverage',
@@ -120,10 +124,6 @@ module.exports = {
         only: {
           script: 'pnpm run test.only --filter ./packages/api',
           description: 'run only marked API unit tests',
-        },
-        gory: {
-          script: 'pnpm run test.gory --filter ./packages/api',
-          description: 'run API unit tests with all details logged',
         },
       },
     },
