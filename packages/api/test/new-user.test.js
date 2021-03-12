@@ -1,5 +1,5 @@
 const { test, only } = require('tap');
-const { SESSION_TOKEN } = require('my-finances-common');
+const { DEFAULT, SESSION_TOKEN } = require('my-finances-common');
 const assertSession = require('./util/assert-session');
 const testApi = require('./util/test-api');
 
@@ -45,6 +45,13 @@ testApi((api) => {
       'returns user credentials'
     );
     t.ok(financialModels, 'instantiates financial models collection');
+    t.type(financialModels, 'object', 'financial models is a dictionary');
+    t.ok(financialModels[DEFAULT], 'creates a default model');
+    t.equal(
+      Object.keys(financialModels[DEFAULT]).length,
+      0,
+      'default model is empty'
+    );
 
     const { status: failFetchStatus } = await api.get(`/user/${userId}`);
     t.equal(failFetchStatus, 401, 'cannot fetch user until session created');
@@ -59,7 +66,7 @@ testApi((api) => {
       .set('Cookie', cookies);
     t.equal(fetchStatus, 200, 'can fetch user when certs data sent');
 
-    t.same(fetchedUser, user);
+    t.same(fetchedUser, user, 'fetched user matches created user');
 
     t.end();
   });

@@ -1,3 +1,4 @@
+const { DEFAULT } = require('my-finances-common');
 const { baseObject, EMAIL, HASH, STRING, USER } = require('../schemas');
 
 const requestSchema = {
@@ -8,7 +9,6 @@ const requestSchema = {
     pwd: STRING,
   },
 };
-
 const responseSchema = USER;
 
 const handler = async (req, res, next) => {
@@ -27,7 +27,9 @@ const handler = async (req, res, next) => {
       userId,
       email,
       pwd,
-      financialModels: {},
+      financialModels: {
+        [DEFAULT]: {},
+      },
     });
 
     res.locals.body = user;

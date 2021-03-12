@@ -2,10 +2,11 @@ const createApp = require('../../src/app');
 const request = require('supertest');
 
 const level = process.env.LOG_LEVEL || 'error';
+const dataSource = process.env.DATASOURCE || 'memory';
 
 const customize = {
   config: {
-    dataSource: 'memory',
+    dataSource,
     log: {
       level,
     },

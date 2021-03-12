@@ -1,5 +1,13 @@
 const { concurrent, open, series } = require('nps-utils');
 
+const apiTest = (logLevel = 'error', dataSource = 'memory', gcp = false) => {
+  const googleCreds =
+    dataSource === 'firestore'
+      ? `GOOGLE_APPLICATION_CREDENTIALS="../../remote/auth/my-finances-key.json"`
+      : '';
+  return `${googleCreds} DATASOURCE=${dataSource} LOG_LEVEL=${logLevel} pnpm run test --filter ./packages/api`;
+};
+
 module.exports = {
   default: 'nps help',
   scripts: {
@@ -110,12 +118,29 @@ module.exports = {
     api: {
       test: {
         default: {
-          script: 'pnpm run test --filter ./packages/api',
+          script: apiTest(),
           description: 'run API unit tests',
         },
         debug: {
-          script: 'pnpm run test.debug --filter ./packages/api',
-          description: 'run API unit tests with all details logged',
+          default: {
+            script: apiTest('debug'),
+            description: 'run API unit tests with all details logged',
+          },
+          gcp: {
+            script: series(
+              'npx nps remote.delete.db',
+              apiTest('debug', 'firestore')
+            ),
+            description:
+              'run API unit tests against GCP with all details logged',
+          },
+        },
+        gcp: {
+          script: series(
+            'npx nps remote.delete.db',
+            apiTest('error', 'firestore')
+          ),
+          description: 'run API unit tests against GCP',
         },
         coverage: {
           script: 'pnpm run test.coverage --filter ./packages/api',
