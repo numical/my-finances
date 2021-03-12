@@ -1,4 +1,3 @@
-const { test } = require('tap');
 const testApi = require('./util/test-api');
 
 const userId =
@@ -14,9 +13,9 @@ const invalidUserCredentials = {
   'invalid pwd': { userId, email, pwd: 12345 },
 };
 
-testApi(async (api) => {
+testApi(async (api, test) => {
   for (const [useCase, credentials] of Object.entries(invalidUserCredentials)) {
-    test(`rejects invalid credentials - ${useCase}`, async (t) => {
+    await test(`rejects invalid credentials - ${useCase}`, async (t) => {
       const { status: invalidCredentialsStatus } = await api
         .post('/users')
         .send(credentials);
