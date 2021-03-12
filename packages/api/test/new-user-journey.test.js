@@ -1,4 +1,3 @@
-const { test } = require('tap');
 const { DEFAULT, SESSION_TOKEN } = require('my-finances-common');
 const testApi = require('./util/test-api');
 
@@ -10,27 +9,28 @@ const email = 'test.email@acme.org';
 const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
 const userCredentials = { userId, email, pwd };
 
-testApi(async (api) => {
+testApi(async (api, test) => {
   const { status: createUserStatus, body: user } = await api
     .post('/users')
     .send(userCredentials);
 
-  test('creates user when valid credentials passed', (t) => {
+  await test('creates user when valid credentials passed', (t) => {
     t.equal(createUserStatus, 200, 'creates user');
+    console.log(t.counts);
     t.end();
   });
-  if (createUserStatus !== 200) return;
 
+  console.log(r);
   const { userId, email, pwd } = user;
 
-  test('returns user credentials', (t) => {
+  await test('returns user credentials', (t) => {
     t.same({ userId, email, pwd }, userCredentials);
     t.end();
   });
 
   const { financialModels } = user;
 
-  test('instantiates financial model', (t) => {
+  await test('instantiates financial model', (t) => {
     t.ok(financialModels, 'financial models collection returned ');
     t.type(financialModels, 'object', 'financial models is a dictionary');
     t.ok(financialModels[DEFAULT], 'creates a default model');
@@ -44,14 +44,14 @@ testApi(async (api) => {
 
   const { status: failFetchStatus } = await api.get(`/user/${userId}`);
 
-  test('cannot fetch user until session created', (t) => {
+  await test('cannot fetch user until session created', (t) => {
     t.equal(failFetchStatus, 401);
     t.end();
   });
 
   const sessionResponse = await api.post('/sessions').send({ userId, pwd });
 
-  test('creates session', (t) => {
+  await test('creates session', (t) => {
     t.equal(sessionResponse.status, 200);
     t.end();
   });
@@ -59,7 +59,7 @@ testApi(async (api) => {
   const { body } = sessionResponse;
   const { sessionId, timeout } = body;
 
-  test('session holds necessary fields', (t) => {
+  await test('session holds necessary fields', (t) => {
     t.ok(sessionId, 'returns a session id');
     t.ok(timeout, 'returns a timeout');
     t.end();
@@ -68,7 +68,7 @@ testApi(async (api) => {
   const { headers } = sessionResponse;
   const cookies = headers['set-cookie'];
 
-  test('session cookie returned', (t) => {
+  await test('session cookie returned', (t) => {
     t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie');
     t.end();
   });
@@ -78,7 +78,7 @@ testApi(async (api) => {
     .set(SESSION_TOKEN, sessionId)
     .set('Cookie', cookies);
 
-  test('can fetch user when certs data sent', (t) => {
+  await test('can fetch user when certs data sent', (t) => {
     t.equal(fetchStatus, 200);
     t.same(fetchedUser, user, 'fetched user matches created user');
     t.end();
