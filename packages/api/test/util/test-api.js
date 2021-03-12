@@ -16,5 +16,5 @@ const customize = {
 module.exports = async (tests) => {
   const app = await createApp(customize);
   const server = request.agent(app);
-  tests(server);
+  await tests(server);
 };
