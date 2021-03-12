@@ -3,9 +3,10 @@ const createEnforceSchemaFunction = require('./create-enforce-schema-function');
 
 const NUMBER = { type: 'number' };
 const STRING = { type: 'string' };
+const OBJECT = { type: 'object' };
 
 const DBID = { ...STRING, format: 'dbid' };
-const DICTIONARY = { type: 'object', additionalProperties: STRING };
+const DICTIONARY = { ...OBJECT, additionalProperties: OBJECT };
 const EMAIL = { ...STRING, format: 'email' };
 const HASH = { ...STRING, format: 'hash' };
 const UUID = { ...STRING, format: 'uuid' };

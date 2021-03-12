@@ -4,8 +4,7 @@
   "description": "Express based API",
   "main": "index.js",
   "scripts": {
-    "test": "LOG_LEVEL=error tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.js | pino-pretty --colorize --hideObject",
-    "test.debug": "LOG_LEVEL=debug tap --no-coverage test/**/*.test.js --no-timeout --bail --reporter=spec | pino-pretty --colorize --hideObject",
+    "test": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.js | pino-pretty --colorize --hideObject",
     "test.only": "tap --no-coverage --only --no-timeout --bail --reporter=spec test/**/*.test.js",
     "test.coverage": "tap test/**/*.test.js --100"
   },
