@@ -10,17 +10,16 @@ const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
 const userCredentials = { userId, email, pwd };
 
 testApi(async (api, test) => {
-  const { status: createUserStatus, body: user } = await api
+  const { status: createUserStatus, body: user, text } = await api
     .post('/users')
     .send(userCredentials);
 
   await test('creates user when valid credentials passed', (t) => {
+    t.ok(text, `response received: '${text}'`);
     t.equal(createUserStatus, 200, 'creates user');
-    console.log(t.counts);
     t.end();
   });
 
-  console.log(r);
   const { userId, email, pwd } = user;
 
   await test('returns user credentials', (t) => {
@@ -45,14 +44,14 @@ testApi(async (api, test) => {
   const { status: failFetchStatus } = await api.get(`/user/${userId}`);
 
   await test('cannot fetch user until session created', (t) => {
-    t.equal(failFetchStatus, 401);
+    t.equal(failFetchStatus, 401, 'should be a 401');
     t.end();
   });
 
   const sessionResponse = await api.post('/sessions').send({ userId, pwd });
 
   await test('creates session', (t) => {
-    t.equal(sessionResponse.status, 200);
+    t.equal(sessionResponse.status, 200, 'should be a 200');
     t.end();
   });
 
