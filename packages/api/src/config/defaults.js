@@ -1,6 +1,7 @@
 const CAN_OVERRIDE = {
   sessionTimeoutInSeconds: 10 * 60,
   dataSource: 'firestore',
+  dataSourceOptions: {},
   validate: {
     request: true,
     response: true,
