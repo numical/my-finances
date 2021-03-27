@@ -1,4 +1,10 @@
-const { baseObject, DICTIONARY, STRING } = require('../../schemas');
+const {
+  baseObject,
+  DICTIONARY,
+  FINANCIAL_MODEL,
+  STRING,
+  USER,
+} = require('../../schemas');
 
 const USER_DOC = {
   ...baseObject('user_doc'),
@@ -22,6 +28,8 @@ const FINANCIAL_MODEL_DOC = {
 };
 
 module.exports = {
+  FINANCIAL_MODEL,
   FINANCIAL_MODEL_DOC,
+  USER,
   USER_DOC,
 };

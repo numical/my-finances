@@ -128,19 +128,13 @@ module.exports = {
             description: 'run API unit tests with all details logged',
           },
           gcp: {
-            script: series(
-              'npx nps remote.delete.db',
-              apiTest('debug', 'firestore')
-            ),
+            script: apiTest('debug', 'firestore'),
             description:
               'run API unit tests against GCP with all details logged',
           },
         },
         gcp: {
-          script: series(
-            'npx nps remote.delete.db',
-            apiTest('error', 'firestore')
-          ),
+          script: apiTest('error', 'firestore'),
           description: 'run API unit tests against GCP',
         },
         coverage: {

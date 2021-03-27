@@ -1,7 +1,6 @@
 const { isObject } = require('../../../util');
 
-module.exports = async (
-  { collection, db, transformSearchField, validate },
+module.exports = ({ collection, db, transformSearchField }) => async (
   values
 ) => {
   if (isObject(values)) {
@@ -15,7 +14,7 @@ module.exports = async (
     const querySnapshot = await query.get();
     return querySnapshot.size;
   } else {
-    const docRef = db.doc(`${collection}/${value}`);
+    const docRef = db.doc(`${collection}/${values}`);
     const docSnapshot = await docRef.get();
     return docSnapshot.exists ? 1 : 0;
   }

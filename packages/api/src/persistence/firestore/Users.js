@@ -1,6 +1,6 @@
 const { FieldPath } = require('@google-cloud/firestore');
 const Firestore = require('./Firestore');
-const { USER_DOC } = require('./schemas');
+const { USER, USER_DOC } = require('./schemas');
 
 const transformToDoc = (user) => ({
   id: user.id,
@@ -33,7 +33,8 @@ class Users extends Firestore {
     super({
       ...args,
       collection: 'users',
-      schema: USER_DOC,
+      toSchema: USER_DOC,
+      fromSchema: USER,
       transformFromDoc,
       transformToDoc,
       transformSearchField,

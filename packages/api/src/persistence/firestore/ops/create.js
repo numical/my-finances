@@ -1,11 +1,7 @@
 const DUMMY_ID = 'TwentyCharDBIDFormat';
 
-module.exports = async (
-  { collection, db, transformToDoc, validate },
-  record
-) => {
+module.exports = ({ collection, db, transformToDoc }) => async (record) => {
   const document = transformToDoc({ ...record, id: DUMMY_ID });
-  validate('pre-create', document);
   // special case as id auto generated
   delete document.id;
   const collectionRef = db.collection(collection);

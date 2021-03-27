@@ -1,6 +1,6 @@
 const { isObject } = require('../../../util');
 
-module.exports = async ({ collection, db, transformFromDoc, validate }, id) => {
+module.exports = ({ collection, db, transformFromDoc }) => async (id) => {
   if (isObject(id)) {
     throw new Error(
       `datastore get expects a primitive, not an object ${JSON.stringify(id)}`
@@ -11,7 +11,6 @@ module.exports = async ({ collection, db, transformFromDoc, validate }, id) => {
   if (snapshot.exists) {
     const document = snapshot.data();
     const record = transformFromDoc(document);
-    return validate('getById', record);
   } else {
     return null;
   }

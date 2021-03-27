@@ -5,19 +5,20 @@ const request = require('supertest');
 
 const BAILOUT = new Error();
 
-const level = process.env.LOG_LEVEL || 'error';
-const dataSource = process.env.DATASOURCE || 'memory';
-const dataSourceOptions =
-  dataSource === 'firestore' ? { collectionSuffix: v4() } : {};
-
-const customize = {
-  config: {
-    dataSource,
-    dataSourceOptions,
-    log: {
-      level,
+const customize = () => {
+  const level = process.env.LOG_LEVEL || 'error';
+  const dataSource = process.env.DATASOURCE || 'memory';
+  const dataSourceOptions =
+    dataSource === 'firestore' ? { collectionSuffix: v4() } : {};
+  return {
+    config: {
+      dataSource,
+      dataSourceOptions,
+      log: {
+        level,
+      },
     },
-  },
+  };
 };
 
 const throwWhenBailed = async (description, callback) => {
@@ -30,7 +31,7 @@ const throwWhenBailed = async (description, callback) => {
 };
 
 module.exports = async (tests) => {
-  const app = await createApp(customize);
+  const app = await createApp(customize());
   const server = request.agent(app);
   try {
     await tests(server, throwWhenBailed);

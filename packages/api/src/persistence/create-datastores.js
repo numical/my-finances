@@ -1,11 +1,11 @@
 const entityImpls = require('./entity-implementations');
 
-module.exports = ({ config, enforceSchema }) => {
+module.exports = ({ config, enforceSchemaFn }) => {
   const dataStores = {};
   Object.entries(entityImpls).forEach(([entity, impls]) => {
     dataStores[entity] = new impls[config.dataSource]({
       config,
-      enforceSchema,
+      enforceSchemaFn,
     });
   });
   return dataStores;

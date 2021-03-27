@@ -9,7 +9,7 @@ module.exports = (schema) => {
   return (req, res, next) => {
     res.on('finish', () => {
       if (res.locals.body) {
-        const errors = req.enforceSchema(schema, res.locals.body);
+        const errors = req.enforceSchemaFn(schema, res.locals.body);
         if (errors) {
           req.log.warn(`response invalid: ${req.method} ${req.url}: ${errors}`);
         }

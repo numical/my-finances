@@ -1,28 +1,20 @@
-const createValidationFn = (collection, enforceSchema, schema) => {
-  const validateSingleRecord = (operation, record) => {
-    const errors = enforceSchema(schema, record);
-    if (errors) {
-      throw new Error(
-        `Invalid firebase data for ${operation} ${collection}: ${JSON.stringify(
-          record
-        )} : ${errors}`
-      );
-    }
-  };
-  const validateMultipleRecords = (operation, record) => {
-    if (Array.isArray(record)) {
-      record.forEach(validateSingleRecord.bind(null, operation));
-    } else {
-      validateSingleRecord(operation, record);
-    }
-    return record;
-  };
-  return validateMultipleRecords;
+const createValidationFn = (collection, enforceSchemaFn, schema) => (
+  record
+) => {
+  const errors = enforceSchemaFn(schema, record);
+  if (errors) {
+    throw new Error(
+      `Invalid firebase data for ${operation} ${collection}: ${JSON.stringify(
+        record
+      )} : ${errors}`
+    );
+  }
+  return record;
 };
 
-const noOp = (operation, record) => record;
+const noOp = (record) => record;
 
-module.exports = ({ collection, config, enforceSchema, schema }) =>
+module.exports = ({ collection, config, enforceSchemaFn, schema }) =>
   config.validate.data && schema
-    ? createValidationFn(collection, enforceSchema, schema)
+    ? createValidationFn(collection, enforceSchemaFn, schema)
     : noOp;

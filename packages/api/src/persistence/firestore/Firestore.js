@@ -14,8 +14,9 @@ class Firestore {
   constructor({
     collection,
     config,
-    schema,
-    enforceSchema,
+    fromSchema,
+    toSchema,
+    enforceSchemaFn,
     transformToDoc = identity,
     transformFromDoc = identity,
     transformSearchField = identity,
@@ -28,25 +29,32 @@ class Firestore {
       collection = `${collection}_${config.dataSourceOptions.collectionSuffix}`;
     }
 
-    const validate = createValidationFn({
+    const validateTo = createValidationFn({
       collection,
       config,
-      enforceSchema,
-      schema,
+      enforceSchemaFn,
+      schema: toSchema,
     });
+
+    const validateFrom = createValidationFn({
+      collection,
+      config,
+      enforceSchemaFn,
+      schema: fromSchema,
+    });
+
     const args = {
       collection,
       db,
-      transformToDoc,
-      transformFromDoc,
+      transformToDoc: (record) => validateTo(transformToDoc(record)),
+      transformFromDoc: (document) => validateFrom(transformFromDoc(document)),
       transformSearchField,
-      validate,
     };
-    this.count = count.bind(this, args);
-    this.create = create.bind(this, args);
-    this.get = get.bind(this, args);
-    this.search = search.bind(this, args);
-    this.update = update.bind(this, args);
+    this.count = count(args);
+    this.create = create(args);
+    this.get = get(args);
+    this.search = search(args);
+    this.update = update(args);
   }
 }
 

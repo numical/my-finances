@@ -1,10 +1,5 @@
-module.exports = async (
-  { collection, db, transformToDoc, validate },
-  id,
-  record
-) => {
+module.exports = ({ collection, db, transformToDoc }) => async (id, record) => {
   const document = transformToDoc(record);
-  validate('pre-update', document);
   const docRef = db.doc(`${collection}/${id}`);
   await docRef.update(record);
   return record;
