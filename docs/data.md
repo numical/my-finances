@@ -79,7 +79,7 @@ erDiagram
 | 6. | private user, gives access to IFA | userAccountType: 'client' |
 
 # Database
-* account / user / model-link / financialModel relations need foreign keys
+* account / user / model-link / model relations need foreign keys
   * structured => SQL
   * but flexibility of no-sql might be good for development  
   * definitely transactional
@@ -105,7 +105,7 @@ erDiagram
   * `user` doc
     * `account` map
       * email
-    * `financialModels` - sub collection
+    * `models` - sub collection
   
 The future:
 * create separate `account` collection

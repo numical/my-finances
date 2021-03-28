@@ -18,7 +18,7 @@ const USER = {
     userId: HASH,
     email: EMAIL,
     pwd: HASH,
-    financialModels: DICTIONARY,
+    models: DICTIONARY,
   },
 };
 

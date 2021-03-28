@@ -1,4 +1,5 @@
 const { DEFAULT, SESSION_TOKEN } = require('my-finances-common');
+const randomString = require('./util/random-string');
 const testApi = require('./util/test-api');
 
 const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;
@@ -8,6 +9,15 @@ const userId =
 const email = 'test.email@acme.org';
 const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
 const userCredentials = { userId, email, pwd };
+
+const testForDefaultModel = (user) => (t) => {
+  const { models } = user;
+  t.ok(models, 'models collection returned ');
+  t.type(models, 'object', 'models is a dictionary');
+  t.ok(models[DEFAULT], 'contains a default model');
+  t.equal(Object.keys(models[DEFAULT]).length, 0, 'default model is empty');
+  t.end();
+};
 
 testApi(async (api, test) => {
   const { status: createUserStatus, body: user, text } = await api
@@ -27,19 +37,7 @@ testApi(async (api, test) => {
     t.end();
   });
 
-  const { financialModels } = user;
-
-  await test('instantiates financial model', (t) => {
-    t.ok(financialModels, 'financial models collection returned ');
-    t.type(financialModels, 'object', 'financial models is a dictionary');
-    t.ok(financialModels[DEFAULT], 'creates a default model');
-    t.equal(
-      Object.keys(financialModels[DEFAULT]).length,
-      0,
-      'default model is empty'
-    );
-    t.end();
-  });
+  await test('instantiates model', testForDefaultModel(user));
 
   const { status: failFetchStatus } = await api.get(`/user/${userId}`);
 
@@ -82,4 +80,11 @@ testApi(async (api, test) => {
     t.same(fetchedUser, user, 'fetched user matches created user');
     t.end();
   });
+
+  await test(
+    'fetched user contains default model',
+    testForDefaultModel(fetchedUser)
+  );
+
+  fetchedUser.models[DEFAULT] = randomString(128);
 });

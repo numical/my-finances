@@ -6,7 +6,7 @@ Note: once Project Setup complete, just type `run` for all available scripts.
 1. set up Firebase elements
    * manual - see [Firebase Setup](./firebase-setup.md)
    * manual - see [Firestore Setup](./firestore-setup.md)
-1. install [pnpm](https://pnpm.js.org/en/) (assuming node already installed)
+1. install [pnpm](https://pnpm.js.org/en/) globally (assuming node already installed)
     * `npm install -g pnpm`
 1. clone project
     * `git clone git@github.com:numical/my-finances.git`

@@ -19,8 +19,8 @@ module.exports = {
       script: series(
         'git clean -dfx',
         'git config core.hooksPath ./local/githooks/',
-        'npx pnpm install -r',
-        'npx nps local.certs'
+        'pnpm install -r',
+        'nps local.certs'
       ),
       description: 'reset entire repo',
     },

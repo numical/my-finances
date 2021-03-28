@@ -1,10 +1,4 @@
-const {
-  baseObject,
-  DICTIONARY,
-  FINANCIAL_MODEL,
-  STRING,
-  USER,
-} = require('../../schemas');
+const { baseObject, STRING, USER } = require('../../schemas');
 
 const USER_DOC = {
   ...baseObject('user_doc'),
@@ -18,18 +12,10 @@ const USER_DOC = {
         email: STRING,
       },
     },
-    financialModels: DICTIONARY,
   },
 };
 
-const FINANCIAL_MODEL_DOC = {
-  ...baseObject('financial_model_doc'),
-  id: STRING,
-};
-
 module.exports = {
-  FINANCIAL_MODEL,
-  FINANCIAL_MODEL_DOC,
   USER,
   USER_DOC,
 };

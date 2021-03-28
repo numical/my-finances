@@ -9,7 +9,7 @@ const transformToDoc = (user) => ({
   account: {
     email: user.email,
   },
-  financialModels: user.financialModels,
+  models: user.models,
 });
 
 const transformFromDoc = (document) => ({
@@ -17,7 +17,7 @@ const transformFromDoc = (document) => ({
   userId: document.userId,
   pwd: document.pwd,
   email: document.account.email,
-  financialModels: document.financialModels,
+  models: document.models,
 });
 
 const transformSearchField = ([field, value]) => {
