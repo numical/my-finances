@@ -1,5 +1,7 @@
+const generateSearchQuey = require('./generate-search-query');
+
 module.exports = ({
-  collection,
+  collections,
   db,
   transformFromDoc,
   transformSearchField,
@@ -9,15 +11,15 @@ module.exports = ({
     return transformFromDoc(document);
   };
 
-  return async (values) => {
-    const collectionRef = db.collection(collection);
-    const query = Object.entries(values)
-      .map(transformSearchField)
-      .reduce(
-        (query, [field, value]) => query.where(field, '==', value),
-        collectionRef
-      );
+  return async ({ parentIds, criteria }) => {
+    const query = generateSearchQuey({
+      collections,
+      criteria,
+      db,
+      parentIds,
+      transformSearchField,
+    });
     const querySnapshot = await query.get();
-    return querySnapshot.size === 0 ? 0 : querySnapshot.docs.map(read);
+    return querySnapshot.size === 0 ? null : querySnapshot.docs.map(read);
   };
 };

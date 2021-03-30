@@ -1,12 +1,12 @@
-const createValidationFn = (collection, enforceSchemaFn, schema) => (
+const createValidationFn = (collections, enforceSchemaFn, schema) => (
   record
 ) => {
   const errors = enforceSchemaFn(schema, record);
   if (errors) {
     throw new Error(
-      `Invalid firebase data for ${operation} ${collection}: ${JSON.stringify(
-        record
-      )} : ${errors}`
+      `Invalid firebase data for ${operation} ${collections.join(
+        ','
+      )}: ${JSON.stringify(record)} : ${errors}`
     );
   }
   return record;
@@ -14,7 +14,7 @@ const createValidationFn = (collection, enforceSchemaFn, schema) => (
 
 const noOp = (record) => record;
 
-module.exports = ({ collection, config, enforceSchemaFn, schema }) =>
+module.exports = ({ collections, config, enforceSchemaFn, schema }) =>
   config.validate.data && schema
-    ? createValidationFn(collection, enforceSchemaFn, schema)
+    ? createValidationFn(collections, enforceSchemaFn, schema)
     : noOp;

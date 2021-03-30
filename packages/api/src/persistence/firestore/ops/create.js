@@ -1,11 +1,17 @@
+const generateCollectionRef = require('./generate-parent-collection-reference');
+
 const DUMMY_ID = 'TwentyCharDBIDFormat';
 
-module.exports = ({ collection, db, transformToDoc }) => async (record) => {
-  const document = transformToDoc({ ...record, id: DUMMY_ID });
+module.exports = ({ collections, db, transformToDoc }) => async ({
+  entity,
+  parentIds,
+}) => {
   // special case as id auto generated
+  const document = transformToDoc({ ...entity, id: DUMMY_ID });
   delete document.id;
-  const collectionRef = db.collection(collection);
+
+  const collectionRef = generateCollectionRef({ collections, db, parentIds });
   const docRef = await collectionRef.add(document);
-  record.id = docRef.id;
-  return record;
+  entity.id = docRef.id;
+  return entity;
 };

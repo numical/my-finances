@@ -16,7 +16,7 @@ const handler = async (req, res, next) => {
     const { userId, email, pwd } = req.body;
     const { users } = req.dataStores;
 
-    const count = await users.count({ email });
+    const count = await users.count({ criteria: { email } });
     if (count > 0) {
       // TODO: reveal this info or not?
       res.status(400).send(`Email address ${email} already in use.`).end();
@@ -24,11 +24,13 @@ const handler = async (req, res, next) => {
     }
 
     const user = await users.create({
-      userId,
-      email,
-      pwd,
-      models: {
-        [DEFAULT]: {},
+      entity: {
+        userId,
+        email,
+        pwd,
+        models: {
+          [DEFAULT]: {},
+        },
       },
     });
 

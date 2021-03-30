@@ -24,7 +24,7 @@ const handler = async (req, res, next) => {
     const { users } = req.dataStores;
 
     const [existingUsers, sessionId] = await Promise.all([
-      users.search({ userId }),
+      users.search({ criteria: { userId } }),
       generateSessionId(),
     ]);
     switch (existingUsers.length) {

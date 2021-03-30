@@ -1,21 +1,16 @@
-const { isObject } = require('../../../util');
+const generateSearchQuey = require('./generate-search-query');
 
-module.exports = ({ collection, db, transformSearchField }) => async (
-  values
-) => {
-  if (isObject(values)) {
-    const collectionRef = db.collection(collection);
-    const query = Object.entries(values)
-      .map(transformSearchField)
-      .reduce(
-        (query, [field, value]) => query.where(field, '==', value),
-        collectionRef
-      );
-    const querySnapshot = await query.get();
-    return querySnapshot.size;
-  } else {
-    const docRef = db.doc(`${collection}/${values}`);
-    const docSnapshot = await docRef.get();
-    return docSnapshot.exists ? 1 : 0;
-  }
+module.exports = ({ collections, db, transformSearchField }) => async ({
+  parentIds,
+  criteria,
+}) => {
+  const query = generateSearchQuey({
+    collections,
+    criteria,
+    db,
+    parentIds,
+    transformSearchField,
+  });
+  const querySnapshot = await query.get();
+  return querySnapshot.size;
 };

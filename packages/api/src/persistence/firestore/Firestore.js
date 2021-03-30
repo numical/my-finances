@@ -1,5 +1,5 @@
 const { Firestore: FirestoreDb } = require('@google-cloud/firestore');
-const { count, create, get, search, update } = require('./ops');
+const { count, create, exists, get, search, update } = require('./ops');
 const createValidationFn = require('./create-validation-fn');
 
 const identity = (o) => o;
@@ -12,7 +12,7 @@ let db;
  */
 class Firestore {
   constructor({
-    collection,
+    collections,
     config,
     fromSchema,
     toSchema,
@@ -26,25 +26,25 @@ class Firestore {
     }
 
     if (config.dataSourceOptions.collectionSuffix) {
-      collection = `${collection}_${config.dataSourceOptions.collectionSuffix}`;
+      collections[0] = `${collections}_${config.dataSourceOptions.collectionSuffix}`;
     }
 
     const validateTo = createValidationFn({
-      collection,
+      collections,
       config,
       enforceSchemaFn,
       schema: toSchema,
     });
 
     const validateFrom = createValidationFn({
-      collection,
+      collections,
       config,
       enforceSchemaFn,
       schema: fromSchema,
     });
 
     const args = {
-      collection,
+      collections,
       db,
       transformToDoc: (record) => validateTo(transformToDoc(record)),
       transformFromDoc: (document) => validateFrom(transformFromDoc(document)),
@@ -52,6 +52,7 @@ class Firestore {
     };
     this.count = count(args);
     this.create = create(args);
+    this.exists = exists(args);
     this.get = get(args);
     this.search = search(args);
     this.update = update(args);

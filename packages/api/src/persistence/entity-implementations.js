@@ -1,9 +1,9 @@
-const { Users } = require('./firestore');
-const InMemory = require('./memory/InMemory');
+const { FireStoreUsers } = require('./firestore');
+const { InMemoryUsers } = require('./memory');
 
 module.exports = {
   users: {
-    memory: InMemory,
-    firestore: Users,
+    memory: InMemoryUsers,
+    firestore: FireStoreUsers,
   },
 };

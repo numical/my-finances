@@ -22,9 +22,10 @@ const USER = {
   },
 };
 
-const FINANCIAL_MODEL = {
-  ...baseObject('financial_model'),
+const MODEL = {
+  ...baseObject('model'),
   id: STRING,
+  data: STRING,
 };
 
 module.exports = {
@@ -32,9 +33,9 @@ module.exports = {
   DBID,
   DICTIONARY,
   EMAIL,
-  FINANCIAL_MODEL,
   HASH,
   init: createEnforceSchemaFunction,
+  MODEL,
   NUMBER,
   STRING,
   USER,

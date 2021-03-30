@@ -28,11 +28,11 @@ const transformSearchField = ([field, value]) => {
   }
 };
 
-class Users extends Firestore {
+class FirestoreUsers extends Firestore {
   constructor(args) {
     super({
       ...args,
-      collection: 'users',
+      collections: ['users'],
       toSchema: USER_DOC,
       fromSchema: USER,
       transformFromDoc,
@@ -42,4 +42,4 @@ class Users extends Firestore {
   }
 }
 
-module.exports = Users;
+module.exports = FirestoreUsers;

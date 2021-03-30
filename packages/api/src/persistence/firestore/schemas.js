@@ -1,4 +1,4 @@
-const { baseObject, STRING, USER } = require('../../schemas');
+const { baseObject, MODEL, STRING, USER } = require('../../schemas');
 
 const USER_DOC = {
   ...baseObject('user_doc'),
@@ -15,7 +15,17 @@ const USER_DOC = {
   },
 };
 
+const MODEL_DOC = {
+  ...baseObject('model_doc'),
+  properties: {
+    id: STRING,
+    data: STRING,
+  },
+};
+
 module.exports = {
+  MODEL,
+  MODEL_DOC,
   USER,
   USER_DOC,
 };

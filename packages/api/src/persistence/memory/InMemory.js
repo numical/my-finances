@@ -7,79 +7,103 @@ const { isObject } = require('../../util');
 const createId = () => randomBytes(10).toString('hex');
 
 class InMemory {
-  #records = {};
-
-  constructor() {
+  constructor(collections) {
     this.count = this.count.bind(this);
     this.create = this.create.bind(this);
     this.get = this.get.bind(this);
     this.search = this.search.bind(this);
     this.update = this.update.bind(this);
+    this.generateId = (ids) => {
+      const idArray = Array.isArray(ids) ? ids : [ids];
+      return collections.reduce(
+        (id, collection, index) => `${id}/${collection}/${idArray[index]}`,
+        ''
+      );
+    };
+    this.docs = {};
   }
 
   /**
    *
-   * @param {Object} record
-   * @returns {Promise<Object>}  - record with id added
-   */
-  async create(record) {
-    const id = createId();
-    const withId = { ...record, id };
-    return this.update(id, withId);
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @param {Object} record
+   * @param entity
+   * @param parentIds
    * @returns {Promise<Object>}
    */
-  async update(id, record) {
-    this.#records[id] = record;
-    return record;
+  async create({ entity, parentIds }) {
+    const id = createId();
+    const ids = parentIds || [];
+    ids.push(id);
+    const withId = { ...entity, id };
+    return this.update({ entity: withId, ids });
   }
 
   /**
    *
-   * @param {string} id
-   * @returns {Promise<Object>} or null
+   * @param entity
+   * @param ids
+   * @returns {Promise<*>}
    */
-  async get(id) {
-    if (isObject(id)) {
-      throw new Error(
-        `datastore get expects a primitive, not an object ${JSON.stringify(id)}`
-      );
-    }
-    return this.#records[id] || null;
+  async update({ entity, ids }) {
+    const id = this.generateId(ids);
+    this.docs[id] = entity;
+    return entity;
   }
 
   /**
    *
-   * @param {Object} values
-   * @returns {Promise<Array<Object>>} - could be empty
+   * @param ids
+   * @returns {Promise<*|null>}
    */
-  async search(values) {
-    return Object.entries(values).reduce(
-      (records, [field, value]) =>
-        records.filter((record) => record[field] === value),
-      Object.values(this.#records)
+  async get(ids) {
+    const id = this.generateId(ids);
+    return this.docs[id] || null;
+  }
+
+  /**
+   *
+   * @param ids
+   * @returns {Promise<boolean>}
+   */
+  async exists(ids) {
+    const id = this.generateId(ids);
+    return !!this.docs[id];
+  }
+
+  /**
+   *
+   * @param parentIds
+   * @param values
+   * @returns {Promise<[string, unknown]>}
+   */
+  async search({ parentIds, criteria }) {
+    const ids = parentIds || [];
+    ids.push('');
+    const idPrefix = this.generateId(ids);
+    const collectionDocs = Object.entries(this.docs).reduce(
+      (docs, [id, doc]) => {
+        if (id.startsWith(idPrefix)) {
+          docs.push(doc);
+        }
+        return docs;
+      },
+      []
+    );
+
+    return Object.entries(criteria).reduce(
+      (docs, [field, value]) => docs.filter((doc) => doc[field] === value),
+      collectionDocs
     );
   }
 
   /**
    *
-   * @param {Object} value
+   * @param parentIds
+   * @param criteria
    * @returns {Promise<number>}
    */
-  async count(value) {
-    if (isObject(value)) {
-      const records = await this.search(value);
-      return records.length;
-    } else if (this.#records[value]) {
-      return 1;
-    } else {
-      return 0;
-    }
+  async count({ parentIds, criteria }) {
+    const results = await this.search({ parentIds, criteria });
+    return results.length;
   }
 }
 

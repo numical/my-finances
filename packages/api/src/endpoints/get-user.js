@@ -14,7 +14,7 @@ const handler = async (req, res, next) => {
     const { userId } = req.params;
     const { users } = req.dataStores;
 
-    const [user] = await users.search({ userId });
+    const [user] = await users.search({ criteria: { userId } });
 
     if (user) {
       res.locals.body = user;
