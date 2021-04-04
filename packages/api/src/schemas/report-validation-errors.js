@@ -1,11 +1,12 @@
 const extractMessage = (error) => {
-  switch (error.keyword) {
+  const { dataPath, keyword, message, type } = error;
+  switch (keyword) {
     case 'required':
-      return error.message;
+      return message;
     case 'format':
-      return `${error.dataPath} ${error.message}`;
+      return `${dataPath} ${message}`;
     case 'type':
-      return `${error.dataPath} ${error.message}`;
+      return `${dataPath || 'field'} ${message}`;
     case 'allRequired':
       return 'missing required value';
     default:

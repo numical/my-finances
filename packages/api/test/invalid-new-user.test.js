@@ -1,16 +1,16 @@
 const testApi = require('./util/test-api');
 
-const userId =
+const authId =
   '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
 const email = 'test.email@acme.org';
 const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
 
 const invalidUserCredentials = {
-  'missing email': { userId },
-  'missing pwd': { userId, email },
-  'invalid user id': { userId: 'not a 64 character hash', email, pwd },
-  'invalid email': { userId, email: 'not a valid email address', pwd },
-  'invalid pwd': { userId, email, pwd: 12345 },
+  'missing email': { authId },
+  'missing pwd': { authId, email },
+  'invalid auth id': { authId: 'not a 64 character hash', email, pwd },
+  'invalid email': { authId, email: 'not a valid email address', pwd },
+  'invalid pwd': { authId, email, pwd: 12345 },
 };
 
 testApi(async (api, test) => {

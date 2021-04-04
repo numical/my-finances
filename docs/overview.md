@@ -35,4 +35,4 @@ Currently in its [own repo](https://github.com/numical/svelte-layout) and deploy
 * Personal Financial Model (PFM) - its [repo](https://github.com/numical/sparse-cube-model) to be moved into this monorepo
 * Server-side will be primarily [GCP Cloud Run](https://cloud.google.com/run/) based on invesitagtions carried out by [whispers project](https://github.com/numical/whispers)
 
-Other enabling technologies listed in [technical_references](./docs/technical_references.md)
+Other enabling technologies listed in [technical_references](technical_references.md)

@@ -1,4 +1,4 @@
-const validateCollectionParentIds = require('./validate-collection-parent-ids');
+const { validateCollectionParentIds } = require('../validate');
 module.exports = ({ collections, db, parentIds }) => {
   validateCollectionParentIds({ collections, parentIds });
   return parentIds

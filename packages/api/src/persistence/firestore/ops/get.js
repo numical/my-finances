@@ -1,7 +1,13 @@
-const generateDocRef = require('./generate-document-reference');
+const { generateDocRef } = require('../generate');
 
-module.exports = ({ collections, db, transformFromDoc }) => async (ids) => {
+module.exports = ({ collections, db, validate }) => async (ids) => {
   const docRef = generateDocRef({ collections, db, ids });
   const snapshot = await docRef.get();
-  return snapshot.exists ? transformFromDoc(snapshot.data()) : null;
+  if (snapshot.exists) {
+    const entity = snapshot.data();
+    entity.id = docRef.id;
+    return validate(entity);
+  } else {
+    return null;
+  }
 };

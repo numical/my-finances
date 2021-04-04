@@ -1,29 +1,35 @@
-const { baseObject, HASH, USER } = require('../schemas');
-
-const requestSchema = {
-  ...baseObject('get_user_request'),
-  properties: {
-    userId: HASH,
-  },
-};
-
-const responseSchema = USER;
+const { USER } = require('../schemas');
 
 const handler = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const { users } = req.dataStores;
+    const { id } = req.params;
+    const { users, models } = req.dataStores;
 
-    const [user] = await users.search({ criteria: { userId } });
+    const user = await users.get(id);
+
+    if (!user) {
+      req.log.clientInfo(
+        `404: ${req.method} ${req.url}: unknown user id  '${id}'`
+      );
+      res.status(404).end();
+      return;
+    }
+
+    const userModels = await models.search({ parentIds: [id] });
+    if (userModels.length === 0) {
+      req.log.error(`500: no models found for user id '${id}'`);
+      res.status(500).end();
+    }
+
+    user.models = userModels.reduce((dictionary, model) => {
+      dictionary[model.description] = model;
+      return dictionary;
+    }, {});
 
     if (user) {
       res.locals.body = user;
       res.status(200).json(user);
     } else {
-      req.log.clientInfo(
-        `404: ${req.method} ${req.url}: unknown userId '${userId}'`
-      );
-      res.status(404).end();
     }
   } catch (err) {
     next(err);
@@ -32,9 +38,8 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'get',
-  path: '/user/:userId',
+  path: '/user/:id',
   handler,
   requiresAuth: true,
-  requestSchema,
-  responseSchema,
+  responseSchema: USER,
 };

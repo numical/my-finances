@@ -14,6 +14,7 @@
 | | accountId | accountId (*) | | | reference |
 | | | userId (*)|  | | reference |
 | | | financialModelId | | | reference |
+| | authId | | | | client-generated hash |
 | type | type | type | | | enum string|
 | status | status | status | | | enum string|
 (*): either/or

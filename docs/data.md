@@ -13,7 +13,7 @@ erDiagram
   }
   USER {
     string id
-    string userId
+    string authId
     string pwd
   }
   USER-ACCOUNT-LINK {
@@ -46,7 +46,7 @@ erDiagram
 
 ## User
 * the runtime user identity
-* userId is public hash generated from email, so **can change** 
+* authId is public hash generated from email, so **can change** 
 * pwd is also a hash
 
 ## User Account Link

@@ -1,90 +1,113 @@
 const { DEFAULT, SESSION_TOKEN } = require('my-finances-common');
-const randomString = require('./util/random-string');
-const testApi = require('./util/test-api');
+const { randomString, testApi, testUserModel } = require('./util');
 
 const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;
 
-const userId =
+const authId =
   '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
 const email = 'test.email@acme.org';
 const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
-const userCredentials = { userId, email, pwd };
-
-const testForDefaultModel = (user) => (t) => {
-  const { models } = user;
-  t.ok(models, 'models collection returned ');
-  t.type(models, 'object', 'models is a dictionary');
-  t.ok(models[DEFAULT], 'contains a default model');
-  t.equal(Object.keys(models[DEFAULT]).length, 0, 'default model is empty');
-  t.end();
-};
+const userCredentials = { authId, email, pwd };
+const modelContent = randomString(128);
 
 testApi(async (api, test) => {
-  const { status: createUserStatus, body: user, text } = await api
-    .post('/users')
-    .send(userCredentials);
+  const journey = {};
 
-  await test('creates user when valid credentials passed', (t) => {
+  await test('creates user when valid credentials passed', async (t) => {
+    const { status, body, text } = await api
+      .post('/users')
+      .send(userCredentials);
+    const { authId, email, pwd } = body;
+
     t.ok(text, `response received: '${text}'`);
-    t.equal(createUserStatus, 200, 'creates user');
+    t.equal(status, 200, 'creates user');
+    t.same({ authId, email, pwd }, userCredentials, 'returns user credentials');
+
+    journey.user = body;
     t.end();
   });
 
-  const { userId, email, pwd } = user;
+  await test('instantiates model', testUserModel(journey.user));
 
-  await test('returns user credentials', (t) => {
-    t.same({ userId, email, pwd }, userCredentials);
+  await test('cannot fetch user until session created', async (t) => {
+    const { status } = await api.get(`/user/${journey.user.id}`);
+
+    t.equal(status, 401, 'should be a 401');
+
     t.end();
   });
 
-  await test('instantiates model', testForDefaultModel(user));
+  await test('creates session', async (t) => {
+    const { status, body, headers } = await api
+      .post('/sessions')
+      .send({ authId, pwd });
+    const { sessionId, timeout } = body;
+    const cookies = headers['set-cookie'];
 
-  const { status: failFetchStatus } = await api.get(`/user/${userId}`);
-
-  await test('cannot fetch user until session created', (t) => {
-    t.equal(failFetchStatus, 401, 'should be a 401');
-    t.end();
-  });
-
-  const sessionResponse = await api.post('/sessions').send({ userId, pwd });
-
-  await test('creates session', (t) => {
-    t.equal(sessionResponse.status, 200, 'should be a 200');
-    t.end();
-  });
-
-  const { body } = sessionResponse;
-  const { sessionId, timeout } = body;
-
-  await test('session holds necessary fields', (t) => {
+    t.equal(status, 200, 'should be a 200');
     t.ok(sessionId, 'returns a session id');
     t.ok(timeout, 'returns a timeout');
-    t.end();
-  });
-
-  const { headers } = sessionResponse;
-  const cookies = headers['set-cookie'];
-
-  await test('session cookie returned', (t) => {
     t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie');
+
+    journey.sessionId = sessionId;
+    journey.cookies = cookies;
     t.end();
   });
 
-  const { status: fetchStatus, body: fetchedUser } = await api
-    .get(`/user/${userId}`)
-    .set(SESSION_TOKEN, sessionId)
-    .set('Cookie', cookies);
+  await test('can fetch user when certs data sent', async (t) => {
+    const { status, body } = await api
+      .get(`/user/${journey.user.id}`)
+      .set(SESSION_TOKEN, journey.sessionId)
+      .set('Cookie', journey.cookies);
 
-  await test('can fetch user when certs data sent', (t) => {
-    t.equal(fetchStatus, 200);
-    t.same(fetchedUser, user, 'fetched user matches created user');
+    t.equal(status, 200, 'should be a 200');
+    t.same(body, journey.user, 'fetched user matches created user');
+    testUserModel(body);
+
+    journey.model = body.models[DEFAULT];
+    t.end();
+  });
+
+  await test('can fetch newly created model directly', async (t) => {
+    const { status, body } = await api
+      .get(`/user/${journey.user.id}/models/${journey.model.id}`)
+      .set(SESSION_TOKEN, journey.sessionId)
+      .set('Cookie', journey.cookies);
+
+    t.equal(status, 200, 'should be a 200');
+    t.same(body, journey.model, 'directly fetched model matches user model');
+
+    t.end();
+  });
+
+  await test('can update a model', async (t) => {
+    journey.model.data = modelContent;
+    const { status } = await api
+      .put(`/user/${journey.user.id}/models/${journey.model.id}`)
+      .send(journey.model)
+      .set(SESSION_TOKEN, journey.sessionId)
+      .set('Cookie', journey.cookies);
+
+    t.equal(status, 200, 'should be a 200');
+
+    t.end();
+  });
+
+  await test('fetched user has updated model', async (t) => {
+    const { status, body } = await api
+      .get(`/user/${journey.user.id}`)
+      .set(SESSION_TOKEN, journey.sessionId)
+      .set('Cookie', journey.cookies);
+
+    t.equal(status, 200, 'should be a 200');
+
+    journey.user = body;
+    journey.model = body.models[DEFAULT];
     t.end();
   });
 
   await test(
-    'fetched user contains default model',
-    testForDefaultModel(fetchedUser)
+    'fetched user has updated model',
+    testUserModel(journey.user, DEFAULT, modelContent)
   );
-
-  fetchedUser.models[DEFAULT] = randomString(128);
 });

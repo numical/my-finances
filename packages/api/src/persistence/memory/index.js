@@ -1,5 +1,3 @@
-const InMemoryUsers = require('./InMemoryUsers');
+const InMemory = require('./InMemory');
 
-module.exports = {
-  InMemoryUsers,
-};
+module.exports = InMemory;

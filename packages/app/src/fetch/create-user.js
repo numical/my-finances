@@ -10,7 +10,7 @@ authStore.subscribe((auth) => {
 
 const createUser = async () => {
   const body = {
-    userId: emailHash,
+    authId: emailHash,
     email,
     pwd: pwdHash,
   };
@@ -21,7 +21,7 @@ const createUser = async () => {
   });
 
   authStore.setValues({
-    emailHash: user.userId,
+    emailHash: user.authId,
     pwdHash: user.pwd,
   });
 

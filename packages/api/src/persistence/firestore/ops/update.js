@@ -1,11 +1,8 @@
-const generateDocRef = require('./generate-document-reference');
+const { generateDocRef } = require('../generate');
 
-module.exports = ({ collections, db, transformToDoc }) => async ({
-  entity,
-  ids,
-}) => {
+module.exports = ({ collections, db, validate }) => async ({ entity, ids }) => {
+  validate(entity);
   const docRef = generateDocRef({ collections, db, ids });
-  const document = transformToDoc(entity);
-  await docRef.update(document);
+  await docRef.update(entity);
   return entity;
 };

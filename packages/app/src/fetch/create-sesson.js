@@ -2,9 +2,9 @@ import { Auth } from '../states';
 import { authStore } from '../stores';
 import wrapFetch from './wrap-fetch';
 
-let userId, pwd;
+let authId, pwd;
 authStore.subscribe((auth) => {
-  userId = auth.userId;
+  authId = auth.userId;
   pwd = auth.pwdHash;
 });
 
@@ -13,7 +13,7 @@ export default async () => {
     authStore.setValue('state', Auth.AUTHENTICATING);
 
     const body = {
-      userId,
+      authId,
       pwd,
     };
 

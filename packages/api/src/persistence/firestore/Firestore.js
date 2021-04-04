@@ -1,8 +1,6 @@
 const { Firestore: FirestoreDb } = require('@google-cloud/firestore');
 const { count, create, exists, get, search, update } = require('./ops');
-const createValidationFn = require('./create-validation-fn');
-
-const identity = (o) => o;
+const createValidationFn = require('./validate/create-validation-fn');
 
 let db;
 
@@ -11,16 +9,7 @@ let db;
  * Yes, yes, this would be easier with a TypeScript interface...
  */
 class Firestore {
-  constructor({
-    collections,
-    config,
-    fromSchema,
-    toSchema,
-    enforceSchemaFn,
-    transformToDoc = identity,
-    transformFromDoc = identity,
-    transformSearchField = identity,
-  }) {
+  constructor({ collections, config, schema, enforceSchemaFn }) {
     if (!db) {
       db = new FirestoreDb();
     }
@@ -29,26 +18,17 @@ class Firestore {
       collections[0] = `${collections}_${config.dataSourceOptions.collectionSuffix}`;
     }
 
-    const validateTo = createValidationFn({
+    const validate = createValidationFn({
       collections,
       config,
       enforceSchemaFn,
-      schema: toSchema,
-    });
-
-    const validateFrom = createValidationFn({
-      collections,
-      config,
-      enforceSchemaFn,
-      schema: fromSchema,
+      schema,
     });
 
     const args = {
       collections,
       db,
-      transformToDoc: (record) => validateTo(transformToDoc(record)),
-      transformFromDoc: (document) => validateFrom(transformFromDoc(document)),
-      transformSearchField,
+      validate,
     };
     this.count = count(args);
     this.create = create(args);

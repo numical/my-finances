@@ -7,7 +7,7 @@ const { isObject } = require('../../util');
 const createId = () => randomBytes(10).toString('hex');
 
 class InMemory {
-  constructor(collections) {
+  constructor({ collections }) {
     this.count = this.count.bind(this);
     this.create = this.create.bind(this);
     this.get = this.get.bind(this);
@@ -89,10 +89,12 @@ class InMemory {
       []
     );
 
-    return Object.entries(criteria).reduce(
-      (docs, [field, value]) => docs.filter((doc) => doc[field] === value),
-      collectionDocs
-    );
+    return criteria
+      ? Object.entries(criteria).reduce(
+          (docs, [field, value]) => docs.filter((doc) => doc[field] === value),
+          collectionDocs
+        )
+      : collectionDocs;
   }
 
   /**

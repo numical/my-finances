@@ -1,4 +1,4 @@
-const generateDocRef = require('./generate-document-reference');
+const { generateDocRef } = require('../generate');
 
 module.exports = ({ collections, db }) => async (ids) => {
   const docRef = generateDocRef({ collections, db, ids });

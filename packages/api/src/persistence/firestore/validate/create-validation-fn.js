@@ -1,15 +1,15 @@
 const createValidationFn = (collections, enforceSchemaFn, schema) => (
-  record
+  entity
 ) => {
-  const errors = enforceSchemaFn(schema, record);
+  const errors = enforceSchemaFn(schema, entity);
   if (errors) {
     throw new Error(
-      `Invalid firebase data for ${operation} ${collections.join(
-        ','
-      )}: ${JSON.stringify(record)} : ${errors}`
+      `Invalid firebase data for ${collections.join(',')}: ${JSON.stringify(
+        entity
+      )} : ${errors}`
     );
   }
-  return record;
+  return entity;
 };
 
 const noOp = (record) => record;

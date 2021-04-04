@@ -1,4 +1,4 @@
-const validateCollectionIds = require('./validate-collection-ids');
+const { validateCollectionIds } = require('../validate');
 
 module.exports = ({ collections, db, ids }) => {
   if (!Array.isArray(ids)) {

@@ -2,8 +2,8 @@
 
 # Create User
 * user created on server with:
-    * hashed email as userId
-    * hashed password salted with email as pwd
+    * digest of email as authId
+    * digest of password salted with email as pwd
 * hence
     * from an auth perspective, server never knows email
     * server nevers know password
@@ -13,9 +13,9 @@ sequenceDiagram
   autonumber
   User->>App: email/password
   activate App
-  App->>App: userId = hash(email)
+  App->>App: authId = hash(email)
   App->>App: pwd = hash(email+password)
-  App->>API: POST /users { userId, pwd, user details }
+  App->>API: POST /users { authId, pwd, user details }
   activate API
   API->>API: generate server id
   API->>Datastore: set(id, { ... })
@@ -41,10 +41,10 @@ sequenceDiagram
   User->>App: email/password
   activate App
   App->>App: pwd = hash(email+password)
-  App->>App: id = hash(email)
-  App->>API: POST /sessions { id, pwd }
+  App->>App: authId = hash(email)
+  App->>API: POST /sessions { authId, pwd }
   activate API
-  API->>Datastore: get(id)
+  API->>Datastore: get(authId)
   activate Datastore
   Datastore->>API: { pwd }
   deactivate Datastore

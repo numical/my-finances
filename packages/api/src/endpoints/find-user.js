@@ -1,0 +1,40 @@
+const { baseObject, HASH, USER } = require('../schemas');
+
+const requestSchema = {
+  ...baseObject('get_user_request'),
+  properties: {
+    authId: HASH,
+  },
+};
+
+const responseSchema = USER;
+
+const handler = async (req, res, next) => {
+  try {
+    const { email } = req.query;
+    const { users } = req.dataStores;
+
+    const [user] = await users.search({ criteria: { email } });
+
+    if (user) {
+      res.locals.body = user;
+      res.status(200).json(user);
+    } else {
+      req.log.clientInfo(
+        `404: ${req.method} ${req.url}: unknown user email '${email}'`
+      );
+      res.status(404).end();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  verb: 'get',
+  path: '/user',
+  handler,
+  requiresAuth: true,
+  requestSchema,
+  responseSchema,
+};

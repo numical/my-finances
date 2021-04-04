@@ -1,5 +1,3 @@
-const FireStoreUsers = require('./FirestoreUsers');
+const FireStore = require('./Firestore');
 
-module.exports = {
-  FireStoreUsers,
-};
+module.exports = FireStore;

@@ -1,6 +1,7 @@
 const { test } = require('tap');
-const { get404, post400 } = require('./util/test-for-http-error');
-const testApi = require('./util/test-api');
+const { testApi, testForHttpError } = require('./util');
+
+const { get404, post400 } = testForHttpError;
 
 testApi((api) => {
   // unknown
@@ -9,12 +10,12 @@ testApi((api) => {
   // incorrect methods
   test('GET /users disallowed', get404(api, '/users'));
   test('GET /sessions disallowed', get404(api, '/sessions'));
-  test('GET /financial-models disallowed', get404(api, '/financial-models'));
+  test('GET /models disallowed', get404(api, '/models'));
 
   // create user - invalid requests
   test('create user without body returns 400', post400(api, '/users', {}));
   test(
-    'create user without body returns 400',
-    post400(api, '/users', { userId: 'test' })
+    'create user without all necessary fields returns 400',
+    post400(api, '/users', { authId: undefined })
   );
 });

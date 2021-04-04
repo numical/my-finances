@@ -15,7 +15,7 @@ const USER = {
   ...baseObject('user'),
   properties: {
     id: DBID,
-    userId: HASH,
+    authId: HASH,
     email: EMAIL,
     pwd: HASH,
     models: DICTIONARY,
@@ -24,8 +24,11 @@ const USER = {
 
 const MODEL = {
   ...baseObject('model'),
-  id: STRING,
-  data: STRING,
+  properties: {
+    id: DBID,
+    data: STRING,
+    description: STRING,
+  },
 };
 
 module.exports = {
