@@ -30,11 +30,12 @@ class InMemory {
    * @returns {Promise<Object>}
    */
   async create({ entity, parentIds }) {
-    const id = createId();
+    if (!entity.id) {
+      entity.id = createId();
+    }
     const ids = parentIds || [];
-    ids.push(id);
-    const withId = { ...entity, id };
-    return this.update({ entity: withId, ids });
+    ids.push(entity.id);
+    return this.update({ entity, ids });
   }
 
   /**

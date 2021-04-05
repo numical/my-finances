@@ -14,8 +14,11 @@ class Firestore {
       db = new FirestoreDb();
     }
 
-    if (config.dataSourceOptions.collectionSuffix) {
-      collections[0] = `${collections}_${config.dataSourceOptions.collectionSuffix}`;
+    const { collectionSuffix } = config.dataSourceOptions;
+    if (collectionSuffix) {
+      collections = collections.map(
+        (collection) => `${collection}_${collectionSuffix}`
+      );
     }
 
     const validate = createValidationFn({

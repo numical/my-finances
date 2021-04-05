@@ -16,7 +16,7 @@ module.exports = async (customise = {}) => {
   logger.info(config.report());
 
   const enforceSchemaFn = schemas.init({ logger });
-  const dataStores = persistence.init({ config, enforceSchemaFn });
+  const dataStores = await persistence.init({ config, enforceSchemaFn });
 
   const app = express();
   app.use(bodyParser.json());

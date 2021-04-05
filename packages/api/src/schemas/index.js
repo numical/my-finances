@@ -5,11 +5,19 @@ const NUMBER = { type: 'number' };
 const STRING = { type: 'string' };
 const OBJECT = { type: 'object' };
 
+// for formats, see ./formats.js
 const DBID = { ...STRING, format: 'dbid' };
 const DICTIONARY = { ...OBJECT, additionalProperties: OBJECT };
 const EMAIL = { ...STRING, format: 'email' };
 const HASH = { ...STRING, format: 'hash' };
 const UUID = { ...STRING, format: 'uuid' };
+
+const ACCOUNT = {
+  ...baseObject('account'),
+  properties: {
+    id: STRING,
+  },
+};
 
 const USER = {
   ...baseObject('user'),
@@ -32,6 +40,7 @@ const MODEL = {
 };
 
 module.exports = {
+  ACCOUNT,
   baseObject,
   DBID,
   DICTIONARY,

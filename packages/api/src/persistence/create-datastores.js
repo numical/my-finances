@@ -1,8 +1,12 @@
 const FireStore = require('./firestore');
 const InMemory = require('./memory');
-const { MODEL, USER } = require('../schemas');
+const { ACCOUNT, MODEL, USER } = require('../schemas');
 
 const ENTITIES = {
+  accounts: {
+    collections: ['accounts'],
+    schema: ACCOUNT,
+  },
   users: {
     collections: ['users'],
     schema: USER,
