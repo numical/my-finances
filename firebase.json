@@ -16,5 +16,9 @@
       }
     } ]
 
+  },
+  "firestore": {
+    "rules": "./remote/firestore/firestore.rules",
+    "indexes": "./remote/firestore/firestore.indexes.json"
   }
 }

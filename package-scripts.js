@@ -115,6 +115,14 @@ module.exports = {
           description: 'clear the entire database',
         },
       },
+      update: {
+        db: {
+          indexes: {
+            script: 'firebase deploy --only firestore:indexes',
+            description: 'update firestore index exclusions',
+          },
+        },
+      },
     },
     api: {
       test: {

@@ -20,3 +20,6 @@
 * https://firebase.google.com/docs/cli
 * follow setup instructions
 
+# Notes
+* Default GCP resource location has to be set up
+

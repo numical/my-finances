@@ -1,0 +1,64 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "acccounts",
+      "fieldPath": "lastUpdated",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "acccounts",
+      "fieldPath": "version",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "lastUpdated",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "version",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "pwd",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "authId",
+      "indexes": [
+        { "queryScope": "COLLECTION_GROUP", "order":  "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "email",
+      "indexes": [
+        { "queryScope": "COLLECTION_GROUP", "order":  "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "models",
+      "fieldPath": "lastUpdated",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "models",
+      "fieldPath": "version",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "models",
+      "fieldPath": "data",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "models",
+      "fieldPath": "description",
+      "indexes": []
+    }
+  ]
+}
