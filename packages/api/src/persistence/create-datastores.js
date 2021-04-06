@@ -1,6 +1,6 @@
 const FireStore = require('./firestore');
 const InMemory = require('./memory');
-const { ACCOUNT, MODEL, USER } = require('../schemas');
+const { ACCOUNT, MODEL, USER_DOC } = require('../schemas');
 
 const ENTITIES = {
   accounts: {
@@ -9,7 +9,7 @@ const ENTITIES = {
   },
   users: {
     collections: ['accounts', 'users'],
-    schema: USER,
+    schema: USER_DOC,
   },
   models: {
     collections: ['accounts', 'users', 'models'],

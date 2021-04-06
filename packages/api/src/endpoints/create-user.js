@@ -40,9 +40,6 @@ const handler = async (req, res, next) => {
         authId,
         email,
         pwd,
-        models: {
-          [DEFAULT]: {},
-        },
       },
       parentIds: [accountId],
     });

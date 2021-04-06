@@ -30,6 +30,16 @@ const USER = {
   },
 };
 
+const USER_DOC = {
+  ...baseObject('user_doc'),
+  properties: {
+    id: DBID,
+    authId: HASH,
+    email: EMAIL,
+    pwd: HASH,
+  },
+};
+
 const MODEL = {
   ...baseObject('model'),
   properties: {
@@ -51,5 +61,6 @@ module.exports = {
   NUMBER,
   STRING,
   USER,
+  USER_DOC,
   UUID,
 };
