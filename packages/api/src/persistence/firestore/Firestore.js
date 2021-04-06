@@ -16,9 +16,15 @@ class Firestore {
 
     const { collectionSuffix } = config.dataSourceOptions;
     if (collectionSuffix) {
+      /*
       collections = collections.map(
         (collection) => `${collection}_${collectionSuffix}`
       );
+      */
+      if (collections.length < 1) {
+        throw new Error('Expecting top level collection');
+      }
+      collections[0] = `${collections[0]}_${collectionSuffix}`;
     }
 
     const validate = createValidationFn({

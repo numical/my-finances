@@ -11,10 +11,15 @@ const responseSchema = USER;
 
 const handler = async (req, res, next) => {
   try {
-    const { email } = req.query;
-    const { users } = req.dataStores;
+    const { dataStores, params, query } = req;
+    const { users, models } = dataStores;
+    const { accountId } = params;
+    const { email } = query;
 
-    const [user] = await users.search({ criteria: { email } });
+    const [user] = await users.search({
+      criteria: { email },
+      parentIds: [accountId],
+    });
 
     if (user) {
       res.locals.body = user;
@@ -32,7 +37,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'get',
-  path: '/user',
+  path: '/account/:accountId/user',
   handler,
   requiresAuth: true,
   requestSchema,

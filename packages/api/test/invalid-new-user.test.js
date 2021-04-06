@@ -17,7 +17,7 @@ testApi(async (api, test) => {
   for (const [useCase, credentials] of Object.entries(invalidUserCredentials)) {
     await test(`rejects invalid credentials - ${useCase}`, async (t) => {
       const { status: invalidCredentialsStatus } = await api
-        .post('/users')
+        .post('/account/personal/users')
         .send(credentials);
       t.equal(invalidCredentialsStatus, 400, 'returns 400 error');
       t.end();

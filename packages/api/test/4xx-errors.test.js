@@ -13,9 +13,12 @@ testApi((api) => {
   test('GET /models disallowed', get404(api, '/models'));
 
   // create user - invalid requests
-  test('create user without body returns 400', post400(api, '/users', {}));
+  test(
+    'create user without body returns 400',
+    post400(api, '/account/personal/users', {})
+  );
   test(
     'create user without all necessary fields returns 400',
-    post400(api, '/users', { authId: undefined })
+    post400(api, '/account/personal/users', { authId: undefined })
   );
 });

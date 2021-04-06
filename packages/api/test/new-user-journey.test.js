@@ -15,7 +15,7 @@ testApi(async (api, test) => {
 
   await test('creates user when valid credentials passed', async (t) => {
     const { status, body, text } = await api
-      .post('/users')
+      .post('/account/personal/users')
       .send(userCredentials);
     const { authId, email, pwd } = body;
 
@@ -30,7 +30,9 @@ testApi(async (api, test) => {
   await test('instantiates model', testUserModel(journey.user));
 
   await test('cannot fetch user until session created', async (t) => {
-    const { status } = await api.get(`/user/${journey.user.id}`);
+    const { status } = await api.get(
+      `/account/personal/user/${journey.user.id}`
+    );
 
     t.equal(status, 401, 'should be a 401');
 
@@ -39,24 +41,26 @@ testApi(async (api, test) => {
 
   await test('creates session', async (t) => {
     const { status, body, headers } = await api
-      .post('/sessions')
+      .post('/account/personal/sessions')
       .send({ authId, pwd });
     const { sessionId, timeout } = body;
     const cookies = headers['set-cookie'];
 
     t.equal(status, 200, 'should be a 200');
-    t.ok(sessionId, 'returns a session id');
-    t.ok(timeout, 'returns a timeout');
-    t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie');
+    if (status === 200) {
+      t.ok(sessionId, 'returns a session id');
+      t.ok(timeout, 'returns a timeout');
+      t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie');
 
-    journey.sessionId = sessionId;
-    journey.cookies = cookies;
+      journey.sessionId = sessionId;
+      journey.cookies = cookies;
+    }
     t.end();
   });
 
   await test('can fetch user when certs data sent', async (t) => {
     const { status, body } = await api
-      .get(`/user/${journey.user.id}`)
+      .get(`/account/personal/user/${journey.user.id}`)
       .set(SESSION_TOKEN, journey.sessionId)
       .set('Cookie', journey.cookies);
 
@@ -70,7 +74,9 @@ testApi(async (api, test) => {
 
   await test('can fetch newly created model directly', async (t) => {
     const { status, body } = await api
-      .get(`/user/${journey.user.id}/models/${journey.model.id}`)
+      .get(
+        `/account/personal/user/${journey.user.id}/models/${journey.model.id}`
+      )
       .set(SESSION_TOKEN, journey.sessionId)
       .set('Cookie', journey.cookies);
 
@@ -83,7 +89,9 @@ testApi(async (api, test) => {
   await test('can update a model', async (t) => {
     journey.model.data = modelContent;
     const { status } = await api
-      .put(`/user/${journey.user.id}/models/${journey.model.id}`)
+      .put(
+        `/account/personal/user/${journey.user.id}/models/${journey.model.id}`
+      )
       .send(journey.model)
       .set(SESSION_TOKEN, journey.sessionId)
       .set('Cookie', journey.cookies);
@@ -95,7 +103,7 @@ testApi(async (api, test) => {
 
   await test('fetched user has updated model', async (t) => {
     const { status, body } = await api
-      .get(`/user/${journey.user.id}`)
+      .get(`/account/personal/user/${journey.user.id}`)
       .set(SESSION_TOKEN, journey.sessionId)
       .set('Cookie', journey.cookies);
 

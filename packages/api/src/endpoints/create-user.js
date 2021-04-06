@@ -13,16 +13,18 @@ const responseSchema = USER;
 
 const handler = async (req, res, next) => {
   try {
-    const { authId, email, pwd } = req.body;
-    const { users, models } = req.dataStores;
+    const { body, dataStores, params } = req;
+    const { authId, email, pwd } = body;
+    const { users, models } = dataStores;
+    const { accountId } = params;
 
     /*
      * Belt'n'braces: authId is a function of email so do not
      * really need to test both.
      */
     const counts = await Promise.all([
-      users.count({ criteria: { authId } }),
-      users.count({ criteria: { email } }),
+      users.count({ criteria: { authId }, parentIds: [accountId] }),
+      users.count({ criteria: { email }, parentIds: [accountId] }),
     ]);
     if (counts[0] > 0) {
       res.status(400).send(`Auth id ${authId} already in use.`).end();
@@ -42,6 +44,7 @@ const handler = async (req, res, next) => {
           [DEFAULT]: {},
         },
       },
+      parentIds: [accountId],
     });
 
     const model = await models.create({
@@ -49,7 +52,7 @@ const handler = async (req, res, next) => {
         data: '',
         description: DEFAULT,
       },
-      parentIds: [user.id],
+      parentIds: [accountId, user.id],
     });
 
     user.models = {
@@ -65,7 +68,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'post',
-  path: '/users',
+  path: '/account/:accountId/users',
   handler,
   requiresAuth: false,
   requestSchema,

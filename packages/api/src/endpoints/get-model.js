@@ -3,9 +3,9 @@ const { MODEL } = require('../schemas');
 const handler = async (req, res, next) => {
   try {
     const { dataStores, params } = req;
-    const { userId, modelId } = params;
+    const { accountId, userId, modelId } = params;
     const { models } = dataStores;
-    const model = await models.get([userId, modelId]);
+    const model = await models.get([accountId, userId, modelId]);
     res.locals.body = model;
     res.status(200).json(model);
   } catch (err) {
@@ -15,7 +15,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'get',
-  path: '/user/:userId/models/:modelId',
+  path: '/account/:accountId/user/:userId/models/:modelId',
   handler,
   requiresAuth: true,
   responseSchema: MODEL,

@@ -8,11 +8,11 @@ const ENTITIES = {
     schema: ACCOUNT,
   },
   users: {
-    collections: ['users'],
+    collections: ['accounts', 'users'],
     schema: USER,
   },
   models: {
-    collections: ['users', 'models'],
+    collections: ['accounts', 'users', 'models'],
     schema: MODEL,
   },
 };

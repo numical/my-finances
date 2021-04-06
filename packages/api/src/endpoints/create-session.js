@@ -20,17 +20,22 @@ const responseSchema = {
 
 const handler = async (req, res, next) => {
   try {
-    const { authId, pwd } = req.body;
-    const { users } = req.dataStores;
+    const { body, dataStores, params } = req;
+    const { authId, pwd } = body;
+    const { users } = dataStores;
+    const { accountId } = params;
 
     const [existingUsers, sessionId] = await Promise.all([
-      users.search({ criteria: { authId } }),
+      users.search({
+        criteria: { authId },
+        parentIds: [accountId],
+      }),
       generateSessionId(),
     ]);
     switch (existingUsers.length) {
       case 0:
         req.log.clientInfo(
-          `400: ${req.method} ${req.url}: unknown user id '${id}'`
+          `400: ${req.method} ${req.url}: unknown user auth id '${authId}'`
         );
         res.status(400).end();
         break;
@@ -65,7 +70,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'post',
-  path: '/sessions',
+  path: '/account/:accountId/sessions',
   handler,
   requiresAuth: false,
   requestSchema,
