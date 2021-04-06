@@ -1,14 +1,13 @@
 const { DEFAULT } = require('my-finances-common');
-const { baseObject, EMAIL, HASH, STRING, USER } = require('../schemas');
+const { createSchema, EMAIL, HASH, STRING, USER } = require('../schemas');
+const { version } = require('../../package.json');
 
-const requestSchema = {
-  ...baseObject('create_user_request'),
-  properties: {
-    authId: HASH,
-    email: EMAIL,
-    pwd: STRING,
-  },
-};
+const requestSchema = createSchema('create_user_request', {
+  authId: HASH,
+  email: EMAIL,
+  pwd: STRING,
+});
+
 const responseSchema = USER;
 
 const handler = async (req, res, next) => {
@@ -35,11 +34,15 @@ const handler = async (req, res, next) => {
       return;
     }
 
+    const lastUpdated = Date.now();
+
     const user = await users.create({
       entity: {
         authId,
         email,
         pwd,
+        lastUpdated,
+        version,
       },
       parentIds: [accountId],
     });
@@ -48,6 +51,8 @@ const handler = async (req, res, next) => {
       entity: {
         data: '',
         description: DEFAULT,
+        lastUpdated,
+        version,
       },
       parentIds: [accountId, user.id],
     });

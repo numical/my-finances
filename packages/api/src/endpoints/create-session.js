@@ -1,22 +1,16 @@
 const config = require('../config');
 const { cookie, generateJWT, generateSessionId } = require('../auth');
-const { baseObject, HASH, NUMBER, STRING, UUID } = require('../schemas');
+const { createSchema, HASH, NUMBER, STRING, UUID } = require('../schemas');
 
-const requestSchema = {
-  ...baseObject('create_session_request'),
-  properties: {
-    authId: HASH,
-    pwd: STRING,
-  },
-};
+const requestSchema = createSchema('create_session_request', {
+  authId: HASH,
+  pwd: STRING,
+});
 
-const responseSchema = {
-  ...baseObject('create_session_response'),
-  properties: {
-    sessionId: UUID,
-    timeout: NUMBER,
-  },
-};
+const responseSchema = createSchema('create_session_response', {
+  sessionId: UUID,
+  timeout: NUMBER,
+});
 
 const handler = async (req, res, next) => {
   try {
