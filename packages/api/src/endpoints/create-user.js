@@ -22,8 +22,8 @@ const handler = async (req, res, next) => {
      * really need to test both.
      */
     const counts = await Promise.all([
-      users.count({ criteria: { authId }, parentIds: [accountId] }),
-      users.count({ criteria: { email }, parentIds: [accountId] }),
+      users.count({ criteria: { authId } }),
+      users.count({ criteria: { email } }),
     ]);
     if (counts[0] > 0) {
       res.status(400).send(`Auth id ${authId} already in use.`).end();

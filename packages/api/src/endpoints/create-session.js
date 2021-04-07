@@ -20,10 +20,7 @@ const handler = async (req, res, next) => {
     const { accountId } = params;
 
     const [existingUsers, sessionId] = await Promise.all([
-      users.search({
-        criteria: { authId },
-        parentIds: [accountId],
-      }),
+      users.search({ criteria: { authId } }),
       generateSessionId(),
     ]);
     switch (existingUsers.length) {

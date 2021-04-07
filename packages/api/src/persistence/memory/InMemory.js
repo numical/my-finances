@@ -20,6 +20,7 @@ class InMemory {
         ''
       );
     };
+    this.collectionPath = `/${collections[collections.length - 1]}/`;
     this.docs = {};
   }
 
@@ -77,19 +78,19 @@ class InMemory {
    * @returns {Promise<[string, unknown]>}
    */
   async search({ parentIds, criteria }) {
-    const ids = parentIds || [];
-    ids.push('');
-    const idPrefix = this.generateId(ids);
+    const searchFor = parentIds
+      ? this.generateId([...parentIds, ''])
+      : this.collectionPath;
+    const searchOp = parentIds ? 'startsWith' : 'includes';
     const collectionDocs = Object.entries(this.docs).reduce(
       (docs, [id, doc]) => {
-        if (id.startsWith(idPrefix)) {
+        if (id[searchOp](searchFor)) {
           docs.push(doc);
         }
         return docs;
       },
       []
     );
-
     return criteria
       ? Object.entries(criteria).reduce(
           (docs, [field, value]) => docs.filter((doc) => doc[field] === value),

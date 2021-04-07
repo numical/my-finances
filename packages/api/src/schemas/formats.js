@@ -3,7 +3,7 @@ module.exports = {
   dbid: /^[a-zA-Z0-9]{20}$/i,
   // https://stackoverflow.com/questions/201323/how-to-validate-an-email-address-using-a-regular-expression#answer-8829363
   email: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
-  // based on SHA-256 > 64 characters
+  // based on SHA-256 so 64 characters
   hash: /^[a-f0-9]{64}$/i,
   // trial and error
   semver: /^[0-9]+\.[0-9]+\.[0-9]+$/i,
