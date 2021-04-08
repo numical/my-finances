@@ -1,15 +1,15 @@
 const { test } = require('tap');
-const { v4 } = require('uuid');
+const random = require('./random');
 const createApp = require('../../src/app');
 const request = require('supertest');
 
 const BAILOUT = new Error();
 
-const customize = () => {
+const customize = (collectionSuffix) => {
   const level = process.env.LOG_LEVEL || 'error';
   const dataSource = process.env.DATASOURCE || 'memory';
   const dataSourceOptions =
-    dataSource === 'firestore' ? { collectionSuffix: v4() } : {};
+    dataSource === 'firestore' ? { collectionSuffix } : {};
   return {
     config: {
       dataSource,
@@ -31,10 +31,11 @@ const throwWhenBailed = async (description, callback) => {
 };
 
 module.exports = async (tests) => {
-  const app = await createApp(customize());
+  const testHash = random.hash();
+  const app = await createApp(customize(testHash));
   const server = request.agent(app);
   try {
-    await tests(server, throwWhenBailed);
+    await tests(server, testHash, throwWhenBailed);
   } catch (err) {
     if (err !== BAILOUT) {
       throw err;

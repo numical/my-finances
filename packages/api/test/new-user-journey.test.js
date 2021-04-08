@@ -1,16 +1,17 @@
 const { DEFAULT, SESSION_TOKEN } = require('my-finances-common');
-const { randomString, testApi, testUserModel } = require('./util');
+const { random, testApi, testUserModel } = require('./util');
 
 const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;
 
-const authId =
-  '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
-const email = 'test.email@acme.org';
-const pwd = 'fedbca9876543210fedbca9876543210fedbca9876543210fedbca9876543210';
-const userCredentials = { authId, email, pwd };
-const modelContent = randomString(128);
+const generateUserCredentials = (hash) => ({
+  authId: hash,
+  email: `${hash.substring(0, 12)}@acme.org`,
+  pwd: hash,
+});
 
-testApi(async (api, test) => {
+testApi(async (api, testHash, test) => {
+  const userCredentials = generateUserCredentials(testHash);
+  const modelContent = random.string(128);
   const journey = {};
 
   await test('creates user when valid credentials passed', async (t) => {
@@ -42,7 +43,7 @@ testApi(async (api, test) => {
   await test('creates session', async (t) => {
     const { status, body, headers } = await api
       .post('/account/personal/sessions')
-      .send({ authId, pwd });
+      .send(userCredentials);
     const { sessionId, timeout } = body;
     const cookies = headers['set-cookie'];
 
