@@ -6,7 +6,7 @@ const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpO
 const generateUserCredentials = (hash) => ({
   authId: hash,
   email: `${hash.substring(0, 12)}@acme.org`,
-  pwd: hash,
+  pwd: hash.split('').reverse().join(''),
 });
 
 testApi(async (api, testHash, test) => {
@@ -42,7 +42,7 @@ testApi(async (api, testHash, test) => {
 
   await test('creates session', async (t) => {
     const { status, body, headers } = await api
-      .post('/account/personal/sessions')
+      .post('/sessions')
       .send(userCredentials);
     const { sessionId, timeout } = body;
     const cookies = headers['set-cookie'];

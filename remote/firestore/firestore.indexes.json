@@ -28,6 +28,16 @@
     },
     {
       "collectionGroup": "users",
+      "fieldPath": "accountId",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "roles",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
       "fieldPath": "authId",
       "indexes": [
         { "queryScope": "COLLECTION_GROUP", "order":  "ASCENDING" }

@@ -17,7 +17,6 @@ const handler = async (req, res, next) => {
     const { body, dataStores, params } = req;
     const { authId, pwd } = body;
     const { users } = dataStores;
-    const { accountId } = params;
 
     const [existingUsers, sessionId] = await Promise.all([
       users.search({ criteria: { authId } }),
@@ -61,7 +60,7 @@ const handler = async (req, res, next) => {
 
 module.exports = {
   verb: 'post',
-  path: '/account/:accountId/sessions',
+  path: '/sessions',
   handler,
   requiresAuth: false,
   requestSchema,

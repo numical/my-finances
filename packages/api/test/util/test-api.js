@@ -40,5 +40,7 @@ module.exports = async (tests) => {
     if (err !== BAILOUT) {
       throw err;
     }
+  } finally {
+    console.log(`(test hash is ${testHash})`);
   }
 };

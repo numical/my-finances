@@ -1,14 +1,22 @@
+const roles = require('../roles');
 const createEnforceSchemaFunction = require('./create-enforce-schema-function');
 
 const NUMBER = { type: 'number' };
 const STRING = { type: 'string' };
 const OBJECT = { type: 'object' };
+const ARRAY = { type: 'array' };
 
 // for formats, see ./formats.js
 const DBID = { ...STRING, format: 'dbid' };
 const DICTIONARY = { ...OBJECT, additionalProperties: OBJECT };
 const EMAIL = { ...STRING, format: 'email' };
 const HASH = { ...STRING, format: 'hash' };
+const ROLES = {
+  ...ARRAY,
+  uniqueItems: true,
+  minItems: 1,
+  items: { enum: Object.values(roles) },
+};
 const TIME = { ...NUMBER, minimum: 1607644800000, maximum: 2554329600000 };
 const VERSION = { ...STRING, format: 'semver' };
 const UUID = { ...STRING, format: 'uuid' };
@@ -38,6 +46,8 @@ const USER = createEntitySchema('user', {
   authId: HASH,
   email: EMAIL,
   pwd: HASH,
+  accountId: STRING,
+  roles: ROLES,
   models: DICTIONARY,
 });
 
@@ -45,6 +55,8 @@ const USER_DOC = createEntitySchema('user_doc', {
   authId: HASH,
   email: EMAIL,
   pwd: HASH,
+  accountId: STRING,
+  roles: ROLES,
 });
 
 const MODEL = createEntitySchema('model', {
