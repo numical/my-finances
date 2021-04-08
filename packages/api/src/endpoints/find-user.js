@@ -1,4 +1,5 @@
 const { createSchema, HASH, USER } = require('../schemas');
+const { SUPERUSER, ACCOUNT_ADMIN } = require('../roles');
 
 const requestSchema = createSchema('get_user_request', {
   authId: HASH,
@@ -9,7 +10,7 @@ const responseSchema = USER;
 const handler = async (req, res, next) => {
   try {
     const { dataStores, params, query } = req;
-    const { users, models } = dataStores;
+    const { users } = dataStores;
     const { accountId } = params;
     const { email } = query;
 
@@ -36,7 +37,7 @@ module.exports = {
   verb: 'get',
   path: '/account/:accountId/user',
   handler,
-  requiresAuth: true,
   requestSchema,
   responseSchema,
+  roles: [SUPERUSER, ACCOUNT_ADMIN],
 };

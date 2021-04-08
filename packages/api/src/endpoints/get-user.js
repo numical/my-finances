@@ -1,4 +1,5 @@
 const { USER } = require('../schemas');
+const { ANY } = require('../roles');
 
 const handler = async (req, res, next) => {
   try {
@@ -41,6 +42,6 @@ module.exports = {
   verb: 'get',
   path: '/account/:accountId/user/:userId',
   handler,
-  requiresAuth: true,
   responseSchema: USER,
+  roles: ANY,
 };

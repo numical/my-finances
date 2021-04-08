@@ -1,4 +1,5 @@
 const { MODEL } = require('../schemas');
+const { PERSONAL } = require('../roles');
 const { version } = require('../../package.json');
 
 const handler = async (req, res, next) => {
@@ -21,4 +22,5 @@ module.exports = {
   handler,
   requiresAuth: true,
   requestSchema: MODEL,
+  roles: [PERSONAL],
 };

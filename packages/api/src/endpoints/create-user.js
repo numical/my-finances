@@ -75,7 +75,6 @@ module.exports = {
   verb: 'post',
   path: '/account/:accountId/users',
   handler,
-  requiresAuth: false,
   requestSchema,
   responseSchema,
 };

@@ -1,4 +1,4 @@
-const roles = require('../roles');
+const { ANY, ...roles } = require('../roles');
 const createEnforceSchemaFunction = require('./create-enforce-schema-function');
 
 const NUMBER = { type: 'number' };

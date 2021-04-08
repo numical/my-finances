@@ -1,6 +1,8 @@
 const config = require('../config');
-const { cookie, generateJWT, generateSessionId } = require('../auth');
+const { cookieConstants, generateJWT, generateSessionId } = require('../auth');
 const { createSchema, HASH, NUMBER, STRING, UUID } = require('../schemas');
+
+const { COOKIE_NAME, COOKIE_OPTIONS } = cookieConstants;
 
 const requestSchema = createSchema('create_session_request', {
   authId: HASH,
@@ -14,7 +16,7 @@ const responseSchema = createSchema('create_session_response', {
 
 const handler = async (req, res, next) => {
   try {
-    const { body, dataStores, params } = req;
+    const { body, dataStores } = req;
     const { authId, pwd } = body;
     const { users } = dataStores;
 
@@ -30,14 +32,16 @@ const handler = async (req, res, next) => {
         res.status(400).end();
         break;
       case 1:
-        if (pwd === existingUsers[0].pwd) {
+        const user = existingUsers[0];
+        if (pwd === user.pwd) {
           const maxAge = config.sessionTimeoutInSeconds * 1000;
           const body = {
+            roles: user.roles,
             sessionId,
             timeout: Date.now() + maxAge,
           };
           const jwt = await generateJWT(body);
-          res.cookie(cookie.name, jwt, { ...cookie.options, maxAge });
+          res.cookie(COOKIE_NAME, jwt, { ...COOKIE_OPTIONS, maxAge });
           res.locals.body = body;
           res.status(200).json(body);
         } else {
@@ -62,7 +66,6 @@ module.exports = {
   verb: 'post',
   path: '/sessions',
   handler,
-  requiresAuth: false,
   requestSchema,
   responseSchema,
 };
