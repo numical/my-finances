@@ -5,9 +5,15 @@ const {
 } = require('../middlewares');
 
 module.exports = ({ config, endPoint }) => {
-  const { handler, requestSchema, responseSchema, roles } = endPoint;
+  const {
+    handler,
+    requiresAuth,
+    requestSchema,
+    responseSchema,
+    roles,
+  } = endPoint;
   const callbacks = [];
-  if (roles) {
+  if (requiresAuth) {
     callbacks.push(enforceAuth(roles));
   }
   if (requestSchema && config.validate.request) {

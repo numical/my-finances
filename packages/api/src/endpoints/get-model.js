@@ -1,5 +1,4 @@
 const { MODEL } = require('../schemas');
-const { ANY } = require('../roles');
 
 const handler = async (req, res, next) => {
   try {
@@ -17,7 +16,7 @@ const handler = async (req, res, next) => {
 module.exports = {
   verb: 'get',
   path: '/account/:accountId/user/:userId/models/:modelId',
+  requiresAuth: true,
   handler,
   responseSchema: MODEL,
-  roles: ANY,
 };

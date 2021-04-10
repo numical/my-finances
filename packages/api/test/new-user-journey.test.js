@@ -66,10 +66,12 @@ testApi(async (api, testHash, test) => {
       .set('Cookie', journey.cookies);
 
     t.equal(status, 200, 'should be a 200');
-    t.same(body, journey.user, 'fetched user matches created user');
-    testUserModel(body);
+    if (status === 200) {
+      t.same(body, journey.user, 'fetched user matches created user');
+      testUserModel(body);
 
-    journey.model = body.models[DEFAULT];
+      journey.model = body.models[DEFAULT];
+    }
     t.end();
   });
 

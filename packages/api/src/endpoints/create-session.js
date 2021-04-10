@@ -36,9 +36,11 @@ const handler = async (req, res, next) => {
         if (pwd === user.pwd) {
           const maxAge = config.sessionTimeoutInSeconds * 1000;
           const body = {
+            accountId: user.accountId,
             roles: user.roles,
             sessionId,
             timeout: Date.now() + maxAge,
+            userId: user.id,
           };
           const jwt = await generateJWT(body);
           res.cookie(COOKIE_NAME, jwt, { ...COOKIE_OPTIONS, maxAge });
@@ -65,6 +67,7 @@ const handler = async (req, res, next) => {
 module.exports = {
   verb: 'post',
   path: '/sessions',
+  requiresAuth: false,
   handler,
   requestSchema,
   responseSchema,

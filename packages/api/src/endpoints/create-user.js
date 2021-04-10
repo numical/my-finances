@@ -1,5 +1,5 @@
 const { DEFAULT } = require('my-finances-common');
-const { PERSONAL } = require('../roles');
+const { allow, ...roles } = require('../roles');
 const { createSchema, EMAIL, HASH, STRING, USER } = require('../schemas');
 const { version } = require('../../package.json');
 
@@ -43,7 +43,7 @@ const handler = async (req, res, next) => {
         email,
         pwd,
         accountId,
-        roles: [PERSONAL],
+        roles: [roles.PERSONAL],
         lastUpdated,
         version,
       },
@@ -74,6 +74,7 @@ const handler = async (req, res, next) => {
 module.exports = {
   verb: 'post',
   path: '/account/:accountId/users',
+  requiresAuth: false,
   handler,
   requestSchema,
   responseSchema,

@@ -4,6 +4,12 @@ const roles = {
   SUPERUSER: 'superuser',
 };
 
-roles.ANY = Object.keys(roles);
+roles.allow = {
+  [roles.ACCOUNT_ADMIN]: ({ accountId: sessionId }, { accountId: requestId }) =>
+    sessionId === requestId,
+  [roles.PERSONAL]: ({ userId: sessionId }, { userId: requestId }) =>
+    sessionId === requestId,
+  [roles.SUPERUSER]: () => true,
+};
 
 module.exports = roles;
