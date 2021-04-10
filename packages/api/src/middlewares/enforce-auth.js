@@ -1,4 +1,4 @@
-const { SESSION_TOKEN } = require('my-finances-common');
+const { SESSION_TOKEN } = require('my-finances-common').constants;
 const { cookieConstants, extractJWT } = require('../auth');
 const { allow, ...roles } = require('../roles');
 

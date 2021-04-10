@@ -4,6 +4,7 @@
   "description": "Express based API",
   "main": "index.js",
   "scripts": {
+    "create.superuser": "node src/tools/create-super-user-cli.js",
     "test": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.js | pino-pretty --colorize --hideObject",
     "test.new.user": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/new-user-journey.test.js | pino-pretty --colorize --hideObject",
     "test.only": "tap --no-coverage --only --no-timeout --bail --reporter=spec test/**/*.test.js",
@@ -26,6 +27,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "inquirer": "^8.0.0",
     "pino-pretty": "^4.7.1",
     "prettier": "^2.2.1",
     "supertest": "^6.1.3",

@@ -1,5 +1,7 @@
-import { SESSION_TOKEN } from 'my-finances-common';
+import { constants } from 'my-finances-common';
 import { authStore } from '../stores';
+
+const { SESSION_TOKEN } = constants;
 
 const DEFAULT_OPTIONS = Object.freeze({
   method: 'GET',

@@ -1,5 +1,6 @@
 const { allow, ...roles } = require('../roles');
 const createEnforceSchemaFunction = require('./create-enforce-schema-function');
+const formats = require('./formats');
 
 const NUMBER = { type: 'number' };
 const STRING = { type: 'string' };
@@ -71,6 +72,7 @@ module.exports = {
   DBID,
   DICTIONARY,
   EMAIL,
+  formats,
   HASH,
   init: createEnforceSchemaFunction,
   MODEL,

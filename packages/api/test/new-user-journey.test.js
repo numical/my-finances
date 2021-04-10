@@ -1,4 +1,4 @@
-const { DEFAULT, SESSION_TOKEN } = require('my-finances-common');
+const { DEFAULT, SESSION_TOKEN } = require('my-finances-common').constants;
 const { random, testApi, testUserModel } = require('./util');
 
 const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;

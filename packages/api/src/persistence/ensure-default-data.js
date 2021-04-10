@@ -1,4 +1,4 @@
-const { PERSONAL_ACCOUNTS } = require('my-finances-common');
+const { PERSONAL_ACCOUNTS } = require('my-finances-common').constants;
 const { version } = require('../../package.json');
 
 module.exports = async (dataStores) => {

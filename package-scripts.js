@@ -1,11 +1,10 @@
 const { concurrent, open, series } = require('nps-utils');
 
-const apiTest = (logLevel = 'error', dataSource = 'memory', gcp = false) => {
-  const googleCreds =
-    dataSource === 'firestore'
-      ? `GOOGLE_APPLICATION_CREDENTIALS="../../remote/auth/my-finances-key.json"`
-      : '';
-  return `${googleCreds} DATASOURCE=${dataSource} LOG_LEVEL=${logLevel} pnpm run test --filter ./packages/api`;
+const GOOGLE_CREDS = `GOOGLE_APPLICATION_CREDENTIALS="../../remote/auth/my-finances-key.json"`;
+
+const apiScript = ({ script, logLevel = 'error', dataSource = 'memory' }) => {
+  const googleCreds = dataSource === 'firestore' ? GOOGLE_CREDS : '';
+  return `${googleCreds} DATASOURCE=${dataSource} LOG_LEVEL=${logLevel} pnpm run ${script} --filter ./packages/api`;
 };
 
 module.exports = {
@@ -123,26 +122,43 @@ module.exports = {
           },
         },
       },
+      create: {
+        superuser: {
+          script: apiScript({
+            script: 'create.superuser',
+            dataSource: 'firestore',
+          }),
+          description: 'create superuser on database',
+        },
+      },
     },
     api: {
       test: {
         default: {
-          script: apiTest(),
+          script: apiScript({ script: 'test' }),
           description: 'run API unit tests',
         },
         debug: {
           default: {
-            script: apiTest('debug'),
+            script: apiScript({ script: 'test', logLevel: 'debug' }),
             description: 'run API unit tests with all details logged',
           },
           gcp: {
-            script: apiTest('debug', 'firestore'),
+            script: apiScript({
+              script: 'test',
+              loglevel: 'debug',
+              datasource: 'firestore',
+            }),
             description:
               'run API unit tests against GCP with all details logged',
           },
         },
         gcp: {
-          script: apiTest('error', 'firestore'),
+          script: apiScript({
+            script: 'test',
+            loglevel: 'error',
+            datasource: 'firestore',
+          }),
           description: 'run API unit tests against GCP',
         },
         coverage: {
@@ -162,6 +178,12 @@ module.exports = {
           open: series('sleep 1', open('https://localhost:5000/alpha.html')),
         }),
         description: 'run app locally',
+      },
+    },
+    common: {
+      test: {
+        script: 'pnpm run test --filter ./packages/common',
+        description: 'run unit tests for common code',
       },
     },
   },

@@ -1,4 +1,4 @@
-const { DEFAULT } = require('my-finances-common');
+const { DEFAULT } = require('my-finances-common').constants;
 
 module.exports = (user, key = DEFAULT, expectedData = '') => (t) => {
   const { models } = user;

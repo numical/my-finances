@@ -1,4 +1,4 @@
-const { DEFAULT } = require('my-finances-common');
+const { DEFAULT } = require('my-finances-common').constants;
 const { allow, ...roles } = require('../roles');
 const { createSchema, EMAIL, HASH, STRING, USER } = require('../schemas');
 const { version } = require('../../package.json');
