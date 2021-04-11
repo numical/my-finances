@@ -130,6 +130,15 @@ module.exports = {
           }),
           description: 'create superuser on database',
         },
+        personal: {
+          account: {
+            script: apiScript({
+              script: 'create.personal.account',
+              dataSource: 'firestore',
+            }),
+            description: `create default 'personal' account on database`,
+          },
+        },
       },
     },
     api: {

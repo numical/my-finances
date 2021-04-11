@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "create.superuser": "node src/tools/create-super-user-cli.js",
+    "create.personal.account": "node src/tools/create-personal-account-cli.js",
     "test": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.js | pino-pretty --colorize --hideObject",
     "test.new.user": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/new-user-journey.test.js | pino-pretty --colorize --hideObject",
-    "test.only": "tap --no-coverage --only --no-timeout --bail --reporter=spec test/**/*.test.js",
+    "test.only": "tap --no-coverage --only --no-timeout --bail--reporter=spec test/**/*.test.js",
     "test.coverage": "tap test/**/*.test.js --100"
   },
   "author": "mike.evans@numical.com",
