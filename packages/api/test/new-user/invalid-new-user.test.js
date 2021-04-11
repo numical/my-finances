@@ -1,4 +1,4 @@
-const testApi = require('./util/test-api');
+const testApi = require('../test-api');
 
 const authId =
   '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
@@ -13,7 +13,7 @@ const invalidUserCredentials = {
   'invalid pwd': { authId, email, pwd: 12345 },
 };
 
-testApi(async (api, testHash, test) => {
+testApi(async (api, dataStores, testHash, test) => {
   for (const [useCase, credentials] of Object.entries(invalidUserCredentials)) {
     await test(`rejects invalid credentials - ${useCase}`, async (t) => {
       const { status: invalidCredentialsStatus } = await api

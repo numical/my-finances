@@ -1,12 +1,13 @@
 const { test } = require('tap');
-const random = require('./random');
-const createApp = require('../../src/app');
+const { DEFAULT_TEST_LOG_LEVEL } = require('../src/config');
+const { random } = require('../src/util');
+const createApp = require('../src/app');
 const request = require('supertest');
 
 const BAILOUT = new Error();
 
 const customize = (collectionSuffix) => {
-  const level = process.env.LOG_LEVEL || 'error';
+  const level = process.env.LOG_LEVEL || DEFAULT_TEST_LOG_LEVEL;
   const dataSource = process.env.DATASOURCE || 'memory';
   const dataSourceOptions =
     dataSource === 'firestore' ? { collectionSuffix } : {};
@@ -21,7 +22,7 @@ const customize = (collectionSuffix) => {
   };
 };
 
-const throwWhenBailed = async (description, callback) => {
+const testThrowsWhenBailed = async (description, callback) => {
   const result = await test(description, callback);
   if (result.bailedOut) {
     throw BAILOUT;
@@ -32,10 +33,10 @@ const throwWhenBailed = async (description, callback) => {
 
 module.exports = async (tests) => {
   const testHash = random.hash();
-  const app = await createApp(customize(testHash));
+  const { app, dataStores } = await createApp(customize(testHash));
   const server = request.agent(app);
   try {
-    await tests(server, testHash, throwWhenBailed);
+    await tests(server, dataStores, testHash, testThrowsWhenBailed);
   } catch (err) {
     if (err !== BAILOUT) {
       throw err;

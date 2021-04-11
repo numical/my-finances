@@ -21,6 +21,7 @@ const createPersonalAccount = async () => {
   const collectionRef = db.collection('accounts');
   const toCreate = {
     id: PERSONAL_ACCOUNTS,
+    description: PERSONAL_ACCOUNTS,
     lastUpdated: Date.now(),
     version,
   };
@@ -30,9 +31,13 @@ const createPersonalAccount = async () => {
   if (snapshot.exists) {
     const created = snapshot.data();
     deepStrictEqual(created, toCreate);
+    report(`...account '${PERSONAL_ACCOUNTS}' created and confirmed.`);
+    return created;
+  } else {
+    throw new Error(
+      `account '${PERSONAL_ACCOUNTS}' was not found after creation.`
+    );
   }
-
-  report(`...account '${PERSONAL_ACCOUNTS}' created and confirmed.`);
 };
 
 module.exports = createPersonalAccount;

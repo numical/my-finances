@@ -43,7 +43,7 @@ const httpsOptions = {
 
 const port = process.env.PORT || 8080;
 
-createApp(customise).then((app) => {
+createApp(customise).then(({ app }) => {
   https.createServer(httpsOptions, app).listen(port, (err) => {
     if (err) {
       console.error(`my-finances API failed to start on port ${port}`, err);

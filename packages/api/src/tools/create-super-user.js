@@ -48,11 +48,11 @@ const createSuperUser = async ({ email, pwd }) => {
   if (snapshot.exists) {
     const created = snapshot.data();
     deepStrictEqual(created, toCreate);
+    report(`...superuser '${email}' created and confirmed.`);
+    return created;
   } else {
     throw new Error(`superuser '${email}' was not found after creation.`);
   }
-
-  report(`...superuser '${email}' created and confirmed.`);
 };
 
 module.exports = createSuperUser;

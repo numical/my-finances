@@ -1,15 +1,17 @@
 const { DEFAULT, SESSION_TOKEN } = require('my-finances-common').constants;
-const { random, testApi, testUserModel } = require('./util');
+const { random, reverse } = require('../../src/util');
+const testApi = require('../test-api');
+const testUserModel = require('./test-user-model');
 
 const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpOnly; Secure; SameSite=Strict$/;
 
 const generateUserCredentials = (hash) => ({
   authId: hash,
   email: `${hash.substring(0, 12)}@acme.org`,
-  pwd: hash.split('').reverse().join(''),
+  pwd: reverse(hash),
 });
 
-testApi(async (api, testHash, test) => {
+testApi(async (api, dataStores, testHash, test) => {
   const userCredentials = generateUserCredentials(testHash);
   const modelContent = random.string(128);
   const journey = {};
@@ -36,6 +38,16 @@ testApi(async (api, testHash, test) => {
     );
 
     t.equal(status, 401, 'should be a 401');
+
+    t.end();
+  });
+
+  await test('cannot create session with invalid credentials', async (t) => {
+    const { status } = await api
+      .post('/sessions')
+      .send({ ...userCredentials, pwd: 'INVALID' });
+
+    t.equal(status, 401, 'request should be rejected');
 
     t.end();
   });

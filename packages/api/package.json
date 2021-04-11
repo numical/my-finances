@@ -8,6 +8,7 @@
     "create.personal.account": "node src/tools/create-personal-account-cli.js",
     "test": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.js | pino-pretty --colorize --hideObject",
     "test.new.user": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/new-user-journey.test.js | pino-pretty --colorize --hideObject",
+    "test.account.admin": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/account-admin.test.js | pino-pretty --colorize --hideObject",
     "test.only": "tap --no-coverage --only --no-timeout --bail--reporter=spec test/**/*.test.js",
     "test.coverage": "tap test/**/*.test.js --100"
   },

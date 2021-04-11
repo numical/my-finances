@@ -1,5 +1,6 @@
 const { test } = require('tap');
-const { testApi, testForHttpError } = require('./util');
+const testApi = require('../test-api');
+const testForHttpError = require('./test-for-http-error');
 
 const { get404, post400 } = testForHttpError;
 

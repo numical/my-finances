@@ -4,7 +4,7 @@ const report = require('./report-validation-errors');
 const cache = new Map();
 let ajv;
 
-const enforceSchemaFunction = (schema, data) => {
+const getValidator = (schema) => {
   let validate = cache.get(schema);
   if (!validate) {
     try {
@@ -16,6 +16,11 @@ const enforceSchemaFunction = (schema, data) => {
       throw err;
     }
   }
+  return validate;
+};
+
+const enforceSchemaFunction = (schema, data) => {
+  const validate = getValidator(schema);
   if (validate(data)) {
     return null;
   } else {

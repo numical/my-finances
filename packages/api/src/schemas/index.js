@@ -41,6 +41,7 @@ const createEntitySchema = (id, properties) =>
 
 const ACCOUNT = createEntitySchema('account', {
   id: STRING, // note this overwrites DBID format to account for default 'personal' account
+  description: STRING,
 });
 
 const USER = createEntitySchema('user', {
@@ -77,6 +78,7 @@ module.exports = {
   init: createEnforceSchemaFunction,
   MODEL,
   NUMBER,
+  ROLES,
   STRING,
   USER,
   USER_DOC,

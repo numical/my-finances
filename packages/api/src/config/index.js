@@ -19,5 +19,6 @@ const report = () =>
 
 config.init = init;
 config.report = report;
+config.DEFAULT_TEST_LOG_LEVEL = CANNOT_OVERRIDE.log.customLevels.clientInfo;
 
 module.exports = config;

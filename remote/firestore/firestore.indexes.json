@@ -3,6 +3,11 @@
   "fieldOverrides": [
     {
       "collectionGroup": "acccounts",
+      "fieldPath": "description",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "acccounts",
       "fieldPath": "lastUpdated",
       "indexes": []
     },

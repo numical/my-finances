@@ -6,6 +6,6 @@
 
 
 ## Todo's
-1. firestore programmatic indexes
-1. firestore collection group query for createSession: https://firebase.googleblog.com/2019/06/understanding-collection-group-queries.html
+1. role restrictions on model creation/update
+1. create account user journey - status?   
 1. firestore emulator for tests? https://firebase.google.com/docs/emulator-suite

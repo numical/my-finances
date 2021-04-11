@@ -48,14 +48,14 @@ const handler = async (req, res, next) => {
           res.status(200).json(body);
         } else {
           req.log.clientInfo(
-            `401: ${req.method} ${req.url}: password incorrect for auth id '${id}'`
+            `401: ${req.method} ${req.url}: password incorrect for auth id '${authId}'`
           );
           res.status(401).end();
         }
         break;
       default:
         req.log.error(
-          `500: ${req.method} ${req.url}: multiple records for auth id '${id}'`
+          `500: ${req.method} ${req.url}: multiple records for auth id '${authId}'`
         );
         res.status(500).end();
     }

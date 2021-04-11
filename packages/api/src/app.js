@@ -32,5 +32,8 @@ module.exports = async (customise = {}) => {
 
   app.use(errorHandler);
 
-  return app;
+  return {
+    app,
+    dataStores,
+  };
 };
