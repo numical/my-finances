@@ -1,7 +1,10 @@
 const { createSchema, HASH, USER } = require('../schemas');
 
-const requestSchema = createSchema('get_user_request', {
-  authId: HASH,
+const requestSchema = createSchema({
+  id: 'get_user_request',
+  properties: {
+    authId: HASH,
+  },
 });
 
 const responseSchema = USER;

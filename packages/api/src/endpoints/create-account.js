@@ -2,8 +2,11 @@ const { SUPERUSER } = require('../roles');
 const { createSchema, ACCOUNT, STRING } = require('../schemas');
 const { version } = require('../../package.json');
 
-const requestSchema = createSchema('create_account_request', {
-  description: STRING,
+const requestSchema = createSchema({
+  id: 'create_account_request',
+  properties: {
+    description: STRING,
+  },
 });
 
 const responseSchema = ACCOUNT;

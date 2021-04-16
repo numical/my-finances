@@ -65,8 +65,10 @@ testApi(async ({ api, testHash, test }) => {
       t.ok(timeout, 'returns a timeout');
       t.match(cookies[0], JWT_COOKIE_REGEX, 'returns a cookie');
 
-      journey.sessionId = sessionId;
-      journey.cookies = cookies;
+      journey.headers = {
+        [SESSION_TOKEN]: sessionId,
+        Cookie: cookies,
+      };
     }
     t.end();
   });
@@ -74,8 +76,7 @@ testApi(async ({ api, testHash, test }) => {
   await test('can fetch user when certs data sent', async (t) => {
     const { status, body } = await api
       .get(`/account/personal/user/${journey.user.id}`)
-      .set(SESSION_TOKEN, journey.sessionId)
-      .set('Cookie', journey.cookies);
+      .set(journey.headers);
 
     t.equal(status, 200, 'should be a 200');
     if (status === 200) {
@@ -92,8 +93,7 @@ testApi(async ({ api, testHash, test }) => {
       .get(
         `/account/personal/user/${journey.user.id}/models/${journey.model.id}`
       )
-      .set(SESSION_TOKEN, journey.sessionId)
-      .set('Cookie', journey.cookies);
+      .set(journey.headers);
 
     t.equal(status, 200, 'should be a 200');
     t.same(body, journey.model, 'directly fetched model matches user model');
@@ -108,8 +108,7 @@ testApi(async ({ api, testHash, test }) => {
         `/account/personal/user/${journey.user.id}/models/${journey.model.id}`
       )
       .send(journey.model)
-      .set(SESSION_TOKEN, journey.sessionId)
-      .set('Cookie', journey.cookies);
+      .set(journey.headers);
 
     t.equal(status, 200, 'should be a 200');
 
@@ -119,8 +118,7 @@ testApi(async ({ api, testHash, test }) => {
   await test('fetched user has updated model', async (t) => {
     const { status, body } = await api
       .get(`/account/personal/user/${journey.user.id}`)
-      .set(SESSION_TOKEN, journey.sessionId)
-      .set('Cookie', journey.cookies);
+      .set(journey.headers);
 
     t.equal(status, 200, 'should be a 200');
 

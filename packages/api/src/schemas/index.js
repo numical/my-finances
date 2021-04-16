@@ -22,48 +22,63 @@ const TIME = { ...NUMBER, minimum: 1607644800000, maximum: 2554329600000 };
 const VERSION = { ...STRING, format: 'semver' };
 const UUID = { ...STRING, format: 'uuid' };
 
-const createSchema = (id, properties) => ({
+const createSchema = ({ allRequired = true, id, properties }) => ({
   type: 'object',
-  allRequired: true,
+  allRequired,
   metadata: {
     id,
   },
   properties,
 });
 
-const createEntitySchema = (id, properties) =>
-  createSchema(id, {
-    id: DBID,
-    lastUpdated: TIME,
-    version: VERSION,
-    ...properties,
+const createEntitySchema = ({ id, properties }) =>
+  createSchema({
+    id,
+    properties: {
+      id: DBID,
+      lastUpdated: TIME,
+      version: VERSION,
+      ...properties,
+    },
   });
 
-const ACCOUNT = createEntitySchema('account', {
-  id: STRING, // note this overwrites DBID format to account for default 'personal' account
-  description: STRING,
+const ACCOUNT = createEntitySchema({
+  id: 'account',
+  properties: {
+    id: STRING, // note this overwrites DBID format to account for default 'personal' account
+    description: STRING,
+  },
 });
 
-const USER = createEntitySchema('user', {
-  authId: HASH,
-  email: EMAIL,
-  pwd: HASH,
-  accountId: STRING,
-  roles: ROLES,
-  models: DICTIONARY,
+const USER = createEntitySchema({
+  id: 'user',
+  properties: {
+    authId: HASH,
+    email: EMAIL,
+    pwd: HASH,
+    accountId: STRING,
+    roles: ROLES,
+    models: DICTIONARY,
+  },
 });
 
-const USER_DOC = createEntitySchema('user_doc', {
-  authId: HASH,
-  email: EMAIL,
-  pwd: HASH,
-  accountId: STRING,
-  roles: ROLES,
+const USER_DOC = createEntitySchema({
+  id: 'user_doc',
+  properties: {
+    authId: HASH,
+    email: EMAIL,
+    pwd: HASH,
+    accountId: STRING,
+    roles: ROLES,
+  },
 });
 
-const MODEL = createEntitySchema('model', {
-  data: STRING,
-  description: STRING,
+const MODEL = createEntitySchema({
+  id: 'model',
+  properties: {
+    data: STRING,
+    description: STRING,
+  },
 });
 
 module.exports = {

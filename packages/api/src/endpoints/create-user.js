@@ -3,10 +3,13 @@ const { PERSONAL } = require('../roles');
 const { createSchema, EMAIL, HASH, STRING, USER } = require('../schemas');
 const newUserHandler = require('./new-user-handler');
 
-const requestSchema = createSchema('create_user_request', {
-  authId: HASH,
-  email: EMAIL,
-  pwd: STRING,
+const requestSchema = createSchema({
+  id: 'create_user_request',
+  properties: {
+    authId: HASH,
+    email: EMAIL,
+    pwd: STRING,
+  },
 });
 
 const responseSchema = USER;

@@ -9,11 +9,14 @@ const {
 } = require('../schemas');
 const newUserHandler = require('./new-user-handler');
 
-const requestSchema = createSchema('add_account_user_request', {
-  authId: HASH,
-  email: EMAIL,
-  pwd: STRING,
-  roles: ROLES,
+const requestSchema = createSchema({
+  id: 'add_account_user_request',
+  properties: {
+    authId: HASH,
+    email: EMAIL,
+    pwd: STRING,
+    roles: ROLES,
+  },
 });
 
 const responseSchema = USER;

@@ -4,14 +4,20 @@ const { createSchema, HASH, NUMBER, STRING, UUID } = require('../schemas');
 
 const { COOKIE_NAME, COOKIE_OPTIONS } = cookieConstants;
 
-const requestSchema = createSchema('create_session_request', {
-  authId: HASH,
-  pwd: STRING,
+const requestSchema = createSchema({
+  id: 'create_session_request',
+  properties: {
+    authId: HASH,
+    pwd: STRING,
+  },
 });
 
-const responseSchema = createSchema('create_session_response', {
-  sessionId: UUID,
-  timeout: NUMBER,
+const responseSchema = createSchema({
+  id: 'create_session_response',
+  properties: {
+    sessionId: UUID,
+    timeout: NUMBER,
+  },
 });
 
 const handler = async (req, res, next) => {
