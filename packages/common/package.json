@@ -12,6 +12,6 @@
     "my-finances-common": "workspace:^0.0.1"
   },
   "devDependencies": {
-    "tap": "^14.11.0"
+    "tap": "^15.0.2"
   }
 }

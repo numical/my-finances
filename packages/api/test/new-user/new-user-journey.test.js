@@ -11,7 +11,7 @@ const generateUserCredentials = (hash) => ({
   pwd: reverse(hash),
 });
 
-testApi(async (api, dataStores, testHash, test) => {
+testApi(async ({ api, testHash, test }) => {
   const userCredentials = generateUserCredentials(testHash);
   const modelContent = random.string(128);
   const journey = {};

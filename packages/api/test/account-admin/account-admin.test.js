@@ -11,7 +11,7 @@ const {
   cannotCreateAccountUser,
 } = require('./creation-tests');
 
-testApi(async (api, dataStores, testHash, test) => {
+testApi(async ({ api, dataStores, testHash, test }) => {
   const accounts = createTestEntities(testHash);
   const { superuser, account1, account2 } = accounts;
 

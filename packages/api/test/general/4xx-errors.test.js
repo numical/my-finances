@@ -4,7 +4,7 @@ const testForHttpError = require('./test-for-http-error');
 
 const { get404, post400 } = testForHttpError;
 
-testApi((api) => {
+testApi(({ api }) => {
   // unknown
   test('unknown endpoint returns 404', get404(api, '/wibble'));
 

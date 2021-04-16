@@ -34,9 +34,9 @@ const testThrowsWhenBailed = async (description, callback) => {
 module.exports = async (tests) => {
   const testHash = random.hash();
   const { app, dataStores } = await createApp(customize(testHash));
-  const server = request.agent(app);
+  const api = request.agent(app);
   try {
-    await tests(server, dataStores, testHash, testThrowsWhenBailed);
+    await tests({ api, dataStores, testHash, test: testThrowsWhenBailed });
   } catch (err) {
     if (err !== BAILOUT) {
       throw err;
