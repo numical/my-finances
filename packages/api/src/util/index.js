@@ -1,9 +1,11 @@
-const isObject = require('./is-object');
+const array = require('./array');
+const object = require('./object');
 const random = require('./random');
-const reverse = require('./reverse');
+const string = require('./string');
 
 module.exports = {
-  isObject,
+  array,
+  object,
   random,
-  reverse,
+  string,
 };

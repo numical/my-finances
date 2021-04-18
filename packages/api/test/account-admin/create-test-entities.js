@@ -1,7 +1,9 @@
 const { PERSONAL_ACCOUNTS } = require('my-finances-common').constants;
 const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = require('../../src/roles');
 const { version } = require('../../package.json');
-const { reverse } = require('../../src/util');
+const { string } = require('../../src/util');
+
+const { reverse } = string;
 
 module.exports = (testHash) => ({
   superuser: {

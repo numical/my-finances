@@ -20,7 +20,6 @@ module.exports = {
   verb: 'put',
   path: '/account/:accountId/user/:userId/models/:modelId',
   handler,
-  requiresAuth: true,
   requestSchema: MODEL,
   roles: [PERSONAL],
 };

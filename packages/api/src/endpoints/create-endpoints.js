@@ -7,6 +7,7 @@ const getModel = require('./get-model');
 const getUser = require('./get-user');
 const ping = require('./ping');
 const updateModel = require('./update-model');
+const updateUser = require('./update-user');
 
 const endPoints = [
   createUser, // this comes first deliberately
@@ -17,6 +18,7 @@ const endPoints = [
   getUser,
   ping,
   updateModel,
+  updateUser,
 ];
 
 module.exports = ({ app, config }) => {

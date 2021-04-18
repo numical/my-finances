@@ -1,6 +1,8 @@
 const { generateSearchQuery } = require('../generate');
+const assertNotAtomic = require('./assert-not-atomic');
 
 module.exports = ({ collections, db, validate }) => {
+  assertNotAtomic('count', db);
   const read = (docSnapshot) => {
     const entity = { ...docSnapshot.data(), id: docSnapshot.id };
     return validate(entity);

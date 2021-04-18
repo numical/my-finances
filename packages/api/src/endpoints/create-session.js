@@ -73,7 +73,6 @@ const handler = async (req, res, next) => {
 module.exports = {
   verb: 'post',
   path: '/sessions',
-  requiresAuth: false,
   handler,
   requestSchema,
   responseSchema,

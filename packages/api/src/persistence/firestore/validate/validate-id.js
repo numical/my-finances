@@ -1,4 +1,6 @@
-const { isObject } = require('../../../util');
+const { object } = require('../../../util');
+
+const { isObject } = object;
 
 module.exports = (id) => {
   if (isObject(id)) {

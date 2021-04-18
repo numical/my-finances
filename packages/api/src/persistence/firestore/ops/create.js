@@ -1,4 +1,5 @@
 const { generateParentCollectionRef } = require('../generate');
+const assertNotAtomic = require('./assert-not-atomic');
 
 const DUMMY_ID = 'TwentyCharDBIDFormat';
 
@@ -6,6 +7,7 @@ module.exports = ({ collections, db, validate }) => async ({
   entity,
   parentIds,
 }) => {
+  assertNotAtomic('count', db);
   if (entity.id) {
     validate(entity);
   } else {

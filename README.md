@@ -6,6 +6,16 @@
 
 
 ## Todo's
-1. role restrictions on model creation/update
-1. create account user journey - status?   
+1. document
+   - roles + use of ..
+   - res.locals
+   - endpoints
+1. user admin
+   - change password
+   - admin change password
+1. re-add doc transform and change doc structure to include notIndexed
 1. firestore emulator for tests? https://firebase.google.com/docs/emulator-suite
+1. updateUser - include roles?
+1. warnings in .gitignore
+1. why is cookie-constants.js ignored?
+1. add eslint for code quality

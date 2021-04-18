@@ -37,7 +37,6 @@ const handler = async (req, res, next) => {
 module.exports = {
   verb: 'post',
   path: '/accounts',
-  requiresAuth: true,
   handler,
   requestSchema,
   responseSchema,

@@ -1,7 +1,9 @@
 // Cloud Run instances hang around for 10 mins
 
 const { randomBytes } = require('crypto');
-const { isObject } = require('../../util');
+const { object } = require('../../util');
+
+const { isObject } = object;
 
 // must match Firestore ID format 20
 const createId = () => randomBytes(10).toString('hex');
@@ -108,6 +110,21 @@ class InMemory {
   async count({ parentIds, criteria }) {
     const results = await this.search({ parentIds, criteria });
     return results.length;
+  }
+
+  /**
+   *
+   */
+  startAtomic() {
+    // no op
+  }
+
+  /**
+   *
+   * @returns {Promise<void>}
+   */
+  commitAtomic() {
+    return Promise.resolve();
   }
 }
 

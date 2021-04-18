@@ -24,7 +24,9 @@ const customize = (collectionSuffix) => {
 
 const testThrowsWhenBailed = async (description, callback) => {
   const result = await test(description, callback);
-  if (result.bailedOut) {
+  if (!result) {
+    throw BAILOUT;
+  } else if (result.bailedOut) {
     throw BAILOUT;
   } else {
     return result;

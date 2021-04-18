@@ -46,6 +46,24 @@ class Firestore {
     this.search = search(args);
     this.update = update(args);
   }
+
+  startAtomic() {
+    if (db.atomic) {
+      throw new Error('atomic operation already started');
+    }
+    db.atomic = db.batch();
+  }
+
+  async commitAtomic() {
+    if (!db.atomic) {
+      throw new Error('no atomic operation to commit');
+    }
+    try {
+      return await db.atomic.commit();
+    } finally {
+      db.atomic = null;
+    }
+  }
 }
 
 module.exports = Firestore;

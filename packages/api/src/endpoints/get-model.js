@@ -1,3 +1,4 @@
+const { SUPERUSER, ACCOUNT_ADMIN } = require('../roles');
 const { MODEL } = require('../schemas');
 
 const handler = async (req, res, next) => {
@@ -16,7 +17,7 @@ const handler = async (req, res, next) => {
 module.exports = {
   verb: 'get',
   path: '/account/:accountId/user/:userId/models/:modelId',
-  requiresAuth: true,
   handler,
   responseSchema: MODEL,
+  roles: [SUPERUSER, ACCOUNT_ADMIN],
 };

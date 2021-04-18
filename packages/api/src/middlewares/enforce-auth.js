@@ -9,7 +9,8 @@ const fail = (req, res, status, message) => {
   res.status(status).end();
 };
 
-module.exports = (acceptedRoles) => async (req, res, next) => {
+module.exports = (endpointRoles) => async (req, res, next) => {
+  // missing auth data
   const tokenId = req.get(SESSION_TOKEN);
   if (!tokenId) {
     return fail(req, res, 401, `No session token '${SESSION_TOKEN}'`);
@@ -18,8 +19,10 @@ module.exports = (acceptedRoles) => async (req, res, next) => {
   if (!cookie) {
     return fail(req, res, 401, `No cookie '${COOKIE_NAME}'`);
   }
+
+  // consistent auth data
   const jwt = await extractJWT(cookie);
-  const { roles, sessionId, timeout } = jwt;
+  const { roles: sessionRoles, sessionId, timeout } = jwt;
   if (tokenId !== sessionId) {
     return fail(
       req,
@@ -28,6 +31,8 @@ module.exports = (acceptedRoles) => async (req, res, next) => {
       `JWT sessionId '${sessionId}' does not match session token '${tokenId}'`
     );
   }
+
+  // timeout
   const remainingSessionMs = timeout - Date.now();
   if (remainingSessionMs <= 0) {
     return fail(
@@ -38,16 +43,17 @@ module.exports = (acceptedRoles) => async (req, res, next) => {
     );
   }
 
-  if (acceptedRoles) {
-    const commonRoles = acceptedRoles.filter((role) => roles.includes(role));
-    if (!commonRoles.some((role) => allow[role](jwt, req.params))) {
-      return fail(
-        req,
-        res,
-        403,
-        `Roles forbid operation; session roles ${roles} ;operation roles ${acceptedRoles}`
-      );
-    }
+  // authorisation
+  res.locals.roles = endpointRoles
+    .filter((role) => sessionRoles.includes(role))
+    .filter((role) => allow[role](jwt, req.params));
+  if (res.locals.roles.length === 0) {
+    return fail(
+      req,
+      res,
+      403,
+      `Roles forbid operation; session roles ${roles} ;endpoint roles ${endpointRoles}`
+    );
   }
 
   await next();

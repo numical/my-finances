@@ -26,7 +26,6 @@ const handler = async (req, res, next) =>
 module.exports = {
   verb: 'post',
   path: '/account/personal/users',
-  requiresAuth: false,
   handler,
   requestSchema,
   responseSchema,

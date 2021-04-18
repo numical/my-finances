@@ -1,6 +1,7 @@
 const { DEFAULT, SESSION_TOKEN } = require('my-finances-common').constants;
+const { random } = require('../../src/util');
 const testApi = require('../test-api');
-const { encrypt, decrypt } = require('./encryption');
+const test4xx = require('./test-4xx');
 
 const MODEL_CONTENT = 'This is the model content';
 
@@ -9,7 +10,7 @@ testApi(async ({ api, testHash, test }) => {
     userCredentials: {
       authId: testHash,
       email: `${testHash.substring(0, 12)}@acme.org`,
-      pwd: 'first_password',
+      pwd: random.hash(),
     },
   };
 
@@ -54,4 +55,47 @@ testApi(async ({ api, testHash, test }) => {
 
     t.end();
   });
+
+  await test(
+    'updating user fails if only authId sent',
+    test4xx({
+      ...journey,
+      api,
+      body: { authId: random.hash() },
+    })
+  );
+
+  await test(
+    'updating user fails if only email sent',
+    test4xx({
+      ...journey,
+      api,
+      body: { email: `${random.hash()}@acme.org` },
+    })
+  );
+
+  await test(
+    'updating user fails if only password sent',
+    test4xx({
+      ...journey,
+      api,
+      body: { pwd: random.hash() },
+    })
+  );
+
+  await test(
+    'updating user fails if password sent with invalid model ids',
+    test4xx({
+      ...journey,
+      api,
+      body: {
+        pwd: random.hash(),
+        models: {
+          [DEFAULT]: {
+            id: '12345',
+          },
+        },
+      },
+    })
+  );
 });
