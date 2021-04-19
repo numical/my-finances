@@ -7,7 +7,7 @@ const MODEL_CONTENT = 'This is the model content';
 
 testApi(async ({ api, testHash, test }) => {
   const journey = {
-    userCredentials: {
+    credentials: {
       authId: testHash,
       email: `${testHash.substring(0, 12)}@acme.org`,
       pwd: random.hash(),
@@ -17,7 +17,7 @@ testApi(async ({ api, testHash, test }) => {
   await test('creates user ok', async (t) => {
     const { status, body } = await api
       .post('/account/personal/users')
-      .send(journey.userCredentials);
+      .send(journey.credentials);
 
     t.equal(status, 200, 'creates user');
     if (status === 200) {
@@ -31,7 +31,7 @@ testApi(async ({ api, testHash, test }) => {
   await test('creates session ok', async (t) => {
     const { status, body, headers } = await api
       .post('/sessions')
-      .send(journey.userCredentials);
+      .send(journey.credentials);
 
     t.equal(status, 200, 'should be a 200');
     if (status === 200) {

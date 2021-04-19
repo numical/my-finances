@@ -3,6 +3,7 @@ const { DEFAULT_TEST_LOG_LEVEL } = require('../src/config');
 const { random } = require('../src/util');
 const createApp = require('../src/app');
 const request = require('supertest');
+const superuserFactory = require('./superuser-factory');
 
 const BAILOUT = new Error();
 
@@ -37,8 +38,14 @@ module.exports = async (tests) => {
   const testHash = random.hash();
   const { app, dataStores } = await createApp(customize(testHash));
   const api = request.agent(app);
+  const createSuperuser = superuserFactory({ api, dataStores });
   try {
-    await tests({ api, dataStores, testHash, test: testThrowsWhenBailed });
+    await tests({
+      api,
+      createSuperuser,
+      testHash,
+      test: testThrowsWhenBailed,
+    });
   } catch (err) {
     if (err !== BAILOUT) {
       throw err;

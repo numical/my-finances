@@ -1,10 +1,10 @@
-const { random } = require('../../src/util');
-
-module.exports = ({ api, body, headers, user }) => async (t) => {
+module.exports = ({ api, body, expectedStatus = 400, headers, user }) => async (
+  t
+) => {
   const { status } = await api
     .patch(`/account/personal/user/${user.id}`)
     .set(headers)
     .send(body);
 
-  t.equal(status, 400, 'request should be rejected');
+  t.equal(status, expectedStatus, 'request should be rejected');
 };

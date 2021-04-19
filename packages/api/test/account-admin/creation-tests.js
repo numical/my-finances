@@ -31,7 +31,8 @@ const cannotCreateAccount = ({
   t.end();
 };
 
-const canCreateAccount = ({ api, user, accountToCreate }) => async (t) => {
+const canCreateAccount = (a) => async (t) => {
+  const { api, user, accountToCreate } = a;
   const { fields } = accountToCreate;
   const { status, body } = await api
     .post('/accounts')

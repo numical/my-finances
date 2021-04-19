@@ -1,7 +1,7 @@
 const { constants } = require('my-finances-common');
 const testApi = require('../test-api');
+const createSuperUserAndSession = require('../superuser-factory');
 const createTestEntities = require('./create-test-entities');
-const { PERSONAL_ACCOUNTS } = constants;
 
 const {
   canCreateAccount,
@@ -11,41 +11,32 @@ const {
   cannotCreateAccountUser,
 } = require('./creation-tests');
 
-testApi(async ({ api, dataStores, testHash, test }) => {
+testApi(async ({ api, createSuperuser, testHash, test }) => {
   const accounts = createTestEntities(testHash);
-  const { superuser, account1, account2 } = accounts;
+  const { account1, account2 } = accounts;
 
-  // create superuser directly
-  await dataStores.users.create({
-    entity: {
-      ...superuser.credentials,
-      ...superuser.otherFields,
-    },
-    parentIds: [PERSONAL_ACCOUNTS],
-  });
+  const superuser = await createSuperuser({ createSession: true });
+  const notLoggedInSuperuser = await createSuperuser({ createSession: false });
 
-  // session tests
+  // super user tests
 
   await test(
     'superuser cannot create an account if no session',
     cannotCreateAccount({
       api,
-      user: superuser,
+      user: notLoggedInSuperuser,
       accountToCreate: account1,
       expectedStatus: 401,
     })
   );
 
-  // super user tests
-
-  await test(
-    'superuser can create a session',
-    canCreateSession({ api, user: superuser })
-  );
-
   await test(
     'superuser can create an account when session created',
-    canCreateAccount({ api, user: superuser, accountToCreate: account1 })
+    canCreateAccount({
+      api,
+      user: superuser,
+      accountToCreate: account1,
+    })
   );
 
   await test(

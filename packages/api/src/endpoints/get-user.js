@@ -1,4 +1,4 @@
-const { SUPERUSER, ACCOUNT_ADMIN } = require('../roles');
+const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
 const { USER } = require('../schemas');
 
 const handler = async (req, res, next) => {
@@ -43,5 +43,5 @@ module.exports = {
   path: '/account/:accountId/user/:userId',
   handler,
   responseSchema: USER,
-  roles: [SUPERUSER, ACCOUNT_ADMIN],
+  roles: [SUPERUSER, ACCOUNT_ADMIN, PERSONAL],
 };

@@ -1,25 +1,11 @@
 const { PERSONAL_ACCOUNTS } = require('my-finances-common').constants;
-const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = require('../../src/roles');
+const { ACCOUNT_ADMIN, PERSONAL } = require('../../src/roles');
 const { version } = require('../../package.json');
 const { string } = require('../../src/util');
 
 const { reverse } = string;
 
 module.exports = (testHash) => ({
-  superuser: {
-    credentials: {
-      authId: `${testHash.slice(0, -1)}0`,
-      email: `${testHash.substring(0, 12)}_superuser@acme.org`,
-      pwd: reverse(testHash),
-    },
-    otherFields: {
-      accountId: PERSONAL_ACCOUNTS,
-      roles: [SUPERUSER],
-      lastUpdated: Date.now(),
-      version,
-    },
-    sessionHeaders: {},
-  },
   account1: {
     fields: {
       description: `${testHash.substring(0, 12)}_account1`,
