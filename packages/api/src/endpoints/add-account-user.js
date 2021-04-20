@@ -7,7 +7,7 @@ const {
   STRING,
   USER,
 } = require('../schemas');
-const newUserHandler = require('./new-user-handler');
+const { newUserHandler } = require('./util');
 
 const requestSchema = createSchema({
   id: 'add_account_user_request',

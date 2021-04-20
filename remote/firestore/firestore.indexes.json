@@ -3,6 +3,11 @@
   "fieldOverrides": [
     {
       "collectionGroup": "acccounts",
+      "fieldPath": "created",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "acccounts",
       "fieldPath": "description",
       "indexes": []
     },
@@ -14,6 +19,11 @@
     {
       "collectionGroup": "acccounts",
       "fieldPath": "version",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "users",
+      "fieldPath": "created",
       "indexes": []
     },
     {
@@ -54,6 +64,11 @@
       "indexes": [
         { "queryScope": "COLLECTION_GROUP", "order":  "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "models",
+      "fieldPath": "created",
+      "indexes": []
     },
     {
       "collectionGroup": "models",

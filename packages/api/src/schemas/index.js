@@ -36,6 +36,7 @@ const createEntitySchema = ({ id, properties }) =>
     id,
     properties: {
       id: DBID,
+      created: TIME,
       lastUpdated: TIME,
       version: VERSION,
       ...properties,

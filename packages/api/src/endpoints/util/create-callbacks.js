@@ -2,7 +2,7 @@ const {
   enforceAuth,
   validateRequest,
   validateResponse,
-} = require('../middlewares');
+} = require('../../middlewares');
 
 module.exports = ({ config, endPoint }) => {
   const { handler, requestSchema, responseSchema, roles } = endPoint;

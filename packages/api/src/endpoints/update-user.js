@@ -8,6 +8,7 @@ const {
   STRING,
   USER,
 } = require('../schemas');
+const { addUpdatedFields } = require('./util');
 
 const requestSchema = createSchema({
   allRequired: false,
@@ -89,13 +90,15 @@ const handler = async (req, res, next) => {
     }
 
     // transactional
-    const entity = object.extractTruthy(updatedFields);
-    if (!object.isEmpty(entity)) {
+    const toUpdate = object.extractTruthy(updatedFields);
+    if (!object.isEmpty(toUpdate)) {
+      const entity = addUpdatedFields(toUpdate);
       users.startAtomic();
       users.update({ entity, ids: [accountId, userId] });
       if (passedModels) {
         Object.values(passedModels).forEach((model) => {
-          models.update({ entity: model, ids: [accountId, userId, model.id] });
+          const entity = addUpdatedFields(model);
+          models.update({ entity, ids: [accountId, userId, model.id] });
         });
       }
       await users.commitAtomic();

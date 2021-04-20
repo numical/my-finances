@@ -14,10 +14,12 @@ module.exports = ({ api, dataStores }) => async ({ createSession = true }) => {
     pwd: string.reverse(hash),
   };
 
+  const now = Date.now();
   const otherFields = {
     accountId: PERSONAL_ACCOUNTS,
+    created: now,
     roles: [SUPERUSER],
-    lastUpdated: Date.now(),
+    lastUpdated: now,
     version,
   };
 

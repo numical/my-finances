@@ -20,3 +20,4 @@
 1. why is cookie-constants.js ignored?
 1. add eslint for code quality
 1. document not change user roles
+1. user status for account users

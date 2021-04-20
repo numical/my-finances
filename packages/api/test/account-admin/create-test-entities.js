@@ -8,6 +8,7 @@ const { reverse } = string;
 module.exports = (testHash) => ({
   account1: {
     fields: {
+      created: Date.now(),
       description: `${testHash.substring(0, 12)}_account1`,
       lastUpdated: Date.now(),
       version,
@@ -20,6 +21,7 @@ module.exports = (testHash) => ({
       },
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
+        created: Date.now(),
         roles: [ACCOUNT_ADMIN],
         lastUpdated: Date.now(),
         version,
@@ -33,6 +35,7 @@ module.exports = (testHash) => ({
       },
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
+        created: Date.now(),
         roles: [ACCOUNT_ADMIN],
         lastUpdated: Date.now(),
         version,
@@ -46,6 +49,7 @@ module.exports = (testHash) => ({
       },
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
+        created: Date.now(),
         roles: [PERSONAL],
         lastUpdated: Date.now(),
         version,
@@ -59,6 +63,7 @@ module.exports = (testHash) => ({
       },
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
+        created: Date.now(),
         roles: [PERSONAL],
         lastUpdated: Date.now(),
         version,
@@ -67,6 +72,7 @@ module.exports = (testHash) => ({
   },
   account2: {
     fields: {
+      created: Date.now(),
       description: `${testHash.substring(0, 12)}_account2`,
       lastUpdated: Date.now(),
       version,

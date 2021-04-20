@@ -1,6 +1,6 @@
 const { SUPERUSER } = require('../roles');
 const { createSchema, ACCOUNT, STRING } = require('../schemas');
-const { version } = require('../../package.json');
+const { addCreatedFields } = require('./util');
 
 const requestSchema = createSchema({
   id: 'create_account_request',
@@ -17,14 +17,13 @@ const handler = async (req, res, next) => {
     const { description } = body;
     const { accounts } = dataStores;
 
-    const lastUpdated = Date.now();
+    const created = Date.now();
+    const lastUpdated = created;
 
     const account = await accounts.create({
-      entity: {
+      entity: addCreatedFields({
         description,
-        lastUpdated,
-        version,
-      },
+      }),
     });
 
     res.locals.body = account;

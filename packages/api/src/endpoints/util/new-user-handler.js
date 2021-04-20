@@ -1,5 +1,5 @@
 const { DEFAULT } = require('my-finances-common').constants;
-const { version } = require('../../package.json');
+const { addCreatedFields } = require('./standard-fields');
 
 module.exports = async ({ accountId, next, req, res, roles }) => {
   try {
@@ -24,28 +24,22 @@ module.exports = async ({ accountId, next, req, res, roles }) => {
       return;
     }
 
-    const lastUpdated = Date.now();
-
     const user = await users.create({
-      entity: {
+      entity: addCreatedFields({
         authId,
         email,
         pwd,
         accountId,
         roles,
-        lastUpdated,
-        version,
-      },
+      }),
       parentIds: [accountId],
     });
 
     const model = await models.create({
-      entity: {
+      entity: addCreatedFields({
         data: '',
         description: DEFAULT,
-        lastUpdated,
-        version,
-      },
+      }),
       parentIds: [accountId, user.id],
     });
 

@@ -1,7 +1,7 @@
 const { deepStrictEqual } = require('assert');
 const { Firestore } = require('@google-cloud/firestore');
 const { constants } = require('my-finances-common');
-const { version } = require('../../package.json');
+const { addCreatedFields } = require('../endpoints/util');
 const { SUPERUSER } = require('../roles');
 const hash = require('./hash');
 
@@ -27,15 +27,13 @@ const createSuperUser = async ({ email, pwd }) => {
     throw new Error(`User '${email}' already exists.`);
   }
 
-  const toCreate = {
+  const toCreate = addCreatedFields({
     authId: hash(email),
     email,
     pwd: hash(`${email}:${pwd}`),
     accountId: PERSONAL_ACCOUNTS,
     roles: [SUPERUSER],
-    lastUpdated: Date.now(),
-    version,
-  };
+  });
 
   const newDocument = await db
     .collection(`/accounts/${PERSONAL_ACCOUNTS}/users`)

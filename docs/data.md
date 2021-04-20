@@ -100,13 +100,36 @@ erDiagram
 * see [Firestore setup](./firestore-setup.md)  
 
 ### Firestore Data Structure
-**Only Personal** users for now
-* `/users` collection
-  * `user` doc
-    * `account` map
-      * email
-    * `models` - sub collection
-  
-The future:
-* create separate `account` collection
-* create `analysisModels` collection
+#### Accounts
+| indexed | not indexed |
+| --- | ---
+|id | |
+| | created |
+| | lastUpdated |
+| | version |
+| | description |
+| | users |
+#### Users
+| indexed | not indexed |
+| --- | ---
+|id | |
+| | created |
+| | lastUpdated |
+| | version |
+| authId| |
+| email | |
+| | pwd|
+| | accountId  |
+| | roles |
+| | models |
+#### Models
+| indexed | not indexed |
+| --- | ---
+|id | |
+| | created |
+| | lastUpdated |
+| | version |
+| | description |
+| | data |
+
+See [firestore index rules](../remote/firestore/firestore.indexes.json);

@@ -1,7 +1,7 @@
 const { deepStrictEqual } = require('assert');
 const { Firestore } = require('@google-cloud/firestore');
 const { constants } = require('my-finances-common');
-const { version } = require('../../package.json');
+const { addCreatedFields } = require('../endpoints/util');
 
 const { PERSONAL_ACCOUNTS } = constants;
 
@@ -19,12 +19,10 @@ const createPersonalAccount = async () => {
   }
 
   const collectionRef = db.collection('accounts');
-  const toCreate = {
+  const toCreate = addCreatedFields({
     id: PERSONAL_ACCOUNTS,
     description: PERSONAL_ACCOUNTS,
-    lastUpdated: Date.now(),
-    version,
-  };
+  });
   await collectionRef.doc(PERSONAL_ACCOUNTS).set(toCreate);
 
   const snapshot = await db.doc(`/accounts/${PERSONAL_ACCOUNTS}`).get();
