@@ -5,7 +5,7 @@ const test4xx = require('./test-4xx');
 
 const MODEL_CONTENT = 'This is the model content';
 
-testApi(async ({ api, testHash, test }) => {
+testApi(async ({ api, createSuperuser, testHash, test }) => {
   const journey = {
     credentials: {
       authId: testHash,
@@ -13,6 +13,8 @@ testApi(async ({ api, testHash, test }) => {
       pwd: random.hash(),
     },
   };
+
+  // user tests
 
   await test('creates user ok', async (t) => {
     const { status, body } = await api
@@ -35,7 +37,7 @@ testApi(async ({ api, testHash, test }) => {
 
     t.equal(status, 200, 'should be a 200');
     if (status === 200) {
-      journey.headers = {
+      journey.sessionHeaders = {
         [SESSION_TOKEN]: body.sessionId,
         Cookie: headers['set-cookie'],
       };
@@ -44,12 +46,12 @@ testApi(async ({ api, testHash, test }) => {
   });
 
   await test('can update model', async (t) => {
-    const { headers, model, user } = journey;
+    const { sessionHeaders, model, user } = journey;
     model.data = MODEL_CONTENT;
     const { status } = await api
       .put(`/account/personal/user/${user.id}/models/${model.id}`)
       .send(model)
-      .set(headers);
+      .set(sessionHeaders);
 
     t.equal(status, 200, 'should be a 200');
 
@@ -98,4 +100,76 @@ testApi(async ({ api, testHash, test }) => {
       },
     })
   );
+
+  await test('user can update authId and email', async (t) => {
+    const { sessionHeaders, user } = journey;
+    const { status } = await api
+      .patch(`/account/personal/user/${user.id}`)
+      .set(sessionHeaders)
+      .send({
+        authId: random.hash(),
+        email: `${random.hash().substring(0, 12)}@acme.org`,
+      });
+
+    t.equal(status, 200, 'should be a 200');
+  });
+
+  await test('user can update password and models', async (t) => {
+    const { sessionHeaders, model, user } = journey;
+    const { status } = await api
+      .patch(`/account/personal/user/${user.id}`)
+      .set(sessionHeaders)
+      .send({
+        pwd: random.hash(),
+        models: {
+          [DEFAULT]: {
+            id: model.id,
+            description: 'description',
+            data: 'data',
+          },
+        },
+      });
+
+    t.equal(status, 200, 'should be a 200');
+  });
+
+  // superuser tests
+
+  const superuser = await createSuperuser({ createSession: true });
+
+  await test(
+    'superuser cannot update password',
+    test4xx({
+      ...journey,
+      api,
+      body: { pwd: random.hash() },
+      expectedStatus: 403,
+      ...superuser,
+    })
+  );
+
+  await test(
+    'superuser cannot update models',
+    test4xx({
+      ...journey,
+      api,
+      body: { models: {} },
+      expectedStatus: 403,
+      ...superuser,
+    })
+  );
+
+  await test('superuser can update authId and email', async (t) => {
+    const { user } = journey;
+    const { sessionHeaders } = superuser;
+    const { status } = await api
+      .patch(`/account/personal/user/${user.id}`)
+      .set(sessionHeaders)
+      .send({
+        authId: random.hash(),
+        email: `${random.hash().substring(0, 12)}@acme.org`,
+      });
+
+    t.equal(status, 200, 'should be a 200');
+  });
 });

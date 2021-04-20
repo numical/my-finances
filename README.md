@@ -19,3 +19,4 @@
 1. warnings in .gitignore
 1. why is cookie-constants.js ignored?
 1. add eslint for code quality
+1. document not change user roles

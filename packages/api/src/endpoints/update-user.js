@@ -31,12 +31,13 @@ const handler = async (req, res, next) => {
     const { roles: sessionRoles } = locals;
 
     // check session user auth
-    if (body.pwd) {
+    if (body.pwd || body.models) {
       if (!sessionRoles.includes(PERSONAL)) {
         log.clientInfo(
-          `403: ${req.method} ${req.url}: only PERSONAL role can update password.`
+          `403: ${req.method} ${req.url}: only PERSONAL role can update password and models.`
         );
         res.status(403).end();
+        return;
       }
     }
 
@@ -93,7 +94,7 @@ const handler = async (req, res, next) => {
       users.startAtomic();
       users.update({ entity, ids: [accountId, userId] });
       if (passedModels) {
-        passedModels.forEach((model) => {
+        Object.values(passedModels).forEach((model) => {
           models.update({ entity: model, ids: [accountId, userId, model.id] });
         });
       }
