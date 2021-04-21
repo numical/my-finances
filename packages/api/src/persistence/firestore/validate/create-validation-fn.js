@@ -1,15 +1,19 @@
-const createValidationFn = (collections, enforceSchemaFn, schema) => (
-  entity
-) => {
-  const errors = enforceSchemaFn(schema, entity);
-  if (errors) {
-    throw new Error(
-      `Invalid firebase data for ${collections.join(',')}: ${JSON.stringify(
-        entity
-      )} : ${errors}`
-    );
-  }
-  return entity;
+const { partial } = require('../../../schemas');
+
+const createValidationFn = (collections, enforceSchemaFn, schema) => {
+  const partialSchema = partial(schema);
+  return (entity, allowPartial) => {
+    const schemaToUse = allowPartial ? partialSchema : schema;
+    const errors = enforceSchemaFn(schemaToUse, entity);
+    if (errors) {
+      throw new Error(
+        `Invalid firebase data for ${collections.join(',')}: ${JSON.stringify(
+          entity
+        )} : ${errors}`
+      );
+    }
+    return entity;
+  };
 };
 
 const noOp = (record) => record;

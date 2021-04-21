@@ -116,6 +116,7 @@ erDiagram
 | | created |
 | | lastUpdated |
 | | version |
+| | description |
 | authId| |
 | email | |
 | | pwd|

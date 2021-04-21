@@ -21,11 +21,7 @@ const getValidator = (schema) => {
 
 const enforceSchemaFunction = (schema, data) => {
   const validate = getValidator(schema);
-  if (validate(data)) {
-    return null;
-  } else {
-    return report(validate);
-  }
+  return validate(data) ? null : report(validate);
 };
 
 const createEnforceSchemaFunction = ({ logger }) => {

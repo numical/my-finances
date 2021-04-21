@@ -1,7 +1,9 @@
 const { generateDocRef } = require('../generate');
 
+const allowPartialDoc = true;
+
 module.exports = ({ collections, db, validate }) => async ({ entity, ids }) => {
-  // no validation as different fields can be updated
+  validate(entity, allowPartialDoc);
   const docRef = generateDocRef({ collections, db, ids });
   if (db.atomic) {
     db.atomic.update(docRef, entity);

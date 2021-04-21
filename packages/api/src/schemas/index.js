@@ -43,6 +43,15 @@ const createEntitySchema = ({ id, properties }) =>
     },
   });
 
+const partial = (schema) => ({
+  ...schema,
+  allRequired: false,
+  metadata: {
+    ...schema.metadata,
+    id: `partial-${schema.metadata.id}`,
+  },
+});
+
 const ACCOUNT = createEntitySchema({
   id: 'account',
   properties: {
@@ -94,6 +103,7 @@ module.exports = {
   init: createEnforceSchemaFunction,
   MODEL,
   NUMBER,
+  partial,
   ROLES,
   STRING,
   USER,
