@@ -9,6 +9,7 @@ testApi(async ({ api, createSuperuser, testHash, test }) => {
   const journey = {
     credentials: {
       authId: testHash,
+      description: `user-${testHash}`,
       email: `${testHash.substring(0, 12)}@acme.org`,
       pwd: random.hash(),
     },

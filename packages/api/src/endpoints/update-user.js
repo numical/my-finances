@@ -15,6 +15,7 @@ const requestSchema = createSchema({
   id: 'update_user_request',
   properties: {
     authId: HASH,
+    description: STRING,
     email: EMAIL,
     pwd: STRING,
     models: DICTIONARY,

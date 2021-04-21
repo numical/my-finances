@@ -39,6 +39,7 @@ const createEntitySchema = ({ id, properties }) =>
       created: TIME,
       lastUpdated: TIME,
       version: VERSION,
+      description: STRING,
       ...properties,
     },
   });
@@ -56,7 +57,6 @@ const ACCOUNT = createEntitySchema({
   id: 'account',
   properties: {
     id: STRING, // note this overwrites DBID format to account for default 'personal' account
-    description: STRING,
   },
 });
 
@@ -87,7 +87,6 @@ const MODEL = createEntitySchema({
   id: 'model',
   properties: {
     data: STRING,
-    description: STRING,
   },
 });
 

@@ -15,6 +15,7 @@ const requestSchema = createSchema({
     authId: HASH,
     email: EMAIL,
     pwd: STRING,
+    description: STRING,
     roles: ROLES,
   },
 });

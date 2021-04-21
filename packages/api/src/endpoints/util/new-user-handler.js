@@ -4,7 +4,7 @@ const { addCreatedFields } = require('./standard-fields');
 module.exports = async ({ accountId, next, req, res, roles }) => {
   try {
     const { body, dataStores } = req;
-    const { authId, email, pwd } = body;
+    const { authId, description, email, pwd } = body;
     const { users, models } = dataStores;
 
     /*
@@ -27,6 +27,7 @@ module.exports = async ({ accountId, next, req, res, roles }) => {
     const user = await users.create({
       entity: addCreatedFields({
         authId,
+        description,
         email,
         pwd,
         accountId,

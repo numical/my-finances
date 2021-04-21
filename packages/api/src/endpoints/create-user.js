@@ -7,6 +7,7 @@ const requestSchema = createSchema({
   id: 'create_user_request',
   properties: {
     authId: HASH,
+    description: STRING,
     email: EMAIL,
     pwd: STRING,
   },

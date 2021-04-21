@@ -18,6 +18,7 @@ module.exports = ({ api, dataStores }) => async ({ createSession = true }) => {
   const otherFields = {
     accountId: PERSONAL_ACCOUNTS,
     created: now,
+    description: `superuser-${hash}`,
     roles: [SUPERUSER],
     lastUpdated: now,
     version,

@@ -9,6 +9,7 @@ const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpO
 
 const generateUserCredentials = (hash) => ({
   authId: hash,
+  description: `user-${hash}`,
   email: `${hash.substring(0, 12)}@acme.org`,
   pwd: reverse(hash),
 });
@@ -22,11 +23,15 @@ testApi(async ({ api, testHash, test }) => {
     const { status, body, text } = await api
       .post('/account/personal/users')
       .send(userCredentials);
-    const { authId, email, pwd } = body;
+    const { authId, description, email, pwd } = body;
 
     t.ok(text, `response received: '${text}'`);
     t.equal(status, 200, 'creates user');
-    t.same({ authId, email, pwd }, userCredentials, 'returns user credentials');
+    t.same(
+      { authId, description, email, pwd },
+      userCredentials,
+      'returns user credentials'
+    );
 
     journey.user = body;
     t.end();

@@ -22,6 +22,7 @@ module.exports = (testHash) => ({
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
         created: Date.now(),
+        description: 'admin1',
         roles: [ACCOUNT_ADMIN],
         lastUpdated: Date.now(),
         version,
@@ -36,6 +37,7 @@ module.exports = (testHash) => ({
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
         created: Date.now(),
+        description: 'admin2',
         roles: [ACCOUNT_ADMIN],
         lastUpdated: Date.now(),
         version,
@@ -50,6 +52,7 @@ module.exports = (testHash) => ({
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
         created: Date.now(),
+        description: 'user1',
         roles: [PERSONAL],
         lastUpdated: Date.now(),
         version,
@@ -64,6 +67,7 @@ module.exports = (testHash) => ({
       otherFields: {
         accountId: PERSONAL_ACCOUNTS,
         created: Date.now(),
+        description: 'user2',
         roles: [PERSONAL],
         lastUpdated: Date.now(),
         version,
