@@ -48,8 +48,8 @@ const handler = async (req, res, next) => {
 
     // calculate diff (note: if models passed - always included)
     const user = await fetchUser;
-    const updatedFields = object.diff(body, user);
-    const { authId, email, pwd, models: passedModels } = updatedFields;
+    const changedFields = object.diff(body, user);
+    const { authId, email, pwd, models: passedModels } = changedFields;
 
     // ensure field consistencies
     if (authId || email) {
@@ -90,17 +90,31 @@ const handler = async (req, res, next) => {
     }
 
     // transactional
-    const toUpdate = object.extractTruthy(updatedFields);
-    if (!object.isEmpty(toUpdate)) {
-      const entity = addUpdatedFields(toUpdate);
-      users.startAtomic();
-      users.update({ entity, ids: [accountId, userId] });
+    const truthyChangedFields = object.extractTruthy(changedFields);
+    if (!object.isEmpty(truthyChangedFields)) {
+      const dbUpdates = [
+        {
+          datastore: users,
+          entity: addUpdatedFields(truthyChangedFields),
+          ids: [accountId, userId],
+        },
+      ];
       if (passedModels) {
         Object.values(passedModels).forEach((model) => {
-          const entity = addUpdatedFields(model);
-          models.update({ entity, ids: [accountId, userId, model.id] });
+          dbUpdates.push({
+            datastore: models,
+            entity: addUpdatedFields(model),
+            ids: [accountId, userId, model.id],
+          });
         });
       }
+
+      users.startAtomic();
+      await Promise.all(
+        dbUpdates.map(({ datastore, entity, ids }) =>
+          datastore.update({ entity, ids })
+        )
+      );
       await users.commitAtomic();
     }
     res.status(200).end();
