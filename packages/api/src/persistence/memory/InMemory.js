@@ -12,6 +12,7 @@ class InMemory {
   constructor({ collections }) {
     this.count = this.count.bind(this);
     this.create = this.create.bind(this);
+    this.del = this.del.bind(this);
     this.get = this.get.bind(this);
     this.search = this.search.bind(this);
     this.update = this.update.bind(this);
@@ -51,6 +52,16 @@ class InMemory {
     const id = this.generateId(ids);
     this.docs[id] = entity;
     return entity;
+  }
+
+  /**
+   *
+   * @param ids
+   * @returns {Promise<void>}
+   */
+  async del({ ids }) {
+    const id = this.generateId(ids);
+    delete this.docs[id];
   }
 
   /**

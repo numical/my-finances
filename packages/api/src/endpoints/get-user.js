@@ -3,7 +3,7 @@ const { USER } = require('../schemas');
 
 const handler = async (req, res, next) => {
   try {
-    const { body, dataStores, params } = req;
+    const { dataStores, params } = req;
     const { users, models } = dataStores;
     const { accountId, userId } = params;
 

@@ -1,6 +1,8 @@
 const { generateSearchQuery } = require('../generate');
 const assertNotAtomic = require('./assert-not-atomic');
 
+const noOp = (d) => d;
+
 module.exports = ({ collections, db, validate }) => {
   assertNotAtomic('count', db);
   const read = (docSnapshot) => {
@@ -8,7 +10,7 @@ module.exports = ({ collections, db, validate }) => {
     return validate(entity);
   };
 
-  return async ({ parentIds, criteria }) => {
+  return async ({ parentIds, criteria, hydrateResults = true }) => {
     const query = generateSearchQuery({
       collections,
       criteria,
@@ -16,6 +18,7 @@ module.exports = ({ collections, db, validate }) => {
       parentIds,
     });
     const querySnapshot = await query.get();
-    return querySnapshot.size === 0 ? null : querySnapshot.docs.map(read);
+    const mapFn = hydrateResults ? read : noOp;
+    return querySnapshot.size === 0 ? null : querySnapshot.docs.map(mapFn);
   };
 };

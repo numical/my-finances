@@ -6,18 +6,15 @@
 
 
 ## Todo's
+1. delete
+1. binary data & compression & encryption   
 1. document
    - roles + use of ..
    - res.locals
    - endpoints
-1. user admin
-   - change password
-   - admin change password
+   - document not change user roles
 1. re-add doc transform and change doc structure to include notIndexed
 1. firestore emulator for tests? https://firebase.google.com/docs/emulator-suite
-1. updateUser - include roles?
 1. warnings in .gitignore
 1. why is cookie-constants.js ignored?
 1. add eslint for code quality
-1. document not change user roles
-1. user status for account users

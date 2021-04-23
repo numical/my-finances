@@ -1,5 +1,5 @@
 const { Firestore: FirestoreDb } = require('@google-cloud/firestore');
-const { count, create, exists, get, search, update } = require('./ops');
+const { count, create, del, exists, get, search, update } = require('./ops');
 const createValidationFn = require('./validate/create-validation-fn');
 
 let db;
@@ -41,6 +41,7 @@ class Firestore {
     };
     this.count = count(args);
     this.create = create(args);
+    this.del = del(args);
     this.exists = exists(args);
     this.get = get(args);
     this.search = search(args);
