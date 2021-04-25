@@ -1,5 +1,5 @@
 const extractMessage = (error) => {
-  const { dataPath, keyword, message, type } = error;
+  const { dataPath, keyword, message } = error;
   switch (keyword) {
     case 'required':
       return message;

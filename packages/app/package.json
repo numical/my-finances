@@ -2,6 +2,7 @@
   "name": "my-finances-app",
   "version": "0.0.1",
   "scripts": {
+    "lint": "eslint --fix './**/*.js'",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv --http2 --key ../../local/auth/localhost-key.pem --cert ../../local/auth/localhost-cert.pem ../../public/alpha"

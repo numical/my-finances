@@ -31,13 +31,14 @@ const handler = async (req, res, next) => {
       generateSessionId(),
     ]);
     switch (existingUsers.length) {
-      case 0:
+      case 0: {
         req.log.clientInfo(
           `400: ${req.method} ${req.url}: unknown user auth id '${authId}'`
         );
         res.status(400).end();
         break;
-      case 1:
+      }
+      case 1: {
         const user = existingUsers[0];
         if (pwd === user.pwd) {
           const maxAge = config.sessionTimeoutInSeconds * 1000;
@@ -59,11 +60,13 @@ const handler = async (req, res, next) => {
           res.status(401).end();
         }
         break;
-      default:
+      }
+      default: {
         req.log.error(
           `500: ${req.method} ${req.url}: multiple records for auth id '${authId}'`
         );
         res.status(500).end();
+      }
     }
   } catch (err) {
     next(err);

@@ -17,9 +17,6 @@ const handler = async (req, res, next) => {
     const { description } = body;
     const { accounts } = dataStores;
 
-    const created = Date.now();
-    const lastUpdated = created;
-
     const account = await accounts.create({
       entity: addCreatedFields({
         description,

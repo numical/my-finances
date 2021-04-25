@@ -1,9 +1,6 @@
 // Cloud Run instances hang around for 10 mins
 
 const { randomBytes } = require('crypto');
-const { object } = require('../../util');
-
-const { isObject } = object;
 
 // must match Firestore ID format 20
 const createId = () => randomBytes(10).toString('hex');

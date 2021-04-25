@@ -28,11 +28,8 @@ const handler = async (req, res, next) => {
       return dictionary;
     }, {});
 
-    if (user) {
-      res.locals.body = user;
-      res.status(200).json(user);
-    } else {
-    }
+    res.locals.body = user;
+    res.status(200).json(user);
   } catch (err) {
     next(err);
   }

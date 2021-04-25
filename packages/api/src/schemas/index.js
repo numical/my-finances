@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const { allow, ...roles } = require('../roles');
 const createEnforceSchemaFunction = require('./create-enforce-schema-function');
 const formats = require('./formats');

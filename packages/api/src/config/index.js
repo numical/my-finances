@@ -10,7 +10,7 @@ const init = async (overrides = {}) =>
 
 const report = () =>
   Object.entries(config)
-    .filter(([key, value]) => typeof value !== 'function')
+    .filter(([, value]) => typeof value !== 'function')
     .reduce(
       (s, [key, value]) =>
         `${s}${EOL}  ${key}: ${JSON.stringify(value, null, 2)}`,

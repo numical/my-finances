@@ -11,7 +11,10 @@ module.exports = {
   default: 'nps help',
   scripts: {
     lint: {
-      script: "prettier --write './**/*.js' './**/*.svelte' './**/*.html'",
+      script: series(
+        'pnpm -r lint',
+        "prettier --write './**/*.js' './**/*.svelte' './**/*.html'"
+      ),
       description: 'format all files',
     },
     reset: {

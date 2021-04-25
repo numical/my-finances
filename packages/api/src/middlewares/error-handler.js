@@ -1,7 +1,7 @@
 module.exports = (err, req, res, next) => {
   const status = err.status || err.statusCode || 500;
   const level = status >= 500 ? 'error' : 'warn';
-  const { body, params, method, url } = req;
+  const { body, params, method } = req;
   const report = {
     status,
     args: method === 'GET' ? params : body,
