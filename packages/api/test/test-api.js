@@ -4,6 +4,7 @@ const { random } = require('../src/util');
 const createApp = require('../src/app');
 const request = require('supertest');
 const superuserFactory = require('./superuser-factory');
+const addAsserts = require('./addAsserts');
 
 const BAILOUT = new Error();
 
@@ -41,6 +42,7 @@ module.exports = async (tests) => {
   const createSuperuser = superuserFactory({ api, dataStores });
   try {
     await tests({
+      addAsserts,
       api,
       createSuperuser,
       testHash,

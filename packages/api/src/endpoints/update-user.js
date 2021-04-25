@@ -112,7 +112,7 @@ const handler = async (req, res, next) => {
 
       users.startAtomic();
       await Promise.all(
-        dbUpdates.forEach(({ datastore, entity, ids }) =>
+        dbUpdates.map(({ datastore, entity, ids }) =>
           datastore.update({ entity, ids })
         )
       );

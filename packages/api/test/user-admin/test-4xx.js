@@ -11,4 +11,6 @@ module.exports = ({
     .send(body);
 
   t.equal(status, expectedStatus, 'request should be rejected');
+
+  t.end();
 };

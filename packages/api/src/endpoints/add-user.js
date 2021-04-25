@@ -10,7 +10,7 @@ const {
 const { newUserHandler } = require('./util');
 
 const requestSchema = createSchema({
-  id: 'add_account_user_request',
+  id: 'add_user_request',
   properties: {
     authId: HASH,
     email: EMAIL,

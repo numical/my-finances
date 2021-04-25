@@ -1,6 +1,5 @@
 const { MODEL } = require('../schemas');
 const { PERSONAL } = require('../roles');
-const { version } = require('../../package.json');
 const { addUpdatedFields } = require('./util');
 
 const handler = async (req, res, next) => {

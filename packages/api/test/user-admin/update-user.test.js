@@ -5,7 +5,7 @@ const test4xx = require('./test-4xx');
 
 const MODEL_CONTENT = 'This is the model content';
 
-testApi(async ({ api, createSuperuser, testHash, test }) => {
+testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
   const journey = {
     credentials: {
       authId: testHash,
@@ -25,7 +25,7 @@ testApi(async ({ api, createSuperuser, testHash, test }) => {
     t.equal(status, 200, 'creates user');
     if (status === 200) {
       journey.user = body;
-      journey.model = body.models[DEFAULT];
+      journey.defaultModel = body.models[DEFAULT];
     }
 
     t.end();
@@ -43,15 +43,16 @@ testApi(async ({ api, createSuperuser, testHash, test }) => {
         Cookie: headers['set-cookie'],
       };
     }
+
     t.end();
   });
 
   await test('can update model', async (t) => {
-    const { sessionHeaders, model, user } = journey;
-    model.data = MODEL_CONTENT;
+    const { sessionHeaders, defaultModel, user } = journey;
+    defaultModel.data = MODEL_CONTENT;
     const { status } = await api
-      .put(`/account/personal/user/${user.id}/models/${model.id}`)
-      .send(model)
+      .put(`/account/personal/user/${user.id}/models/${defaultModel.id}`)
+      .send(defaultModel)
       .set(sessionHeaders);
 
     t.equal(status, 200, 'should be a 200');
@@ -113,25 +114,80 @@ testApi(async ({ api, createSuperuser, testHash, test }) => {
       });
 
     t.equal(status, 200, 'should be a 200');
+
+    t.end();
   });
 
   await test('user can update password and models', async (t) => {
-    const { sessionHeaders, model, user } = journey;
+    const { sessionHeaders, defaultModel, user } = journey;
+    defaultModel.data = 'Updated default data';
     const { status } = await api
       .patch(`/account/personal/user/${user.id}`)
       .set(sessionHeaders)
       .send({
         pwd: random.hash(),
         models: {
-          [DEFAULT]: {
-            id: model.id,
-            description: 'description',
-            data: 'data',
-          },
+          [DEFAULT]: defaultModel,
         },
       });
 
     t.equal(status, 200, 'should be a 200');
+
+    t.end();
+  });
+
+  await test('user can add model', async (t) => {
+    const { sessionHeaders, user } = journey;
+    const newModel = {
+      description: 'new_model_description',
+      data: 'new_model_ddata',
+    };
+    const { status, body: addedModel } = await api
+      .post(`/account/personal/user/${user.id}/models`)
+      .set(sessionHeaders)
+      .send(newModel);
+
+    t.equal(status, 200, 'should be a 200');
+    if (status === 200) {
+      t.ok(addedModel.id, 'added model has an id');
+      t.equal(addedModel.data, newModel.data, 'new model properties saved');
+      t.equal(
+        addedModel.description,
+        newModel.description,
+        'new model properties saved'
+      );
+    }
+
+    journey.addedModel = addedModel;
+    t.end();
+  });
+
+  await test('fetched user has both models', async (t) => {
+    const { sessionHeaders, user, defaultModel, addedModel } = journey;
+    const { status, body } = await api
+      .get(`/account/personal/user/${user.id}`)
+      .set(sessionHeaders);
+
+    t.equal(status, 200, 'should be a 200');
+    if (status === 200) {
+      const { models } = body;
+      addAsserts(t);
+      t.equal(Object.keys(models).length, 2, 'user should have 2 models');
+      t.sameExcept(
+        models[DEFAULT],
+        defaultModel,
+        'lastUpdated',
+        'default model is retrieved'
+      );
+      t.sameExcept(
+        models[addedModel.description],
+        addedModel,
+        'lastUpdated',
+        'added model is retrieved'
+      );
+    }
+
+    t.end();
   });
 
   // superuser tests
@@ -172,5 +228,20 @@ testApi(async ({ api, createSuperuser, testHash, test }) => {
       });
 
     t.equal(status, 200, 'should be a 200');
+
+    t.end();
+  });
+
+  await test('superuser cannot add model', async (t) => {
+    const { user } = journey;
+    const { status } = await api
+      .post(`/account/personal/user/${user.id}/models`)
+      .set(superuser.sessionHeaders)
+      .send({
+        description: 'new_model_description',
+        data: 'new_model_ddata',
+      });
+
+    t.equal(status, 403, 'request should be rejected');
   });
 });

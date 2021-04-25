@@ -1,4 +1,5 @@
-const addAccountUser = require('./add-account-user');
+const addModel = require('./add-model');
+const addUser = require('./add-user');
 const createAccount = require('./create-account');
 const createSession = require('./create-session');
 const createUser = require('./create-user');
@@ -14,7 +15,8 @@ const { createCallbacks } = require('./util');
 
 const endPoints = [
   createUser, // this comes first deliberately
-  addAccountUser,
+  addModel,
+  addUser,
   createAccount,
   createSession,
   deleteAccount,
