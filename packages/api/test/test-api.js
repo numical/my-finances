@@ -4,9 +4,9 @@ const { random } = require('../src/util');
 const createApp = require('../src/app');
 const request = require('supertest');
 const superuserFactory = require('./superuser-factory');
-const addAsserts = require('./addAsserts');
+const addAsserts = require('./add-asserts');
 
-const BAILOUT = new Error();
+const BAILOUT = new Error('Test bailed.');
 
 const customize = (collectionSuffix) => {
   const level = process.env.LOG_LEVEL || DEFAULT_TEST_LOG_LEVEL;
@@ -48,9 +48,9 @@ module.exports = async (tests) => {
       testHash,
       test: testThrowsWhenBailed,
     });
-  } catch (err) {
-    if (err !== BAILOUT) {
-      throw err;
+  } catch (error) {
+    if (error !== BAILOUT) {
+      throw error;
     }
   } finally {
     console.log(`(test hash is ${testHash})`);

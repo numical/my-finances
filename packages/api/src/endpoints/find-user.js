@@ -10,9 +10,9 @@ const requestSchema = createSchema({
 
 const responseSchema = USER;
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { dataStores, params, query } = req;
+    const { dataStores, log, method, params, query, url } = request;
     const { users } = dataStores;
     const { accountId } = params;
     const { email } = query;
@@ -23,16 +23,14 @@ const handler = async (req, res, next) => {
     });
 
     if (user) {
-      res.locals.body = user;
-      res.status(200).json(user);
+      response.locals.body = user;
+      response.status(200).json(user);
     } else {
-      req.log.clientInfo(
-        `404: ${req.method} ${req.url}: unknown user email '${email}'`
-      );
-      res.status(404).end();
+      log.clientInfo(`404: ${method} ${url}: unknown user email '${email}'`);
+      response.status(404).end();
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 

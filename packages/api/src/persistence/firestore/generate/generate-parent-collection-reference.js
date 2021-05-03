@@ -5,8 +5,8 @@ module.exports = ({ collections, db, parentIds }) => {
     ? collections
         .slice(1)
         .reduce(
-          (collectionRef, collection, index) =>
-            collectionRef.doc(parentIds[index]).collection(collection),
+          (collectionReference, collection, index) =>
+            collectionReference.doc(parentIds[index]).collection(collection),
           db.collection(collections[0])
         )
     : db.collection(collections[0]);

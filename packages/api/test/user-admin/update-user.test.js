@@ -10,7 +10,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
     credentials: {
       authId: testHash,
       description: `user-${testHash}`,
-      email: `${testHash.substring(0, 12)}@acme.org`,
+      email: `${testHash.slice(0, 12)}@acme.org`,
       pwd: random.hash(),
     },
   };
@@ -110,7 +110,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
       .set(sessionHeaders)
       .send({
         authId: random.hash(),
-        email: `${random.hash().substring(0, 12)}@acme.org`,
+        email: `${random.hash().slice(0, 12)}@acme.org`,
       });
 
     t.equal(status, 200, 'should be a 200');
@@ -224,7 +224,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
       .set(sessionHeaders)
       .send({
         authId: random.hash(),
-        email: `${random.hash().substring(0, 12)}@acme.org`,
+        email: `${random.hash().slice(0, 12)}@acme.org`,
       });
 
     t.equal(status, 200, 'should be a 200');

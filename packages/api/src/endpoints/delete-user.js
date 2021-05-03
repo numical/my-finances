@@ -1,8 +1,8 @@
 const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { dataStores, params } = req;
+    const { dataStores, log, method, params, status, url } = request;
     const { users, models } = dataStores;
     const { accountId, userId } = params;
 
@@ -20,19 +20,21 @@ const handler = async (req, res, next) => {
     );
 
     if (deletes.length > 500) {
-      req.log.clientInfo(
-        `500: ${req.method} ${req.url}: delete batch threshold exceeded: '${deletes.length}'`
+      log.clientInfo(
+        `500: ${method} ${url}: delete batch threshold exceeded: '${deletes.length}'`
       );
-      res.status(500).end();
+      response.status(500).end();
       return;
     }
 
     users.startAtomic();
-    deletes.forEach(({ datastore, ids }) => datastore.del({ ids }));
+    for (const { datastore, ids } of deletes) {
+      datastore.del({ ids });
+    }
     await users.commitAtomic();
-    req.status(204).end();
-  } catch (err) {
-    next(err);
+    status(204).end();
+  } catch (error) {
+    next(error);
   }
 };
 

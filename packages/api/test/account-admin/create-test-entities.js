@@ -9,14 +9,14 @@ module.exports = (testHash) => ({
   account1: {
     fields: {
       created: Date.now(),
-      description: `${testHash.substring(0, 12)}_account1`,
+      description: `${testHash.slice(0, 12)}_account1`,
       lastUpdated: Date.now(),
       version,
     },
     admin1: {
       credentials: {
         authId: `${testHash.slice(0, -1)}1`,
-        email: `${testHash.substring(0, 12)}_account1admin1@acme.org`,
+        email: `${testHash.slice(0, 12)}_account1admin1@acme.org`,
         pwd: reverse(testHash),
       },
       otherFields: {
@@ -31,7 +31,7 @@ module.exports = (testHash) => ({
     admin2: {
       credentials: {
         authId: `${testHash.slice(0, -1)}2`,
-        email: `${testHash.substring(0, 12)}_account1admin2@acme.org`,
+        email: `${testHash.slice(0, 12)}_account1admin2@acme.org`,
         pwd: reverse(testHash),
       },
       otherFields: {
@@ -46,7 +46,7 @@ module.exports = (testHash) => ({
     user1: {
       credentials: {
         authId: `${testHash.slice(0, -1)}3`,
-        email: `${testHash.substring(0, 12)}_account1user1@acme.org`,
+        email: `${testHash.slice(0, 12)}_account1user1@acme.org`,
         pwd: reverse(testHash),
       },
       otherFields: {
@@ -61,7 +61,7 @@ module.exports = (testHash) => ({
     user2: {
       credentials: {
         authId: `${testHash.slice(0, -1)}4`,
-        email: `${testHash.substring(0, 12)}_account1user2@acme.org`,
+        email: `${testHash.slice(0, 12)}_account1user2@acme.org`,
         pwd: reverse(testHash),
       },
       otherFields: {
@@ -77,7 +77,7 @@ module.exports = (testHash) => ({
   account2: {
     fields: {
       created: Date.now(),
-      description: `${testHash.substring(0, 12)}_account2`,
+      description: `${testHash.slice(0, 12)}_account2`,
       lastUpdated: Date.now(),
       version,
     },

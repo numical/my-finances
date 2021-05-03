@@ -6,18 +6,20 @@
  - we can no longer change the response, so logging warnings only.
  */
 module.exports = (schema) => {
-  return (req, res, next) => {
-    res.on('finish', () => {
-      if (res.statusCode === 200) {
-        if (res.locals.body) {
-          const errors = req.enforceSchemaFn(schema, res.locals.body);
+  return (request, response, next) => {
+    response.on('finish', () => {
+      if (response.statusCode === 200) {
+        if (response.locals.body) {
+          const errors = request.enforceSchemaFn(schema, response.locals.body);
           if (errors) {
-            req.log.warn(
-              `response invalid: ${req.method} ${req.url}: ${errors}`
+            request.log.warn(
+              `response invalid: ${request.method} ${request.url}: ${errors}`
             );
           }
         } else {
-          req.log.error(`Missing local body for ${req.method} ${req.url}`);
+          request.log.error(
+            `Missing local body for ${request.method} ${request.url}`
+          );
         }
       }
     });

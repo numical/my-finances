@@ -1,8 +1,9 @@
-const { Firestore: FirestoreDb } = require('@google-cloud/firestore');
+// eslint-disable-next-line unicorn/filename-case
+const { Firestore: FirestoreDatabase } = require('@google-cloud/firestore');
 const { count, create, del, exists, get, search, update } = require('./ops');
-const createValidationFn = require('./validate/create-validation-fn');
+const createValidationFunction = require('./validate/create-validation-function');
 
-let db;
+let database;
 
 /**
  * See InMemory.js for contract.
@@ -10,8 +11,8 @@ let db;
  */
 class Firestore {
   constructor({ collections, config, schema, enforceSchemaFn }) {
-    if (!db) {
-      db = new FirestoreDb();
+    if (!database) {
+      database = new FirestoreDatabase();
     }
 
     const { collectionSuffix } = config.dataSourceOptions;
@@ -21,48 +22,48 @@ class Firestore {
         (collection) => `${collection}_${collectionSuffix}`
       );
       */
-      if (collections.length < 1) {
+      if (collections.length === 0) {
         throw new Error('Expecting top level collection');
       }
       collections[0] = `${collections[0]}_${collectionSuffix}`;
     }
 
-    const validate = createValidationFn({
+    const validate = createValidationFunction({
       collections,
       config,
       enforceSchemaFn,
       schema,
     });
 
-    const args = {
+    const arguments_ = {
       collections,
-      db,
+      db: database,
       validate,
     };
-    this.count = count(args);
-    this.create = create(args);
-    this.del = del(args);
-    this.exists = exists(args);
-    this.get = get(args);
-    this.search = search(args);
-    this.update = update(args);
+    this.count = count(arguments_);
+    this.create = create(arguments_);
+    this.del = del(arguments_);
+    this.exists = exists(arguments_);
+    this.get = get(arguments_);
+    this.search = search(arguments_);
+    this.update = update(arguments_);
   }
 
   startAtomic() {
-    if (db.atomic) {
+    if (database.atomic) {
       throw new Error('atomic operation already started');
     }
-    db.atomic = db.batch();
+    database.atomic = database.batch();
   }
 
   async commitAtomic() {
-    if (!db.atomic) {
+    if (!database.atomic) {
       throw new Error('no atomic operation to commit');
     }
     try {
-      return await db.atomic.commit();
+      return await database.atomic.commit();
     } finally {
-      db.atomic = null;
+      database.atomic = undefined;
     }
   }
 }

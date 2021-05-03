@@ -1,10 +1,12 @@
 module.exports = (schema) => {
-  return (req, res, next) => {
-    const toValidate = req.method === 'GET' ? req.params : req.body;
-    const errors = req.enforceSchemaFn(schema, toValidate);
+  return (request, response, next) => {
+    const toValidate = request.method === 'GET' ? request.params : request.body;
+    const errors = request.enforceSchemaFn(schema, toValidate);
     if (errors) {
-      req.log.clientInfo(`400: ${req.method} ${req.url}: ${errors}`);
-      res.status(400).end();
+      request.log.clientInfo(
+        `400: ${request.method} ${request.url}: ${errors}`
+      );
+      response.status(400).end();
     } else {
       next();
     }

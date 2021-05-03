@@ -6,8 +6,8 @@ const testForGetError = (errorCode) => (app, path) => (t) => {
   request(app)
     .get(path)
     .expect(errorCode)
-    .end((err) => {
-      if (err) throw err;
+    .end((error) => {
+      if (error) throw error;
       t.end();
     });
 };
@@ -18,8 +18,8 @@ const testForPostError = (errorCode) => (app, path, body) => (t) => {
     .set('Content-Type', 'application/json')
     .send(body)
     .expect(errorCode)
-    .end((err) => {
-      if (err) throw err;
+    .end((error) => {
+      if (error) throw error;
       t.end();
     });
 };

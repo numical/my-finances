@@ -10,22 +10,24 @@ const report = console.log;
 const createPersonalAccount = async () => {
   report(`creating account '${PERSONAL_ACCOUNTS}'...`);
 
-  const db = new Firestore();
+  const database = new Firestore();
 
-  const preExisting = await db.doc(`/accounts/${PERSONAL_ACCOUNTS}`).get();
+  const preExisting = await database
+    .doc(`/accounts/${PERSONAL_ACCOUNTS}`)
+    .get();
   if (preExisting.exists) {
     report(`Account '${PERSONAL_ACCOUNTS}' already exists`);
     return;
   }
 
-  const collectionRef = db.collection('accounts');
+  const collectionReference = database.collection('accounts');
   const toCreate = addCreatedFields({
     id: PERSONAL_ACCOUNTS,
     description: PERSONAL_ACCOUNTS,
   });
-  await collectionRef.doc(PERSONAL_ACCOUNTS).set(toCreate);
+  await collectionReference.doc(PERSONAL_ACCOUNTS).set(toCreate);
 
-  const snapshot = await db.doc(`/accounts/${PERSONAL_ACCOUNTS}`).get();
+  const snapshot = await database.doc(`/accounts/${PERSONAL_ACCOUNTS}`).get();
   if (snapshot.exists) {
     const created = snapshot.data();
     deepStrictEqual(created, toCreate);

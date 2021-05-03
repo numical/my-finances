@@ -4,9 +4,24 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:unicorn/recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 12,
   },
-  rules: {},
+  plugins: ['unicorn'],
+  rules: {
+    'unicorn/no-array-callback-reference': 'off',
+    'unicorn/no-array-reduce': 'off',
+    'unicorn/prefer-module': 'off',
+    'unicorn/prevent-abbreviations': [
+      'error',
+      {
+        replacements: {
+          res: {
+            result: false,
+          },
+        },
+      },
+    ],
+  },
 };

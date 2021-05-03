@@ -10,7 +10,7 @@ module.exports = ({ api, dataStores }) => async ({ createSession = true }) => {
   const hash = random.hash();
   const credentials = {
     authId: hash,
-    email: `${hash.substring(0, 12)}_superuser@acme.org`,
+    email: `${hash.slice(0, 12)}_superuser@acme.org`,
     pwd: string.reverse(hash),
   };
 

@@ -2,16 +2,16 @@ const { MODEL } = require('../schemas');
 const { PERSONAL } = require('../roles');
 const { addUpdatedFields } = require('./util');
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { body: model, dataStores, params } = req;
+    const { body: model, dataStores, params } = request;
     const { accountId, userId, modelId } = params;
     const { models } = dataStores;
     const entity = addUpdatedFields(model);
     models.update({ entity, ids: [accountId, userId, modelId] });
-    res.status(200).end();
-  } catch (err) {
-    next(err);
+    response.status(200).end();
+  } catch (error) {
+    next(error);
   }
 };
 

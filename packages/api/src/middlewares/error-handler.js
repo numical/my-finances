@@ -1,16 +1,16 @@
-module.exports = (err, req, res, next) => {
-  const status = err.status || err.statusCode || 500;
+module.exports = (error, request, response, next) => {
+  const status = error.status || error.statusCode || 500;
   const level = status >= 500 ? 'error' : 'warn';
-  const { body, params, method } = req;
+  const { body, log, method, params } = request;
   const report = {
     status,
     args: method === 'GET' ? params : body,
-    err,
+    err: error,
   };
-  req.log[level](report);
-  if (res.headersSent) {
-    return next(err);
+  log[level](report);
+  if (response.headersSent) {
+    return next(error);
   } else {
-    res.status(status).end();
+    response.status(status).end();
   }
 };

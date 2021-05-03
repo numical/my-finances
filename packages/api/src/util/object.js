@@ -4,9 +4,9 @@
  * @param obj2
  * @returns {{}}
  */
-const diff = (obj1, obj2) =>
-  Object.entries(obj1).reduce((diff, [key, value]) => {
-    if (obj2[key] !== obj1[key]) {
+const diff = (object1, object2) =>
+  Object.entries(object1).reduce((diff, [key, value]) => {
+    if (object2[key] !== object1[key]) {
       diff[key] = value;
     }
     return diff;
@@ -20,7 +20,7 @@ const extractTruthy = (dictionary) =>
     return truthy;
   }, {});
 
-const isEmpty = (obj) => Object.keys(obj).length === 0;
+const isEmpty = (object) => Object.keys(object).length === 0;
 
 const isObject = (value) => typeof value === 'object' && value !== null;
 

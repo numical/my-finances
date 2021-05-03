@@ -1,16 +1,16 @@
 const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
 const { MODEL } = require('../schemas');
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { dataStores, params } = req;
+    const { dataStores, params } = request;
     const { accountId, userId, modelId } = params;
     const { models } = dataStores;
     const model = await models.get([accountId, userId, modelId]);
-    res.locals.body = model;
-    res.status(200).json(model);
-  } catch (err) {
-    next(err);
+    response.locals.body = model;
+    response.status(200).json(model);
+  } catch (error) {
+    next(error);
   }
 };
 

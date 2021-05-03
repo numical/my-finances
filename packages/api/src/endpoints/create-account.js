@@ -11,9 +11,9 @@ const requestSchema = createSchema({
 
 const responseSchema = ACCOUNT;
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { body, dataStores } = req;
+    const { body, dataStores } = request;
     const { description } = body;
     const { accounts } = dataStores;
 
@@ -23,10 +23,10 @@ const handler = async (req, res, next) => {
       }),
     });
 
-    res.locals.body = account;
-    res.status(200).json(account);
-  } catch (err) {
-    next(err);
+    response.locals.body = account;
+    response.status(200).json(account);
+  } catch (error) {
+    next(error);
   }
 };
 

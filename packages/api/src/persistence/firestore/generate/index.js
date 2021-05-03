@@ -1,8 +1,8 @@
-const generateDocRef = require('./generate-document-reference');
-const generateParentCollectionRef = require('./generate-parent-collection-reference');
+const generateDocumentReference = require('./generate-document-reference');
+const generateParentCollectionReference = require('./generate-parent-collection-reference');
 const generateSearchQuery = require('./generate-search-query');
 module.exports = {
-  generateDocRef,
-  generateParentCollectionRef,
+  generateDocRef: generateDocumentReference,
+  generateParentCollectionRef: generateParentCollectionReference,
   generateSearchQuery,
 };

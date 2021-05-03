@@ -14,16 +14,16 @@ module.exports = ({ collections, db, validate }) => async ({
     // if id to be auto generated...
     validate({ ...entity, id: DUMMY_ID });
   }
-  const collectionRef = generateParentCollectionRef({
+  const collectionReference = generateParentCollectionRef({
     collections,
     db,
     parentIds,
   });
   if (entity.id) {
-    await collectionRef.doc(entity.id).set(entity);
+    await collectionReference.doc(entity.id).set(entity);
   } else {
-    const docRef = await collectionRef.add(entity);
-    entity.id = docRef.id;
+    const documentReference = await collectionReference.add(entity);
+    entity.id = documentReference.id;
   }
   return entity;
 };

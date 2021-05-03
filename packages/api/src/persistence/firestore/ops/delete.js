@@ -1,10 +1,10 @@
 const { generateDocRef } = require('../generate');
 
 module.exports = ({ collections, db }) => async ({ ids }) => {
-  const docRef = generateDocRef({ collections, db, ids });
+  const documentReference = generateDocRef({ collections, db, ids });
   if (db.atomic) {
-    db.atomic.delete(docRef);
+    db.atomic.delete(documentReference);
   } else {
-    await docRef.delete();
+    await documentReference.delete();
   }
 };

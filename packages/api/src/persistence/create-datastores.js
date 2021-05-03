@@ -21,13 +21,13 @@ module.exports = ({ config, enforceSchemaFn }) => {
   const dataStores = {};
   const Datastore = config.dataSource === 'firestore' ? FireStore : InMemory;
 
-  Object.entries(ENTITIES).forEach(([key, values]) => {
+  for (const [key, values] of Object.entries(ENTITIES)) {
     dataStores[key] = new Datastore({
       config,
       enforceSchemaFn,
       ...values,
     });
-  });
+  }
 
   return dataStores;
 };

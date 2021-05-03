@@ -12,9 +12,9 @@ const requestSchema = createSchema({
 
 const responseSchema = MODEL;
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { body, dataStores, params } = req;
+    const { body, dataStores, params } = request;
     const { models } = dataStores;
     const { accountId, userId } = params;
     const { data, description } = body;
@@ -27,10 +27,10 @@ const handler = async (req, res, next) => {
       parentIds: [accountId, userId],
     });
 
-    res.locals.body = model;
-    res.status(200).json(model);
-  } catch (err) {
-    next(err);
+    response.locals.body = model;
+    response.status(200).json(model);
+  } catch (error) {
+    next(error);
   }
 };
 

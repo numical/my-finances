@@ -1,14 +1,14 @@
 const { PERSONAL } = require('../roles');
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { dataStores, params } = req;
+    const { dataStores, params } = request;
     const { accountId, userId, modelId } = params;
     const { models } = dataStores;
     await models.del({ ids: [accountId, userId, modelId] });
-    res.status(204).end();
-  } catch (err) {
-    next(err);
+    response.status(204).end();
+  } catch (error) {
+    next(error);
   }
 };
 

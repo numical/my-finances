@@ -13,7 +13,7 @@ const report = () =>
     .filter(([, value]) => typeof value !== 'function')
     .reduce(
       (s, [key, value]) =>
-        `${s}${EOL}  ${key}: ${JSON.stringify(value, null, 2)}`,
+        `${s}${EOL}  ${key}: ${JSON.stringify(value, undefined, 2)}`,
       reportEnvironment()
     );
 

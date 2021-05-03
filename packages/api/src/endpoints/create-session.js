@@ -20,9 +20,9 @@ const responseSchema = createSchema({
   },
 });
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { body, dataStores } = req;
+    const { body, dataStores, log, method, url } = request;
     const { authId, pwd } = body;
     const { users } = dataStores;
 
@@ -32,10 +32,10 @@ const handler = async (req, res, next) => {
     ]);
     switch (existingUsers.length) {
       case 0: {
-        req.log.clientInfo(
-          `400: ${req.method} ${req.url}: unknown user auth id '${authId}'`
+        log.clientInfo(
+          `400: ${method} ${url}: unknown user auth id '${authId}'`
         );
-        res.status(400).end();
+        response.status(400).end();
         break;
       }
       case 1: {
@@ -50,26 +50,26 @@ const handler = async (req, res, next) => {
             userId: user.id,
           };
           const jwt = await generateJWT(body);
-          res.cookie(COOKIE_NAME, jwt, { ...COOKIE_OPTIONS, maxAge });
-          res.locals.body = body;
-          res.status(200).json(body);
+          response.cookie(COOKIE_NAME, jwt, { ...COOKIE_OPTIONS, maxAge });
+          response.locals.body = body;
+          response.status(200).json(body);
         } else {
-          req.log.clientInfo(
-            `401: ${req.method} ${req.url}: password incorrect for auth id '${authId}'`
+          log.clientInfo(
+            `401: ${method} ${url}: password incorrect for auth id '${authId}'`
           );
-          res.status(401).end();
+          response.status(401).end();
         }
         break;
       }
       default: {
-        req.log.error(
-          `500: ${req.method} ${req.url}: multiple records for auth id '${authId}'`
+        log.error(
+          `500: ${method} ${url}: multiple records for auth id '${authId}'`
         );
-        res.status(500).end();
+        response.status(500).end();
       }
     }
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 

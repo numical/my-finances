@@ -15,12 +15,12 @@ const requestSchema = createSchema({
 
 const responseSchema = USER;
 
-const handler = async (req, res, next) =>
+const handler = async (request, response, next) =>
   newUserHandler({
     accountId: PERSONAL_ACCOUNTS,
     roles: [PERSONAL],
-    req,
-    res,
+    req: request,
+    res: response,
     next,
   });
 

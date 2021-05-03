@@ -4,20 +4,22 @@ const { allow, ...roles } = require('../roles');
 
 const { COOKIE_NAME } = cookieConstants;
 
-const fail = (req, res, status, message) => {
-  req.log.clientInfo(`${status}: ${req.method} ${req.url}: ${message}`);
-  res.status(status).end();
+const fail = (request, response, status, message) => {
+  request.log.clientInfo(
+    `${status}: ${request.method} ${request.url}: ${message}`
+  );
+  response.status(status).end();
 };
 
-module.exports = (endpointRoles) => async (req, res, next) => {
+module.exports = (endpointRoles) => async (request, response, next) => {
   // missing auth data
-  const tokenId = req.get(SESSION_TOKEN);
+  const tokenId = request.get(SESSION_TOKEN);
   if (!tokenId) {
-    return fail(req, res, 401, `No session token '${SESSION_TOKEN}'`);
+    return fail(request, response, 401, `No session token '${SESSION_TOKEN}'`);
   }
-  const cookie = req.cookies[COOKIE_NAME];
+  const cookie = request.cookies[COOKIE_NAME];
   if (!cookie) {
-    return fail(req, res, 401, `No cookie '${COOKIE_NAME}'`);
+    return fail(request, response, 401, `No cookie '${COOKIE_NAME}'`);
   }
 
   // consistent auth data
@@ -25,8 +27,8 @@ module.exports = (endpointRoles) => async (req, res, next) => {
   const { roles: sessionRoles, sessionId, timeout } = jwt;
   if (tokenId !== sessionId) {
     return fail(
-      req,
-      res,
+      request,
+      response,
       401,
       `JWT sessionId '${sessionId}' does not match session token '${tokenId}'`
     );
@@ -36,21 +38,21 @@ module.exports = (endpointRoles) => async (req, res, next) => {
   const remainingSessionMs = timeout - Date.now();
   if (remainingSessionMs <= 0) {
     return fail(
-      req,
-      res,
+      request,
+      response,
       401,
       `JWT expired by ${Math.abs(remainingSessionMs)} milliseconds`
     );
   }
 
   // authorisation
-  res.locals.roles = endpointRoles
+  response.locals.roles = endpointRoles
     .filter((role) => sessionRoles.includes(role))
-    .filter((role) => allow[role](jwt, req.params));
-  if (res.locals.roles.length === 0) {
+    .filter((role) => allow[role](jwt, request.params));
+  if (response.locals.roles.length === 0) {
     return fail(
-      req,
-      res,
+      request,
+      response,
       403,
       `Roles forbid operation; session roles ${roles} ;endpoint roles ${endpointRoles}`
     );

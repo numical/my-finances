@@ -32,8 +32,8 @@ const run = async () => {
   try {
     const answers = await ask();
     await createSuperUser(answers);
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -15,14 +15,19 @@ module.exports = async (customise = {}) => {
   const logger = pino(config.log);
   logger.info(config.report());
 
-  const enforceSchemaFn = schemas.init({ logger });
-  const dataStores = persistence.init({ config, enforceSchemaFn });
+  const enforceSchemaFunction = schemas.init({ logger });
+  const dataStores = persistence.init({
+    config,
+    enforceSchemaFn: enforceSchemaFunction,
+  });
 
   const app = express();
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
-  app.use(attachServices({ dataStores, enforceSchemaFn }));
+  app.use(
+    attachServices({ dataStores, enforceSchemaFn: enforceSchemaFunction })
+  );
 
   if (customise.middleware) {
     customise.middleware(app);

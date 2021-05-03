@@ -1,10 +1,14 @@
 const { partial } = require('../../../schemas');
 
-const createValidationFn = (collections, enforceSchemaFn, schema) => {
+const createValidationFunction = (
+  collections,
+  enforceSchemaFunction,
+  schema
+) => {
   const partialSchema = partial(schema);
   return (entity, allowPartial) => {
     const schemaToUse = allowPartial ? partialSchema : schema;
-    const errors = enforceSchemaFn(schemaToUse, entity);
+    const errors = enforceSchemaFunction(schemaToUse, entity);
     if (errors) {
       throw new Error(
         `Invalid firebase data for ${collections.join(',')}: ${JSON.stringify(
@@ -20,5 +24,5 @@ const noOp = (record) => record;
 
 module.exports = ({ collections, config, enforceSchemaFn, schema }) =>
   config.validate.data && schema
-    ? createValidationFn(collections, enforceSchemaFn, schema)
+    ? createValidationFunction(collections, enforceSchemaFn, schema)
     : noOp;

@@ -30,10 +30,10 @@ const endPoints = [
 ];
 
 const init = ({ app, config }) => {
-  endPoints.forEach((endPoint) => {
+  for (const endPoint of endPoints) {
     const { verb, path } = endPoint;
     app[verb](path, ...createCallbacks({ config, endPoint }));
-  });
+  }
 };
 
 module.exports = {

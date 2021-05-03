@@ -5,8 +5,8 @@ const noOp = (d) => d;
 
 module.exports = ({ collections, db, validate }) => {
   assertNotAtomic('count', db);
-  const read = (docSnapshot) => {
-    const entity = { ...docSnapshot.data(), id: docSnapshot.id };
+  const read = (documentSnapshot) => {
+    const entity = { ...documentSnapshot.data(), id: documentSnapshot.id };
     return validate(entity);
   };
 
@@ -18,7 +18,9 @@ module.exports = ({ collections, db, validate }) => {
       parentIds,
     });
     const querySnapshot = await query.get();
-    const mapFn = hydrateResults ? read : noOp;
-    return querySnapshot.size === 0 ? null : querySnapshot.docs.map(mapFn);
+    const mapFunction = hydrateResults ? read : noOp;
+    return querySnapshot.size === 0
+      ? undefined
+      : querySnapshot.docs.map(mapFunction);
   };
 };

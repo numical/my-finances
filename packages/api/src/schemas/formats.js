@@ -1,12 +1,12 @@
 module.exports = {
   // based on observation of firestore
-  dbid: /^[a-zA-Z0-9]{20}$/i,
+  dbid: /^[\da-z]{20}$/i,
   // https://stackoverflow.com/questions/201323/how-to-validate-an-email-address-using-a-regular-expression#answer-8829363
-  email: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i,
+  email: /^[\w!#$%&'*+/=?^`{|}~-]+(?:\.[\w!#$%&'*+/=?^`{|}~-]+)*@(?:[\da-z](?:[\da-z-]*[\da-z])?\.)+[\da-z](?:[\da-z-]*[\da-z])?$/i,
   // based on SHA-256 so 64 characters
-  hash: /^[a-f0-9]{64}$/i,
+  hash: /^[\da-f]{64}$/i,
   // trial and error
-  semver: /^[0-9]+\.[0-9]+\.[0-9]+$/i,
+  semver: /^\d+\.\d+\.\d+$/i,
   // uuid: http://tools.ietf.org/html/rfc4122
-  uuid: /^(?:urn:uuid:)?[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i,
+  uuid: /^(?:urn:uuid:)?[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/i,
 };

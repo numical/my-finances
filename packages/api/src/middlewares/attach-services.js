@@ -1,6 +1,6 @@
 module.exports = (services) => {
-  return (req, res, next) => {
-    Object.assign(req, services);
+  return (request, response, next) => {
+    Object.assign(request, services);
     next();
   };
 };

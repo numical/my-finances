@@ -10,10 +10,10 @@ const getValidator = (schema) => {
     try {
       validate = ajv.compile(schema);
       cache.set(schema, validate);
-    } catch (err) {
+    } catch (error) {
       const id = schema.metadata ? schema.metadata.id : 'missing id';
-      err.message = `schema compilation error: schema id '${id}': ${err.message}`;
-      throw err;
+      error.message = `schema compilation error: schema id '${id}': ${error.message}`;
+      throw error;
     }
   }
   return validate;
@@ -21,7 +21,7 @@ const getValidator = (schema) => {
 
 const enforceSchemaFunction = (schema, data) => {
   const validate = getValidator(schema);
-  return validate(data) ? null : report(validate);
+  return validate(data) ? undefined : report(validate);
 };
 
 const createEnforceSchemaFunction = ({ logger }) => {

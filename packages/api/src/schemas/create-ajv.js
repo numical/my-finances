@@ -11,8 +11,8 @@ module.exports = (logger) => {
     validateSchema: true,
   });
   keywords(ajv, KEYWORDS);
-  Object.entries(formats).forEach(([name, format]) =>
-    ajv.addFormat(name, format)
-  );
+  for (const [name, format] of Object.entries(formats)) {
+    ajv.addFormat(name, format);
+  }
   return ajv;
 };

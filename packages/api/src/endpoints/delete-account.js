@@ -1,9 +1,9 @@
 const { SUPERUSER } = require('../roles');
 const { array } = require('../util');
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { dataStores, params } = req;
+    const { dataStores, params } = request;
     const { accounts, users, models } = dataStores;
     const { accountId } = params;
 
@@ -40,13 +40,15 @@ const handler = async (req, res, next) => {
     chunks.reduce(async (previous, chunk) => {
       await previous;
       users.startAtomic();
-      chunk.forEach(({ datastore, ids }) => datastore.del({ ids }));
+      for (const { datastore, ids } of chunk) {
+        datastore.del({ ids });
+      }
       return users.commitAtomic();
     }, Promise.resolve());
 
-    req.status(204).end();
-  } catch (err) {
-    next(err);
+    request.status(204).end();
+  } catch (error) {
+    next(error);
   }
 };
 

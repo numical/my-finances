@@ -10,7 +10,7 @@ const JWT_COOKIE_REGEX = /^__session=.+; Max-Age=600; Path=\/; Expires=.*; HttpO
 const generateUserCredentials = (hash) => ({
   authId: hash,
   description: `user-${hash}`,
-  email: `${hash.substring(0, 12)}@acme.org`,
+  email: `${hash.slice(0, 12)}@acme.org`,
   pwd: reverse(hash),
 });
 

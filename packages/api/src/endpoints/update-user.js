@@ -24,23 +24,21 @@ const requestSchema = createSchema({
 
 const responseSchema = USER;
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { body, dataStores, log, params } = req;
+    const { body, dataStores, log, params, method, url } = request;
     const { accountId, userId } = params;
     const { users, models } = dataStores;
-    const { locals } = res;
+    const { locals } = response;
     const { roles: sessionRoles } = locals;
 
     // check session user auth
-    if (body.pwd || body.models) {
-      if (!sessionRoles.includes(PERSONAL)) {
-        log.clientInfo(
-          `403: ${req.method} ${req.url}: only PERSONAL role can update password and models.`
-        );
-        res.status(403).end();
-        return;
-      }
+    if ((body.pwd || body.models) && !sessionRoles.includes(PERSONAL)) {
+      log.clientInfo(
+        `403: ${method} ${url}: only PERSONAL role can update password and models.`
+      );
+      response.status(403).end();
+      return;
     }
 
     // fire off retrievals
@@ -55,24 +53,27 @@ const handler = async (req, res, next) => {
     // ensure field consistencies
     if (authId || email) {
       if (!authId) {
-        res.status(400).send('authId required if changing email').end();
+        response.status(400).send('authId required if changing email').end();
         return;
       }
       if (!email) {
-        res.status(400).send('email required if changing authId').end();
+        response.status(400).send('email required if changing authId').end();
         return;
       }
     }
     if (pwd || passedModels) {
       if (!pwd) {
-        res
+        response
           .status(400)
           .send('models alone cannot be updated via this endpoint')
           .end();
         return;
       }
       if (!passedModels) {
-        res.status(400).send('models required if changing password.').end();
+        response
+          .status(400)
+          .send('models required if changing password.')
+          .end();
         return;
       } else {
         const existingModels = await fetchModels;
@@ -81,7 +82,7 @@ const handler = async (req, res, next) => {
           .map((model) => model.id)
           .sort();
         if (!array.isScalarEqual(passedIds, existingIds)) {
-          res
+          response
             .status(400)
             .send(`passed models do not match user's models`)
             .end();
@@ -93,7 +94,7 @@ const handler = async (req, res, next) => {
     // transactional
     const truthyChangedFields = object.extractTruthy(changedFields);
     if (!object.isEmpty(truthyChangedFields)) {
-      const dbUpdates = [
+      const databaseUpdates = [
         {
           datastore: users,
           entity: addUpdatedFields(truthyChangedFields),
@@ -101,26 +102,26 @@ const handler = async (req, res, next) => {
         },
       ];
       if (passedModels) {
-        Object.values(passedModels).forEach((model) => {
-          dbUpdates.push({
+        for (const model of Object.values(passedModels)) {
+          databaseUpdates.push({
             datastore: models,
             entity: addUpdatedFields(model),
             ids: [accountId, userId, model.id],
           });
-        });
+        }
       }
 
       users.startAtomic();
       await Promise.all(
-        dbUpdates.map(({ datastore, entity, ids }) =>
+        databaseUpdates.map(({ datastore, entity, ids }) =>
           datastore.update({ entity, ids })
         )
       );
       await users.commitAtomic();
     }
-    res.status(200).end();
-  } catch (err) {
-    next(err);
+    response.status(200).end();
+  } catch (error) {
+    next(error);
   }
 };
 

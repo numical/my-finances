@@ -22,16 +22,16 @@ const requestSchema = createSchema({
 
 const responseSchema = USER;
 
-const handler = async (req, res, next) => {
-  const { body, params } = req;
+const handler = async (request, response, next) => {
+  const { body, params } = request;
   const { roles } = body;
   const { accountId } = params;
 
   return newUserHandler({
     accountId,
     roles,
-    req,
-    res,
+    req: request,
+    res: response,
     next,
   });
 };

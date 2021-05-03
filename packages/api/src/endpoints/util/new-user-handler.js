@@ -50,7 +50,7 @@ module.exports = async ({ accountId, next, req, res, roles }) => {
 
     res.locals.body = user;
     res.status(200).json(user);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };

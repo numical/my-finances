@@ -1,26 +1,24 @@
 const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
 const { USER } = require('../schemas');
 
-const handler = async (req, res, next) => {
+const handler = async (request, response, next) => {
   try {
-    const { dataStores, params } = req;
+    const { dataStores, log, params, method, url } = request;
     const { users, models } = dataStores;
     const { accountId, userId } = params;
 
     const user = await users.get([accountId, userId]);
 
     if (!user) {
-      req.log.clientInfo(
-        `404: ${req.method} ${req.url}: unknown user id  '${userId}'`
-      );
-      res.status(404).end();
+      log.clientInfo(`404: ${method} ${url}: unknown user id  '${userId}'`);
+      response.status(404).end();
       return;
     }
 
     const userModels = await models.search({ parentIds: [accountId, userId] });
     if (userModels.length === 0) {
-      req.log.error(`500: no models found for user id '${userId}'`);
-      res.status(500).end();
+      log.error(`500: no models found for user id '${userId}'`);
+      response.status(500).end();
     }
 
     user.models = userModels.reduce((dictionary, model) => {
@@ -28,10 +26,10 @@ const handler = async (req, res, next) => {
       return dictionary;
     }, {});
 
-    res.locals.body = user;
-    res.status(200).json(user);
-  } catch (err) {
-    next(err);
+    response.locals.body = user;
+    response.status(200).json(user);
+  } catch (error) {
+    next(error);
   }
 };
 

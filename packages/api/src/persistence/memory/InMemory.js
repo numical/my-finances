@@ -1,5 +1,6 @@
 // Cloud Run instances hang around for 10 mins
 
+// eslint-disable-next-line unicorn/filename-case
 const { randomBytes } = require('crypto');
 
 // must match Firestore ID format 20
@@ -68,7 +69,7 @@ class InMemory {
    */
   async get(ids) {
     const id = this.generateId(ids);
-    return this.docs[id] || null;
+    return this.docs[id] || undefined;
   }
 
   /**
@@ -92,21 +93,22 @@ class InMemory {
       ? this.generateId([...parentIds, ''])
       : this.collectionPath;
     const searchOp = parentIds ? 'startsWith' : 'includes';
-    const collectionDocs = Object.entries(this.docs).reduce(
-      (docs, [id, doc]) => {
+    const collectionDocuments = Object.entries(this.docs).reduce(
+      (documents, [id, document]) => {
         if (id[searchOp](searchFor)) {
-          docs.push(doc);
+          documents.push(document);
         }
-        return docs;
+        return documents;
       },
       []
     );
     return criteria
       ? Object.entries(criteria).reduce(
-          (docs, [field, value]) => docs.filter((doc) => doc[field] === value),
-          collectionDocs
+          (documents, [field, value]) =>
+            documents.filter((document) => document[field] === value),
+          collectionDocuments
         )
-      : collectionDocs;
+      : collectionDocuments;
   }
 
   /**

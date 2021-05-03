@@ -12,16 +12,18 @@ const report = console.log;
 const createSuperUser = async ({ email, pwd }) => {
   report(`creating superuser '${email}'...`);
 
-  const db = new Firestore();
+  const database = new Firestore();
 
-  const personalAccount = await db.doc(`/accounts/${PERSONAL_ACCOUNTS}`).get();
+  const personalAccount = await database
+    .doc(`/accounts/${PERSONAL_ACCOUNTS}`)
+    .get();
   if (!personalAccount.exists) {
     throw new Error(
       `Account '${PERSONAL_ACCOUNTS}' does not exist to add superuser to`
     );
   }
 
-  const query = db.collectionGroup('users').where('email', '==', email);
+  const query = database.collectionGroup('users').where('email', '==', email);
   const querySnapshot = await query.get();
   if (querySnapshot.size > 0) {
     throw new Error(`User '${email}' already exists.`);
@@ -35,14 +37,14 @@ const createSuperUser = async ({ email, pwd }) => {
     roles: [SUPERUSER],
   });
 
-  const newDocument = await db
+  const newDocument = await database
     .collection(`/accounts/${PERSONAL_ACCOUNTS}/users`)
     .add(toCreate);
 
-  const retrievedDoc = db.doc(
+  const retrievedDocument = database.doc(
     `/accounts/${PERSONAL_ACCOUNTS}/users/${newDocument.id}`
   );
-  const snapshot = await retrievedDoc.get();
+  const snapshot = await retrievedDocument.get();
   if (snapshot.exists) {
     const created = snapshot.data();
     deepStrictEqual(created, toCreate);
