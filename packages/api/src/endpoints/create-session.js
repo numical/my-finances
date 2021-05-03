@@ -1,6 +1,7 @@
 const config = require('../config');
 const { cookieConstants, generateJWT, generateSessionId } = require('../auth');
 const { createSchema, HASH, NUMBER, STRING, UUID } = require('../schemas');
+const { string } = require('../util');
 
 const { COOKIE_NAME, COOKIE_OPTIONS } = cookieConstants;
 
@@ -40,7 +41,7 @@ const handler = async (request, response, next) => {
       }
       case 1: {
         const user = existingUsers[0];
-        if (pwd === user.pwd) {
+        if (string.isEqualInFixedTime(pwd, user.pwd)) {
           const maxAge = config.sessionTimeoutInSeconds * 1000;
           const body = {
             accountId: user.accountId,

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix './**/*.js'",
+    "lint.no.fix": "eslint './**/*.js'",
     "create.superuser": "node src/tools/create-super-user-cli.js",
     "create.personal.account": "node src/tools/create-personal-account-cli.js",
     "test": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.js | pino-pretty --colorize --hideObject",
