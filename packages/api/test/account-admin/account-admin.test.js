@@ -1,15 +1,14 @@
 const testApi = require('../test-api');
 const createTestEntities = require('./create-test-entities');
-
 const {
   canCreateAccount,
-  cannotCreateAccount,
-  canCreateSession,
   canCreateAccountUser,
+  canCreateSession,
+  cannotCreateAccount,
   cannotCreateAccountUser,
 } = require('./creation-tests');
 
-testApi(async ({ api, createSuperuser, testHash, test }) => {
+testApi(async ({ api, createSuperuser, test, testHash }) => {
   const accounts = createTestEntities(testHash);
   const { account1, account2 } = accounts;
 

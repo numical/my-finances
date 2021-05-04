@@ -5,7 +5,7 @@ module.exports = async ({ accountId, next, req, res, roles }) => {
   try {
     const { body, dataStores } = req;
     const { authId, description, email, pwd } = body;
-    const { users, models } = dataStores;
+    const { models, users } = dataStores;
 
     /*
      * Belt'n'braces: authId is a function of email so do not

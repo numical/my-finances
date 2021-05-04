@@ -1,7 +1,7 @@
 const { generateSearchQuery } = require('../generate');
 const assertNotAtomic = require('./assert-not-atomic');
 
-module.exports = ({ collections, db }) => async ({ parentIds, criteria }) => {
+module.exports = ({ collections, db }) => async ({ criteria, parentIds }) => {
   assertNotAtomic('count', db);
   const query = generateSearchQuery({
     collections,

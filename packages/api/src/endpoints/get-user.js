@@ -1,10 +1,10 @@
-const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
+const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = require('../roles');
 const { USER } = require('../schemas');
 
 const handler = async (request, response, next) => {
   try {
-    const { dataStores, log, params, method, url } = request;
-    const { users, models } = dataStores;
+    const { dataStores, log, method, params, url } = request;
+    const { models, users } = dataStores;
     const { accountId, userId } = params;
 
     const user = await users.get([accountId, userId]);

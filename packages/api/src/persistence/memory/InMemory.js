@@ -88,7 +88,7 @@ class InMemory {
    * @param values
    * @returns {Promise<[string, unknown]>}
    */
-  async search({ parentIds, criteria }) {
+  async search({ criteria, parentIds }) {
     const searchFor = parentIds
       ? this.generateId([...parentIds, ''])
       : this.collectionPath;
@@ -117,7 +117,7 @@ class InMemory {
    * @param criteria
    * @returns {Promise<number>}
    */
-  async count({ parentIds, criteria }) {
+  async count({ criteria, parentIds }) {
     const results = await this.search({ parentIds, criteria });
     return results.length;
   }

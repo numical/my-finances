@@ -10,7 +10,7 @@ let database;
  * Yes, yes, this would be easier with a TypeScript interface...
  */
 class Firestore {
-  constructor({ collections, config, schema, enforceSchemaFn }) {
+  constructor({ collections, config, enforceSchemaFn, schema }) {
     if (!database) {
       database = new FirestoreDatabase();
     }

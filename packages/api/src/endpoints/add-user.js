@@ -1,11 +1,11 @@
-const { SUPERUSER, ACCOUNT_ADMIN } = require('../roles');
+const { ACCOUNT_ADMIN, SUPERUSER } = require('../roles');
 const {
-  createSchema,
   EMAIL,
   HASH,
   ROLES,
   STRING,
   USER,
+  createSchema,
 } = require('../schemas');
 const { newUserHandler } = require('./util');
 

@@ -5,7 +5,7 @@ const test4xx = require('./test-4xx');
 
 const MODEL_CONTENT = 'This is the model content';
 
-testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
+testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
   const journey = {
     credentials: {
       authId: testHash,
@@ -18,7 +18,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
   // user tests
 
   await test('creates user ok', async (t) => {
-    const { status, body } = await api
+    const { body, status } = await api
       .post('/account/personal/users')
       .send(journey.credentials);
 
@@ -32,7 +32,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
   });
 
   await test('creates session ok', async (t) => {
-    const { status, body, headers } = await api
+    const { body, headers, status } = await api
       .post('/sessions')
       .send(journey.credentials);
 
@@ -48,7 +48,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
   });
 
   await test('can update model', async (t) => {
-    const { sessionHeaders, defaultModel, user } = journey;
+    const { defaultModel, sessionHeaders, user } = journey;
     defaultModel.data = MODEL_CONTENT;
     const { status } = await api
       .put(`/account/personal/user/${user.id}/models/${defaultModel.id}`)
@@ -119,7 +119,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
   });
 
   await test('user can update password and models', async (t) => {
-    const { sessionHeaders, defaultModel, user } = journey;
+    const { defaultModel, sessionHeaders, user } = journey;
     defaultModel.data = 'Updated default data';
     const { status } = await api
       .patch(`/account/personal/user/${user.id}`)
@@ -142,7 +142,7 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
       description: 'new_model_description',
       data: 'new_model_ddata',
     };
-    const { status, body: addedModel } = await api
+    const { body: addedModel, status } = await api
       .post(`/account/personal/user/${user.id}/models`)
       .set(sessionHeaders)
       .send(newModel);
@@ -163,8 +163,8 @@ testApi(async ({ addAsserts, api, createSuperuser, testHash, test }) => {
   });
 
   await test('fetched user has both models', async (t) => {
-    const { sessionHeaders, user, defaultModel, addedModel } = journey;
-    const { status, body } = await api
+    const { addedModel, defaultModel, sessionHeaders, user } = journey;
+    const { body, status } = await api
       .get(`/account/personal/user/${user.id}`)
       .set(sessionHeaders);
 

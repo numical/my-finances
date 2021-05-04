@@ -1,9 +1,9 @@
-const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
+const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = require('../roles');
 
 const handler = async (request, response, next) => {
   try {
     const { dataStores, log, method, params, status, url } = request;
-    const { users, models } = dataStores;
+    const { models, users } = dataStores;
     const { accountId, userId } = params;
 
     const userModels = await models.search({

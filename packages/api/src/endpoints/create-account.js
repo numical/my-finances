@@ -1,5 +1,5 @@
 const { SUPERUSER } = require('../roles');
-const { createSchema, ACCOUNT, STRING } = require('../schemas');
+const { ACCOUNT, STRING, createSchema } = require('../schemas');
 const { addCreatedFields } = require('./util');
 
 const requestSchema = createSchema({

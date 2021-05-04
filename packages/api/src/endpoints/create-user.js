@@ -1,6 +1,6 @@
 const { PERSONAL_ACCOUNTS } = require('my-finances-common').constants;
 const { PERSONAL } = require('../roles');
-const { createSchema, EMAIL, HASH, STRING, USER } = require('../schemas');
+const { EMAIL, HASH, STRING, USER, createSchema } = require('../schemas');
 const { newUserHandler } = require('./util');
 
 const requestSchema = createSchema({

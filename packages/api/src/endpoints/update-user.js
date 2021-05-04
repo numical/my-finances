@@ -1,12 +1,12 @@
 const { array, object } = require('../util');
-const { SUPERUSER, ACCOUNT_ADMIN, PERSONAL } = require('../roles');
+const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = require('../roles');
 const {
-  createSchema,
   DICTIONARY,
   EMAIL,
   HASH,
   STRING,
   USER,
+  createSchema,
 } = require('../schemas');
 const { addUpdatedFields } = require('./util');
 
@@ -26,9 +26,9 @@ const responseSchema = USER;
 
 const handler = async (request, response, next) => {
   try {
-    const { body, dataStores, log, params, method, url } = request;
+    const { body, dataStores, log, method, params, url } = request;
     const { accountId, userId } = params;
-    const { users, models } = dataStores;
+    const { models, users } = dataStores;
     const { locals } = response;
     const { roles: sessionRoles } = locals;
 
@@ -48,7 +48,7 @@ const handler = async (request, response, next) => {
     // calculate diff (note: if models passed - always included)
     const user = await fetchUser;
     const changedFields = object.diff(body, user);
-    const { authId, email, pwd, models: passedModels } = changedFields;
+    const { authId, email, models: passedModels, pwd } = changedFields;
 
     // ensure field consistencies
     if (authId || email) {

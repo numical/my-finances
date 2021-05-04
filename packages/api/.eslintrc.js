@@ -13,7 +13,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
   },
-  plugins: ['unicorn'],
+  plugins: ['unicorn', 'sort-destructure-keys'],
   rules: {
     'unicorn/no-array-callback-reference': 'off',
     'unicorn/no-array-reduce': 'off',
@@ -28,5 +28,6 @@ module.exports = {
         },
       },
     ],
+    'sort-destructure-keys/sort-destructure-keys': 2,
   },
 };

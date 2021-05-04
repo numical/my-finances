@@ -1,5 +1,5 @@
-const { SUPERUSER, ACCOUNT_ADMIN } = require('../roles');
-const { createSchema, HASH, USER } = require('../schemas');
+const { ACCOUNT_ADMIN, SUPERUSER } = require('../roles');
+const { HASH, USER, createSchema } = require('../schemas');
 
 const requestSchema = createSchema({
   id: 'get_user_request',

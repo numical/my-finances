@@ -1,5 +1,5 @@
 const { PERSONAL } = require('../roles');
-const { createSchema, MODEL, STRING } = require('../schemas');
+const { MODEL, STRING, createSchema } = require('../schemas');
 const { addCreatedFields } = require('./util');
 
 const requestSchema = createSchema({

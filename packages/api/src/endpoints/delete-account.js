@@ -4,7 +4,7 @@ const { array } = require('../util');
 const handler = async (request, response, next) => {
   try {
     const { dataStores, params } = request;
-    const { accounts, users, models } = dataStores;
+    const { accounts, models, users } = dataStores;
     const { accountId } = params;
 
     const accountUsers = await users.search({

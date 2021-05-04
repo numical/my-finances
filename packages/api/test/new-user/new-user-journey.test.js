@@ -14,13 +14,13 @@ const generateUserCredentials = (hash) => ({
   pwd: reverse(hash),
 });
 
-testApi(async ({ api, testHash, test }) => {
+testApi(async ({ api, test, testHash }) => {
   const userCredentials = generateUserCredentials(testHash);
   const modelContent = random.string(128);
   const journey = {};
 
   await test('creates user when valid credentials passed', async (t) => {
-    const { status, body, text } = await api
+    const { body, status, text } = await api
       .post('/account/personal/users')
       .send(userCredentials);
     const { authId, description, email, pwd } = body;
@@ -60,7 +60,7 @@ testApi(async ({ api, testHash, test }) => {
   });
 
   await test('creates session', async (t) => {
-    const { status, body, headers } = await api
+    const { body, headers, status } = await api
       .post('/sessions')
       .send(userCredentials);
     const { sessionId, timeout } = body;
@@ -81,7 +81,7 @@ testApi(async ({ api, testHash, test }) => {
   });
 
   await test('can fetch user when certs data sent', async (t) => {
-    const { status, body } = await api
+    const { body, status } = await api
       .get(`/account/personal/user/${journey.user.id}`)
       .set(journey.headers);
 
@@ -96,7 +96,7 @@ testApi(async ({ api, testHash, test }) => {
   });
 
   await test('can fetch newly created model directly', async (t) => {
-    const { status, body } = await api
+    const { body, status } = await api
       .get(
         `/account/personal/user/${journey.user.id}/models/${journey.model.id}`
       )
@@ -123,7 +123,7 @@ testApi(async ({ api, testHash, test }) => {
   });
 
   await test('fetched user has updated model', async (t) => {
-    const { status, body } = await api
+    const { body, status } = await api
       .get(`/account/personal/user/${journey.user.id}`)
       .set(journey.headers);
 

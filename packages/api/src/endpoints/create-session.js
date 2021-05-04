@@ -1,6 +1,6 @@
 const config = require('../config');
 const { cookieConstants, generateJWT, generateSessionId } = require('../auth');
-const { createSchema, HASH, NUMBER, STRING, UUID } = require('../schemas');
+const { HASH, NUMBER, STRING, UUID, createSchema } = require('../schemas');
 const { string } = require('../util');
 
 const { COOKIE_NAME, COOKIE_OPTIONS } = cookieConstants;

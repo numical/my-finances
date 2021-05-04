@@ -1,7 +1,7 @@
 const { SESSION_TOKEN } = require('my-finances-common').constants;
 
 const canCreateSession = ({ api, user }) => async (t) => {
-  const { status, body, headers } = await api
+  const { body, headers, status } = await api
     .post('/sessions')
     .send(user.credentials);
 
@@ -15,10 +15,10 @@ const canCreateSession = ({ api, user }) => async (t) => {
 };
 
 const cannotCreateAccount = ({
-  api,
-  user,
   accountToCreate,
+  api,
   expectedStatus,
+  user,
 }) => async (t) => {
   const { fields } = accountToCreate;
   const { status } = await api
@@ -32,9 +32,9 @@ const cannotCreateAccount = ({
 };
 
 const canCreateAccount = (a) => async (t) => {
-  const { api, user, accountToCreate } = a;
+  const { accountToCreate, api, user } = a;
   const { fields } = accountToCreate;
-  const { status, body } = await api
+  const { body, status } = await api
     .post('/accounts')
     .set(user.sessionHeaders)
     .send(fields);
@@ -47,10 +47,10 @@ const canCreateAccount = (a) => async (t) => {
   t.end();
 };
 
-const canCreateAccountUser = ({ api, user, accountId, userToCreate }) => async (
+const canCreateAccountUser = ({ accountId, api, user, userToCreate }) => async (
   t
 ) => {
-  const { status, body } = await api
+  const { body, status } = await api
     .post(`/account/${accountId}/users`)
     .set(user.sessionHeaders)
     .send({
@@ -67,9 +67,9 @@ const canCreateAccountUser = ({ api, user, accountId, userToCreate }) => async (
 };
 
 const cannotCreateAccountUser = ({
+  accountId,
   api,
   user,
-  accountId,
   userToCreate,
 }) => async (t) => {
   const { status } = await api

@@ -10,7 +10,7 @@ module.exports = ({ collections, db, validate }) => {
     return validate(entity);
   };
 
-  return async ({ parentIds, criteria, hydrateResults = true }) => {
+  return async ({ criteria, hydrateResults = true, parentIds }) => {
     const query = generateSearchQuery({
       collections,
       criteria,

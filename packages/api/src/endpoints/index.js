@@ -31,7 +31,7 @@ const endPoints = [
 
 const init = ({ app, config }) => {
   for (const endPoint of endPoints) {
-    const { verb, path } = endPoint;
+    const { path, verb } = endPoint;
     app[verb](path, ...createCallbacks({ config, endPoint }));
   }
 };
