@@ -1,17 +1,16 @@
+const { promisify } = require('util');
 const createApp = require('./src/app');
 
 const port = process.env.PORT || 8080;
 
-createApp()
-  .then(({ app }) =>
-    app.listen(port, (error) => {
-      if (error) {
-        console.error(`my-finances API failed to start on port ${port}`, error);
-      } else {
-        console.log(`my-finances API listening on port ${port}`);
-      }
-    })
-  )
-  .catch((error) => {
+const start = async () => {
+  try {
+    const app = await createApp();
+    await promisify(app.listen)(port);
+    console.log(`my-finances API listening on port ${port}`);
+  } catch (error) {
     console.error(`my-finances API errored on startup`, error);
-  });
+  }
+};
+
+start();
