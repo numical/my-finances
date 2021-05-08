@@ -13,6 +13,9 @@
   "directories": {
     "doc": "docs"
   },
+  "engines": {
+    "node": ">=16.1.0"
+  },
   "devDependencies": {
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
