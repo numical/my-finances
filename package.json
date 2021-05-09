@@ -9,7 +9,7 @@
     "url": "git+https://github.com/numical/my-finances.git"
   },
   "homepage": "https://github.com/numical/my-finances#readme",
-  "main": "index.js",
+  "main": "index.mjs",
   "directories": {
     "doc": "docs"
   },
@@ -17,15 +17,17 @@
     "node": ">=16.1.0"
   },
   "devDependencies": {
-    "eslint": "^7.25.0",
+    "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsonc": "^1.2.1",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-sort-destructure-keys": "^1.3.5",
     "eslint-plugin-unicorn": "^31.0.0",
     "express": "^4.17.1",
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0",
-    "pino-pretty": "^4.7.1",
+    "pino-pretty": "^4.8.0",
     "pnpm": "^6.2.5",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.2.0"

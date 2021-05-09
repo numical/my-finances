@@ -10,46 +10,69 @@ const apiScript = ({ script, logLevel = 'error', dataSource = 'memory' }) => {
 module.exports = {
   default: 'nps help',
   scripts: {
-    lint: {
-      default: {
-        script: series(
-          'pnpm -r lint',
-          "prettier --write './**/*.js' './**/*.svelte' './**/*.html'"
-        ),
-        description: 'lint, fix and format all files',
-      },
-      no: {
-        fix: {
-          script: 'pnpm -r lint.no.fix',
-          description: 'lint files, neither fix nor format',
+    api: {
+      test: {
+        default: {
+          script: apiScript({ script: 'test' }),
+          description: 'run API unit tests',
+        },
+        debug: {
+          default: {
+            script: apiScript({ script: 'test', logLevel: 'debug' }),
+            description: 'run API unit tests with all details logged',
+          },
+          gcp: {
+            script: apiScript({
+              script: 'test',
+              loglevel: 'debug',
+              datasource: 'firestore',
+            }),
+            description:
+              'run API unit tests against GCP with all details logged',
+          },
+        },
+        gcp: {
+          script: apiScript({
+            script: 'test',
+            loglevel: 'error',
+            datasource: 'firestore',
+          }),
+          description: 'run API unit tests against GCP',
+        },
+        coverage: {
+          script: 'pnpm run test.coverage --filter ./packages/api',
+          description: 'run API unit tests with coverage',
+        },
+        only: {
+          script: 'pnpm run test.only --filter ./packages/api',
+          description: 'run only marked API unit tests',
         },
       },
-    },
-    reset: {
-      script: series(
-        'git clean -dfx',
-        'git config core.hooksPath ./local/githooks/',
-        'pnpm install -r',
-        'nps local.certs'
-      ),
-      description: 'reset entire repo',
-    },
-    build: {
-      default: {
-        script: concurrent({
-          api: 'docker build -t my-finances-api .',
-          app: 'pnpm run build --filter ./packages/app',
-        }),
-        description: 'build App and API docker image',
-      },
-      api: {
+      build: {
         script: 'docker build -t my-finances-api .',
         description: 'build API docker image',
       },
-      app: {
+    },
+    app: {
+      run: {
+        script: concurrent({
+          run: 'pnpm run dev --filter ./packages/app',
+          open: series('sleep 1', open('https://localhost:5000/alpha.html')),
+        }),
+        description: 'run app locally',
+      },
+      build: {
         script: 'pnpm run build --filter ./packages/app',
         description: 'build App',
       },
+    },
+    common: {
+      test: {
+        script: 'pnpm run test --filter ./packages/common',
+        description: 'run unit tests for common code',
+      },
+    },
+    deps: {
       outdated: {
         script: 'pnpm -r outdated',
         description: 'list outdated dependencies',
@@ -71,6 +94,21 @@ module.exports = {
       app: {
         script: 'firebase deploy',
         description: 'deploy App - build first!',
+      },
+    },
+    lint: {
+      default: {
+        script: series(
+          'pnpm -r lint',
+          "prettier --write './**/*.js' './**/*.mjs' './**/*.svelte' './**/*.html'"
+        ),
+        description: 'lint, fix and format all files',
+      },
+      no: {
+        fix: {
+          script: 'pnpm -r lint.no.fix',
+          description: 'lint files, neither fix nor format',
+        },
       },
     },
     local: {
@@ -152,59 +190,14 @@ module.exports = {
         },
       },
     },
-    api: {
-      test: {
-        default: {
-          script: apiScript({ script: 'test' }),
-          description: 'run API unit tests',
-        },
-        debug: {
-          default: {
-            script: apiScript({ script: 'test', logLevel: 'debug' }),
-            description: 'run API unit tests with all details logged',
-          },
-          gcp: {
-            script: apiScript({
-              script: 'test',
-              loglevel: 'debug',
-              datasource: 'firestore',
-            }),
-            description:
-              'run API unit tests against GCP with all details logged',
-          },
-        },
-        gcp: {
-          script: apiScript({
-            script: 'test',
-            loglevel: 'error',
-            datasource: 'firestore',
-          }),
-          description: 'run API unit tests against GCP',
-        },
-        coverage: {
-          script: 'pnpm run test.coverage --filter ./packages/api',
-          description: 'run API unit tests with coverage',
-        },
-        only: {
-          script: 'pnpm run test.only --filter ./packages/api',
-          description: 'run only marked API unit tests',
-        },
-      },
-    },
-    app: {
-      run: {
-        script: concurrent({
-          run: 'pnpm run dev --filter ./packages/app',
-          open: series('sleep 1', open('https://localhost:5000/alpha.html')),
-        }),
-        description: 'run app locally',
-      },
-    },
-    common: {
-      test: {
-        script: 'pnpm run test --filter ./packages/common',
-        description: 'run unit tests for common code',
-      },
+    reset: {
+      script: series(
+        'git clean -dfx',
+        'git config core.hooksPath ./local/githooks/',
+        'pnpm install -r',
+        'nps local.certs'
+      ),
+      description: 'reset entire repo',
     },
   },
   options: {

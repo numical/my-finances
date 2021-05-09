@@ -62,70 +62,70 @@ var app = (function () {
   const b = [],
     w = [],
     x = [],
-    C = [],
-    E = Promise.resolve();
-  let T = !1;
-  function v(t) {
+    E = [],
+    T = Promise.resolve();
+  let C = !1;
+  function _(t) {
     x.push(t);
   }
-  let _ = !1;
-  const A = new Set();
-  function H() {
-    if (!_) {
-      _ = !0;
+  let A = !1;
+  const S = new Set();
+  function v() {
+    if (!A) {
+      A = !0;
       do {
         for (let t = 0; t < b.length; t += 1) {
           const e = b[t];
-          y(e), I(e.$$);
+          y(e), N(e.$$);
         }
         for (y(null), b.length = 0; w.length; ) w.pop()();
         for (let t = 0; t < x.length; t += 1) {
           const e = x[t];
-          A.has(e) || (A.add(e), e());
+          S.has(e) || (S.add(e), e());
         }
         x.length = 0;
       } while (b.length);
-      for (; C.length; ) C.pop()();
-      (T = !1), (_ = !1), A.clear();
+      for (; E.length; ) E.pop()();
+      (C = !1), (A = !1), S.clear();
     }
   }
-  function I(t) {
+  function N(t) {
     if (null !== t.fragment) {
       t.update(), s(t.before_update);
       const e = t.dirty;
       (t.dirty = [-1]),
         t.fragment && t.fragment.p(t.ctx, e),
-        t.after_update.forEach(v);
+        t.after_update.forEach(_);
     }
   }
-  const k = new Set();
-  function N(t, e) {
-    t && t.i && (k.delete(t), t.i(e));
+  const H = new Set();
+  function I(t, e) {
+    t && t.i && (H.delete(t), t.i(e));
   }
-  function S(t, e, n, s) {
+  function O(t, e, n, s) {
     if (t && t.o) {
-      if (k.has(t)) return;
-      k.add(t),
+      if (H.has(t)) return;
+      H.add(t),
         undefined.c.push(() => {
-          k.delete(t), s && (n && t.d(1), s());
+          H.delete(t), s && (n && t.d(1), s());
         }),
         t.o(e);
     }
   }
-  function O(t) {
+  function k(t) {
     t && t.c();
   }
-  function j(t, n, o, i) {
+  function L(t, n, o, i) {
     const { fragment: a, on_mount: c, on_destroy: u, after_update: l } = t.$$;
     a && a.m(n, o),
       i ||
-        v(() => {
+        _(() => {
           const n = c.map(e).filter(r);
           u ? u.push(...n) : s(n), (t.$$.on_mount = []);
         }),
-      l.forEach(v);
+      l.forEach(_);
   }
-  function G(t, e) {
+  function U(t, e) {
     const n = t.$$;
     null !== n.fragment &&
       (s(n.on_destroy),
@@ -133,12 +133,12 @@ var app = (function () {
       (n.on_destroy = n.fragment = null),
       (n.ctx = []));
   }
-  function L(t, e) {
+  function j(t, e) {
     -1 === t.$$.dirty[0] &&
-      (b.push(t), T || ((T = !0), E.then(H)), t.$$.dirty.fill(0)),
+      (b.push(t), C || ((C = !0), T.then(v)), t.$$.dirty.fill(0)),
       (t.$$.dirty[(e / 31) | 0] |= 1 << e % 31);
   }
-  function P(e, r, o, i, a, c, l = [-1]) {
+  function G(e, r, o, i, a, c, l = [-1]) {
     const d = g;
     y(e);
     const f = (e.$$ = {
@@ -153,7 +153,7 @@ var app = (function () {
       on_disconnect: [],
       before_update: [],
       after_update: [],
-      context: new Map(d ? d.$$.context : []),
+      context: new Map(d ? d.$$.context : r.context || []),
       callbacks: n(),
       dirty: l,
       skip_bound: !1,
@@ -166,7 +166,7 @@ var app = (function () {
             return (
               f.ctx &&
                 a(f.ctx[t], (f.ctx[t] = r)) &&
-                (!f.skip_bound && f.bound[t] && f.bound[t](r), p && L(e, t)),
+                (!f.skip_bound && f.bound[t] && f.bound[t](r), p && j(e, t)),
               n
             );
           })
@@ -183,15 +183,15 @@ var app = (function () {
         })(r.target);
         f.fragment && f.fragment.l(t), t.forEach(u);
       } else f.fragment && f.fragment.c();
-      r.intro && N(e.$$.fragment),
-        j(e, r.target, r.anchor, r.customElement),
-        H();
+      r.intro && I(e.$$.fragment),
+        L(e, r.target, r.anchor, r.customElement),
+        v();
     }
     y(d);
   }
-  class U {
+  class P {
     $destroy() {
-      G(this, 1), (this.$destroy = t);
+      U(this, 1), (this.$destroy = t);
     }
     $on(t, e) {
       const n = this.$$.callbacks[t] || (this.$$.callbacks[t] = []);
@@ -211,7 +211,7 @@ var app = (function () {
     }
   }
   function V(e) {
-    let n, s, r, o, i, h, g, y, b, w, x, C, E, T;
+    let n, s, r, o, i, h, g, y, b, w, x, E, T, C;
     return {
       c() {
         (n = l('main')),
@@ -226,7 +226,7 @@ var app = (function () {
           (b = f()),
           (w = l('div')),
           (x = d(e[2])),
-          $(w, 'style', (C = `color: ${e[3]}`));
+          $(w, 'style', (E = `color: ${e[3]}`));
       },
       m(t, u) {
         c(t, n, u),
@@ -240,18 +240,18 @@ var app = (function () {
           a(n, b),
           a(n, w),
           a(w, x),
-          E || ((T = p(y, 'click', e[4])), (E = !0));
+          T || ((C = p(y, 'click', e[4])), (T = !0));
       },
       p(t, [e]) {
         1 & e && m(r, t[0]),
           2 & e && m(h, t[1]),
           4 & e && m(x, t[2]),
-          8 & e && C !== (C = `color: ${t[3]}`) && $(w, 'style', C);
+          8 & e && E !== (E = `color: ${t[3]}`) && $(w, 'style', E);
       },
       i: t,
       o: t,
       d(t) {
-        t && u(n), (E = !1), T();
+        t && u(n), (T = !1), C();
       },
     };
   }
@@ -285,40 +285,40 @@ var app = (function () {
       ]
     );
   }
-  class J extends U {
+  class D extends P {
     constructor(t) {
-      super(), P(this, t, F, V, o, { name: 0, description: 1, fn: 5 });
+      super(), G(this, t, F, V, o, { name: 0, description: 1, fn: 5 });
     }
   }
-  const D = {
+  const J = {
     CHALLENGE: 'challenge',
     AUTHENTICATING: 'authenticating',
     AUTHENTICATED: 'authenticated',
   };
-  D.initial = {
+  J.initial = {
     email: '',
     userId: '',
     pwd: '',
     pwdHash: '',
     sessionId: '',
-    state: D.CHALLENGE,
+    state: J.CHALLENGE,
     timeout: 0,
   };
-  const M = [];
-  var q = (e = {}) => {
+  const K = [];
+  var M = (e = {}) => {
     const n = (function (e, n = t) {
       let s;
       const r = [];
       function i(t) {
         if (o(e, t) && ((e = t), s)) {
-          const t = !M.length;
+          const t = !K.length;
           for (let t = 0; t < r.length; t += 1) {
             const n = r[t];
-            n[1](), M.push(n, e);
+            n[1](), K.push(n, e);
           }
           if (t) {
-            for (let t = 0; t < M.length; t += 2) M[t][0](M[t + 1]);
-            M.length = 0;
+            for (let t = 0; t < K.length; t += 2) K[t][0](K[t + 1]);
+            K.length = 0;
           }
         }
       }
@@ -347,20 +347,24 @@ var app = (function () {
       n
     );
   };
-  const z = q(D.initial);
-  q(), q();
-  var B = 'X-Csrf-Token';
-  const X = Object.freeze({
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+  const q = M(J.initial);
+  M(), M();
+  const { SESSION_TOKEN: z } = {
+      PERSONAL_ACCOUNTS: 'personal',
+      SESSION_TOKEN: 'X-Csrf-Token',
+      DEFAULT: 'default',
+    },
+    B = Object.freeze({
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  let R;
+  q.subscribe((t) => {
+    R = t.sessionId;
   });
-  let K;
-  z.subscribe((t) => {
-    K = t.sessionId;
-  });
-  var Q = async (t, e = {}) => {
-    const n = { ...X, ...e };
-    K && (n.headers[B] = K);
+  var X = async (t, e = {}) => {
+    const n = { ...B, ...e };
+    R && (n.headers[z] = R);
     const s = await fetch(t, n);
     if (s.ok) return s.json();
     {
@@ -368,42 +372,42 @@ var app = (function () {
       throw ((t.status = s.status), t);
     }
   };
-  let R, W;
-  z.subscribe((t) => {
-    (R = t.userId), (W = t.pwdHash);
+  let Q, W;
+  q.subscribe((t) => {
+    (Q = t.userId), (W = t.pwdHash);
   });
   var Y = async () => {
     try {
-      z.setValue('state', D.AUTHENTICATING);
-      const t = { userId: R, pwd: W },
-        { sessionId: e, timeout: n } = await Q('/sessions', {
+      q.setValue('state', J.AUTHENTICATING);
+      const t = { authId: Q, pwd: W },
+        { sessionId: e, timeout: n } = await X('/sessions', {
           method: 'POST',
           body: JSON.stringify(t),
         });
       return (
-        z.setValues({ state: D.AUTHENTICATED, sessionId: e, timeout: n }),
+        q.setValues({ state: J.AUTHENTICATED, sessionId: e, timeout: n }),
         { sessionId: e, timeout: n }
       );
     } catch (t) {
-      throw (z.setValue('state', D.CHALLENGE), t);
+      throw (q.setValue('state', J.CHALLENGE), t);
     }
   };
   let Z, tt, et;
-  z.subscribe((t) => {
+  q.subscribe((t) => {
     (Z = t.email), (tt = t.emailHash), (et = t.pwdHash);
   });
   const nt = async () => {
-    const t = { userId: tt, email: Z, pwd: et },
-      e = await Q('/users', { method: 'POST', body: JSON.stringify(t) });
-    return z.setValues({ emailHash: e.userId, pwdHash: e.pwd }), e;
+    const t = { authId: tt, email: Z, pwd: et },
+      e = await X('/users', { method: 'POST', body: JSON.stringify(t) });
+    return q.setValues({ emailHash: e.authId, pwdHash: e.pwd }), e;
   };
-  var st = () => Q('/financial-model'),
+  var st = () => X('/financial-model'),
     rt = async () => {
       const { emailHash: t } = (function (t) {
         let e;
         return i(t, (t) => (e = t))(), e;
-      })(z);
-      return Q(`/user/${t}`);
+      })(q);
+      return X(`/user/${t}`);
     };
   const ot = new TextEncoder();
   var it = async (...t) => {
@@ -416,7 +420,7 @@ var app = (function () {
     return console.log(`hash length = ${r.length}`), r;
   };
   function at(e) {
-    let n, r, o, i, d, m, g, y, b, w, x, C, E, T, v;
+    let n, r, o, i, d, m, g, y, b, w, x, E, T, C, _;
     return {
       c() {
         (n = l('main')),
@@ -433,9 +437,9 @@ var app = (function () {
           (b = f()),
           (w = l('input')),
           (x = f()),
-          (C = l('div')),
-          (E = l('button')),
-          (E.textContent = 'Submit'),
+          (E = l('div')),
+          (T = l('button')),
+          (T.textContent = 'Submit'),
           $(i, 'for', 'email'),
           $(i, 'placeholder', 'test@test.com'),
           $(m, 'id', 'email'),
@@ -456,15 +460,15 @@ var app = (function () {
           a(n, w),
           h(w, e[1]),
           a(n, x),
-          a(n, C),
-          a(C, E),
-          T ||
-            ((v = [
+          a(n, E),
+          a(E, T),
+          C ||
+            ((_ = [
               p(m, 'input', e[3]),
               p(w, 'input', e[4]),
-              p(E, 'click', e[2]),
+              p(T, 'click', e[2]),
             ]),
-            (T = !0));
+            (C = !0));
       },
       p(t, [e]) {
         1 & e && m.value !== t[0] && h(m, t[0]),
@@ -473,7 +477,7 @@ var app = (function () {
       i: t,
       o: t,
       d(t) {
-        t && u(n), (T = !1), s(v);
+        t && u(n), (C = !1), s(_);
       },
     };
   }
@@ -485,7 +489,7 @@ var app = (function () {
       r,
       async () => {
         const [t, e] = await Promise.all([it(s), it(s, r)]);
-        z.setValues({ email: s, emailHash: t, pwd: r, pwdHash: e });
+        q.setValues({ email: s, emailHash: t, pwd: r, pwdHash: e });
       },
       function () {
         (s = this.value), n(0, s);
@@ -495,9 +499,9 @@ var app = (function () {
       },
     ];
   }
-  class ut extends U {
+  class ut extends P {
     constructor(t) {
-      super(), P(this, t, ct, at, o, {});
+      super(), G(this, t, ct, at, o, {});
     }
   }
   function lt(e) {
@@ -514,32 +518,32 @@ var app = (function () {
       b,
       w,
       x,
-      C,
       E,
       T,
-      v,
+      C,
       _,
       A,
+      S,
+      v,
+      N,
       H,
       I,
-      k,
-      N,
-      S,
       O,
+      k,
+      L,
+      U,
       j,
       G,
-      L,
       P,
-      U,
       V,
       F,
-      J,
       D,
+      J,
+      K,
       M,
       q,
       z,
-      B,
-      X;
+      B;
     return {
       c() {
         (n = l('main')),
@@ -558,36 +562,36 @@ var app = (function () {
           (w = l('tc')),
           (w.textContent = 'id:'),
           (x = f()),
-          (C = l('tc')),
-          (E = d(e[1])),
-          (T = f()),
-          (v = l('tr')),
-          (_ = l('tc')),
-          (_.textContent = 'password:'),
-          (A = f()),
-          (H = l('tc')),
-          (I = d(e[2])),
+          (E = l('tc')),
+          (T = d(e[1])),
+          (C = f()),
+          (_ = l('tr')),
+          (A = l('tc')),
+          (A.textContent = 'password:'),
+          (S = f()),
+          (v = l('tc')),
+          (N = d(e[2])),
+          (H = f()),
+          (I = l('tr')),
+          (O = l('tc')),
+          (O.textContent = 'password hash:'),
           (k = f()),
-          (N = l('tr')),
-          (S = l('tc')),
-          (S.textContent = 'password hash:'),
-          (O = f()),
-          (j = l('tc')),
-          (G = d(e[3])),
-          (L = f()),
-          (P = l('tr')),
-          (U = l('tc')),
-          (U.textContent = 'session:'),
+          (L = l('tc')),
+          (U = d(e[3])),
+          (j = f()),
+          (G = l('tr')),
+          (P = l('tc')),
+          (P.textContent = 'session:'),
           (V = f()),
           (F = l('tc')),
-          (J = d(e[4])),
-          (D = f()),
-          (M = l('tr')),
-          (q = l('tc')),
-          (q.textContent = 'state:'),
-          (z = f()),
-          (B = l('tc')),
-          (X = d(e[5]));
+          (D = d(e[4])),
+          (J = f()),
+          (K = l('tr')),
+          (M = l('tc')),
+          (M.textContent = 'state:'),
+          (q = f()),
+          (z = l('tc')),
+          (B = d(e[5]));
       },
       m(t, e) {
         c(t, n, e),
@@ -603,40 +607,40 @@ var app = (function () {
           a(o, b),
           a(b, w),
           a(b, x),
-          a(b, C),
-          a(C, E),
-          a(o, T),
-          a(o, v),
-          a(v, _),
-          a(v, A),
-          a(v, H),
-          a(H, I),
-          a(o, k),
-          a(o, N),
-          a(N, S),
-          a(N, O),
-          a(N, j),
-          a(j, G),
-          a(o, L),
-          a(o, P),
-          a(P, U),
-          a(P, V),
-          a(P, F),
-          a(F, J),
-          a(o, D),
-          a(o, M),
-          a(M, q),
-          a(M, z),
-          a(M, B),
-          a(B, X);
+          a(b, E),
+          a(E, T),
+          a(o, C),
+          a(o, _),
+          a(_, A),
+          a(_, S),
+          a(_, v),
+          a(v, N),
+          a(o, H),
+          a(o, I),
+          a(I, O),
+          a(I, k),
+          a(I, L),
+          a(L, U),
+          a(o, j),
+          a(o, G),
+          a(G, P),
+          a(G, V),
+          a(G, F),
+          a(F, D),
+          a(o, J),
+          a(o, K),
+          a(K, M),
+          a(K, q),
+          a(K, z),
+          a(z, B);
       },
       p(t, [e]) {
         1 & e && m(g, t[0]),
-          2 & e && m(E, t[1]),
-          4 & e && m(I, t[2]),
-          8 & e && m(G, t[3]),
-          16 & e && m(J, t[4]),
-          32 & e && m(X, t[5]);
+          2 & e && m(T, t[1]),
+          4 & e && m(N, t[2]),
+          8 & e && m(U, t[3]),
+          16 & e && m(D, t[4]),
+          32 & e && m(B, t[5]);
       },
       i: t,
       o: t,
@@ -649,7 +653,7 @@ var app = (function () {
     let s, r, o, a, c, u, l;
     var d, f;
     return (
-      (d = z),
+      (d = q),
       (f = (t) => n(6, (l = t))),
       t.$$.on_destroy.push(i(d, f)),
       (t.$$.update = () => {
@@ -663,9 +667,9 @@ var app = (function () {
       [s, r, o, a, c, u, l]
     );
   }
-  class ft extends U {
+  class ft extends P {
     constructor(t) {
-      super(), P(this, t, dt, lt, o, {});
+      super(), G(this, t, dt, lt, o, {});
     }
   }
   function pt(e) {
@@ -673,16 +677,16 @@ var app = (function () {
     return (
       (o = new ft({})),
       (d = new ut({})),
-      ($ = new J({
+      ($ = new D({
         props: { name: 'Create user', description: 'POST /users', fn: nt },
       })),
-      (h = new J({
+      (h = new D({
         props: { name: 'Create session', description: 'POST /sessions', fn: Y },
       })),
-      (y = new J({
+      (y = new D({
         props: { name: 'Fetch user', description: 'GET /user', fn: rt },
       })),
-      (w = new J({
+      (w = new D({
         props: {
           name: 'Fetch model',
           description: 'GET /financial-model',
@@ -695,64 +699,64 @@ var app = (function () {
             (s = l('h1')),
             (s.textContent = 'Auth Model Spike'),
             (r = f()),
-            O(o.$$.fragment),
+            k(o.$$.fragment),
             (i = f()),
-            O(d.$$.fragment),
+            k(d.$$.fragment),
             (p = f()),
-            O($.$$.fragment),
+            k($.$$.fragment),
             (m = f()),
-            O(h.$$.fragment),
+            k(h.$$.fragment),
             (g = f()),
-            O(y.$$.fragment),
+            k(y.$$.fragment),
             (b = f()),
-            O(w.$$.fragment);
+            k(w.$$.fragment);
         },
         m(t, e) {
           c(t, n, e),
             a(n, s),
             a(n, r),
-            j(o, n, null),
+            L(o, n, null),
             a(n, i),
-            j(d, n, null),
+            L(d, n, null),
             a(n, p),
-            j($, n, null),
+            L($, n, null),
             a(n, m),
-            j(h, n, null),
+            L(h, n, null),
             a(n, g),
-            j(y, n, null),
+            L(y, n, null),
             a(n, b),
-            j(w, n, null),
+            L(w, n, null),
             (x = !0);
         },
         p: t,
         i(t) {
           x ||
-            (N(o.$$.fragment, t),
-            N(d.$$.fragment, t),
-            N($.$$.fragment, t),
-            N(h.$$.fragment, t),
-            N(y.$$.fragment, t),
-            N(w.$$.fragment, t),
+            (I(o.$$.fragment, t),
+            I(d.$$.fragment, t),
+            I($.$$.fragment, t),
+            I(h.$$.fragment, t),
+            I(y.$$.fragment, t),
+            I(w.$$.fragment, t),
             (x = !0));
         },
         o(t) {
-          S(o.$$.fragment, t),
-            S(d.$$.fragment, t),
-            S($.$$.fragment, t),
-            S(h.$$.fragment, t),
-            S(y.$$.fragment, t),
-            S(w.$$.fragment, t),
+          O(o.$$.fragment, t),
+            O(d.$$.fragment, t),
+            O($.$$.fragment, t),
+            O(h.$$.fragment, t),
+            O(y.$$.fragment, t),
+            O(w.$$.fragment, t),
             (x = !1);
         },
         d(t) {
-          t && u(n), G(o), G(d), G($), G(h), G(y), G(w);
+          t && u(n), U(o), U(d), U($), U(h), U(y), U(w);
         },
       }
     );
   }
-  return new (class extends U {
+  return new (class extends P {
     constructor(t) {
-      super(), P(this, t, null, pt, o, {});
+      super(), G(this, t, null, pt, o, {});
     }
   })({ target: document.body });
 })();

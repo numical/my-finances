@@ -16,5 +16,5 @@
 1. re-add doc transform and change doc structure to include notIndexed
 1. firestore emulator for tests? https://firebase.google.com/docs/emulator-suite
 1. warnings in .gitignore
-1. why is cookie-constants.js ignored?
+1. why is cookie-constants.mjs ignored?
 1. add eslint for code quality

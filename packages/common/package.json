@@ -1,17 +1,19 @@
 {
   "name": "my-finances-common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Common code for App and API",
-  "main": "src/index.js",
   "scripts": {
-    "test": "tap --100 test/**/*.test.js"
+    "test": "tap --100 test/**/*.test.mjs"
   },
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "type": "module",
   "author": "mike.evans@numical.com",
   "license": "UNLICENCED",
-  "dependencies": {
-    "my-finances-common": "workspace:^0.0.1"
-  },
   "devDependencies": {
-    "tap": "^15.0.6"
+    "tap": "^15.0.9"
   }
 }

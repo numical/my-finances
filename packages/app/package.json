@@ -23,6 +23,6 @@
     "svelte": "^3.38.2"
   },
   "dependencies": {
-    "my-finances-common": "workspace:^0.0.1"
+    "my-finances-common": "workspace:^0.0.2"
   }
 }
