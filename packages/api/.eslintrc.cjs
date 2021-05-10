@@ -1,6 +1,5 @@
 module.exports = {
   env: {
-    commonjs: true,
     es2021: true,
     node: true,
   },
@@ -37,9 +36,10 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    'unicorn/custom-error-definition': 'error',
     'unicorn/no-array-callback-reference': 'off',
     'unicorn/no-array-reduce': 'off',
-    'unicorn/prefer-module': 'off',
+    'unicorn/no-unused-properties': 'error',
     'unicorn/prefer-node-protocol': 'off',
     'unicorn/prevent-abbreviations': [
       'error',

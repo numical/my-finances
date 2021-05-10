@@ -1,6 +1,6 @@
-const { promisify } = require('util');
+import { promisify } from 'util';
 
-const createApp = require('./src/app');
+import createApp from './src/app.mjs';
 
 const port = process.env.PORT || 8080;
 
