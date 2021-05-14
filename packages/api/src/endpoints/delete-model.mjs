@@ -1,4 +1,4 @@
-import roles from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 
 const { PERSONAL } = roles;
 const handler = async (request, response, next) => {
@@ -12,12 +12,10 @@ const handler = async (request, response, next) => {
     next(error);
   }
 };
-export const verb = 'delete';
-export const path = '/account/:accountId/user/:userId/models/:modelId';
-export { handler };
+
 export default {
-  verb,
-  path,
+  verb: 'delete',
+  path: '/account/:accountId/user/:userId/models/:modelId',
   handler,
   roles: [PERSONAL],
 };

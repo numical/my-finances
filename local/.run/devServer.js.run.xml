@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="devServer.js" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="./local/src/devServer.js" working-dir="$PROJECT_DIR$/">
-    <envs>
-      <env name="GOOGLE_APPLICATION_CREDENTIALS" value="./remote/auth/my-finances-key.json" />
-    </envs>
-    <method v="2" />
-  </configuration>
-</component>

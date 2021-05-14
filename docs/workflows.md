@@ -5,7 +5,7 @@ Note: once Project Setup complete, just type `run` for all available scripts.
 1. set up GCP project - [remote/scripts/setup-project.sh](../remote/scripts/setup-project.sh)
 1. set up Firebase elements
    * manual - see [Firebase Setup](./firebase-setup.md)
-   * manual - see [Firestore Setup](./firestore-setup.md)
+   * manual - see [Index Setup](./firestore-setup.md)
 1. install [pnpm](https://pnpm.js.org/en/) globally (assuming node already installed)
     * `npm install -g pnpm`
 1. clone project

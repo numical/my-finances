@@ -21,10 +21,11 @@ const enforceSchemaFunction = (schema, data) => {
   const validate = getValidator(schema);
   return validate(data) ? undefined : report(validate);
 };
-const createEnforceSchemaFunction = ({ logger }) => {
+
+export default ({ logger }) => {
   if (!ajv) {
     ajv = createAjv(logger);
   }
   return enforceSchemaFunction;
 };
-export default createEnforceSchemaFunction;
+

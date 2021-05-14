@@ -9,6 +9,7 @@ const extract = promisify(verify);
 const options = {
   algorithms: ['HS256'],
 };
+
 export default async (payload) => {
   const secret = await getSecret();
   return extract(payload, secret, options);

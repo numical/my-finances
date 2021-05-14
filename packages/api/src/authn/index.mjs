@@ -1,15 +1,4 @@
-import cookieConstants from './cookie-constants.mjs';
-import extractJWT from './extract-jwt.mjs';
-import generateJWT from './generate-jwt.mjs';
-import generateSessionId from './generate-session-id.mjs';
-
-export { cookieConstants };
-export { extractJWT };
-export { generateJWT };
-export { generateSessionId };
-export default {
-  cookieConstants,
-  extractJWT,
-  generateJWT,
-  generateSessionId,
-};
+export * as cookieConstants from './cookie-constants.mjs';
+export { default as extractJWT } from './extract-jwt.mjs';
+export { default as generateJWT } from './generate-jwt.mjs';
+export { default as generateSessionId } from './generate-session-id.mjs';

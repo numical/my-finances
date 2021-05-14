@@ -20,7 +20,7 @@ const createValidationFunction = (
   };
 };
 const noOp = (record) => record;
-export default ({ collections, config, enforceSchemaFn, schema }) =>
+export default ({ collections, config, enforceSchemaFunction, schema }) =>
   config.validate.data && schema
-    ? createValidationFunction(collections, enforceSchemaFn, schema)
+    ? createValidationFunction(collections, enforceSchemaFunction, schema)
     : noOp;

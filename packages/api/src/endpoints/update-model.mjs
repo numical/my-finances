@@ -1,4 +1,4 @@
-import roles from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 import { MODEL } from '../schemas/index.mjs';
 
 import { addUpdatedFields } from './util/index.mjs';
@@ -16,13 +16,10 @@ const handler = async (request, response, next) => {
     next(error);
   }
 };
-export const verb = 'put';
-export const path = '/account/:accountId/user/:userId/models/:modelId';
-export { handler };
-export { MODEL as requestSchema };
+
 export default {
-  verb,
-  path,
+  verb: 'put',
+  path: '/account/:accountId/user/:userId/models/:modelId',
   handler,
   requestSchema: MODEL,
   roles: [PERSONAL],

@@ -13,4 +13,5 @@ function merge(dst, source) {
   }
   return dst;
 }
+
 export default (target, ...sources) => sources.reduce(merge, target);

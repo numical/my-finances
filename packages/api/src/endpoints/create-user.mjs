@@ -1,6 +1,6 @@
 import myFinancesCommon from 'my-finances-common';
 
-import roles from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 import { EMAIL, HASH, STRING, USER, createSchema } from '../schemas/index.mjs';
 
 import { newUserHandler } from './util/index.mjs';
@@ -25,14 +25,10 @@ const handler = async (request, response, next) =>
     res: response,
     next,
   });
-export const verb = 'post';
-export const path = '/account/personal/users';
-export { handler };
-export { requestSchema };
-export { responseSchema };
+
 export default {
-  verb,
-  path,
+  verb: 'post',
+  path: '/account/personal/users',
   handler,
   requestSchema,
   responseSchema,

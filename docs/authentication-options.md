@@ -134,7 +134,7 @@ sequenceDiagram
 * way, way, way too expensive $150+ a month!
 * standard sql?  tiny mysql $10 else $50+
 * or perhaps [Datastore](https://www.npmjs.com/package/@google-cloud/connect-datastore) again?
-* or [Firestore](https://www.npmjs.com/package/@google-cloud/connect-firestore)?
+* or [Index](https://www.npmjs.com/package/@google-cloud/connect-firestore)?
 
 # Registration
 

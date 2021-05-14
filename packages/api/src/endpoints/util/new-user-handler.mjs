@@ -3,6 +3,7 @@ import myFinancesCommon from 'my-finances-common';
 import { addCreatedFields } from './standard-fields.mjs';
 
 const { DEFAULT } = myFinancesCommon.constants;
+
 export default async ({ accountId, next, req, res, roles }) => {
   try {
     const { body, dataStores } = req;

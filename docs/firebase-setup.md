@@ -9,7 +9,7 @@
 * modify domain to point to firebase:
   * https://firebase.google.com/docs/hosting/custom-domain
 
-# Firestore Setup
+# Index Setup
 * Via console or CLI:
   * `gcloud alpha firestore databases create`
 * native mode / multi-region (eur) as no europe-west1 option

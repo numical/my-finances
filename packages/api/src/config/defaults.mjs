@@ -1,4 +1,4 @@
-const CAN_OVERRIDE = Object.freeze({
+export const CAN_OVERRIDE = Object.freeze({
   sessionTimeoutInSeconds: 10 * 60,
   dataSource: 'firestore',
   dataSourceOptions: {},
@@ -8,7 +8,8 @@ const CAN_OVERRIDE = Object.freeze({
     data: true,
   },
 });
-const CANNOT_OVERRIDE = Object.freeze({
+
+export const CANNOT_OVERRIDE = Object.freeze({
   log: {
     customLevels: {
       log: 30,
@@ -16,9 +17,3 @@ const CANNOT_OVERRIDE = Object.freeze({
     },
   },
 });
-export { CAN_OVERRIDE };
-export { CANNOT_OVERRIDE };
-export default {
-  CAN_OVERRIDE,
-  CANNOT_OVERRIDE,
-};

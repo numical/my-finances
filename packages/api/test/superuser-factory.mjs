@@ -1,6 +1,6 @@
 import myFinancesCommon from 'my-finances-common';
 
-import roles from '..//src/roles/index.mjs';
+import { roles } from '../src/roles/index.mjs';
 import { random, string, version } from '../src/util/index.mjs';
 
 const { PERSONAL_ACCOUNTS, SESSION_TOKEN } = myFinancesCommon.constants;

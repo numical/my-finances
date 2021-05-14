@@ -1,10 +1,11 @@
 import ajv from 'ajv';
 import keywords from 'ajv-keywords';
 
-import formats from './formats.mjs';
+import * as formats from './formats.mjs';
 
 const Ajv = ajv.default;
 const KEYWORDS = ['allRequired'];
+
 export default (logger) => {
   const ajv = new Ajv({
     logger,

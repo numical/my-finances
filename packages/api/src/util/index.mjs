@@ -1,22 +1,6 @@
-import array from './array.mjs';
-import file from './file.mjs';
-import object from './object.mjs';
-import { version } from './package.mjs';
-import random from './random.mjs';
-import string from './string.mjs';
-
-export { array };
-export { file };
-export { object };
-export { random };
-export { string };
-export { version };
-
-export default {
-  array,
-  file,
-  object,
-  random,
-  string,
-  version,
-};
+export * as array from './array.mjs';
+export * as file from './file.mjs';
+export * as object from './object.mjs';
+export { version } from './package.mjs';
+export * as random from './random.mjs';
+export * as string from './string.mjs';

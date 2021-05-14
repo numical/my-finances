@@ -1,4 +1,4 @@
-import roles from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 import {
   DICTIONARY,
   EMAIL,
@@ -118,14 +118,10 @@ const handler = async (request, response, next) => {
     next(error);
   }
 };
-export const verb = 'patch';
-export const path = '/account/:accountId/user/:userId/';
-export { handler };
-export { requestSchema };
-export { responseSchema };
+
 export default {
-  verb,
-  path,
+  verb: 'patch',
+  path: '/account/:accountId/user/:userId/',
   handler,
   requestSchema,
   responseSchema,

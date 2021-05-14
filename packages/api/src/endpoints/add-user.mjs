@@ -1,4 +1,4 @@
-import roles from '../roles/index.mjs';
+import { roles }  from '../roles/index.mjs';
 import {
   EMAIL,
   HASH,
@@ -34,14 +34,10 @@ const handler = async (request, response, next) => {
     next,
   });
 };
-export const verb = 'post';
-export const path = '/account/:accountId/users';
-export { handler };
-export { requestSchema };
-export { responseSchema };
+
 export default {
-  verb,
-  path,
+  verb: 'post',
+  path: '/account/:accountId/users',
   handler,
   requestSchema,
   responseSchema,

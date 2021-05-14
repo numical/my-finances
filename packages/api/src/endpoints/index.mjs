@@ -28,13 +28,10 @@ const endPoints = [
   updateModel,
   updateUser,
 ];
-const init = ({ app, config }) => {
+
+export default ({ app, config }) => {
   for (const endPoint of endPoints) {
     const { path, verb } = endPoint;
     app[verb](path, ...createCallbacks({ config, endPoint }));
   }
-};
-export { init };
-export default {
-  init,
 };

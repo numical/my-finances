@@ -73,14 +73,10 @@ const handler = async (request, response, next) => {
     next(error);
   }
 };
-export const verb = 'post';
-export const path = '/sessions';
-export { handler };
-export { requestSchema };
-export { responseSchema };
+
 export default {
-  verb,
-  path,
+  verb: 'post',
+  path: '/sessions',
   handler,
   requestSchema,
   responseSchema,

@@ -14,4 +14,5 @@ const extractMessage = (error) => {
   }
 };
 const buildReport = (report, error) => `${report}${extractMessage(error)}; `;
+
 export default ({ errors }, prefix = '') => errors.reduce(buildReport, prefix);

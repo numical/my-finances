@@ -1,4 +1,4 @@
-# Firestore Setup
+# Index Setup
 * have to use console
 * native mode / multi-region (eur) as no europe-west1 option
 * Is there a useable CLI?

@@ -1,10 +1,9 @@
 import myFinancesCommon from 'my-finances-common';
 
 import { cookieConstants, extractJWT } from '../authn/index.mjs';
-import roles$0 from '../roles/index.mjs';
+import { allow, roles } from '../roles/index.mjs';
 
 const { SESSION_TOKEN } = myFinancesCommon.constants;
-const { allow, ...roles } = roles$0;
 const { COOKIE_NAME } = cookieConstants;
 const fail = (request, response, status, message) => {
   request.log.clientInfo(
@@ -12,6 +11,7 @@ const fail = (request, response, status, message) => {
   );
   response.status(status).end();
 };
+
 export default (endpointRoles) => async (request, response, next) => {
   // missing auth data
   const tokenId = request.get(SESSION_TOKEN);

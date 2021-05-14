@@ -25,9 +25,3 @@ export const get400 = testForGetError(400);
 export const get404 = testForGetError(404);
 export const post400 = testForPostError(400);
 export const post404 = testForPostError(404);
-export default {
-  get400,
-  get404,
-  post400,
-  post404,
-};

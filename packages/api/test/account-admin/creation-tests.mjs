@@ -1,7 +1,8 @@
 import myFinancesCommon from 'my-finances-common';
 
 const { SESSION_TOKEN } = myFinancesCommon.constants;
-const canCreateSession = ({ api, user }) => async (t) => {
+
+export const canCreateSession = ({ api, user }) => async (t) => {
   const { body, headers, status } = await api
     .post('/sessions')
     .send(user.credentials);
@@ -12,7 +13,8 @@ const canCreateSession = ({ api, user }) => async (t) => {
   };
   t.end();
 };
-const cannotCreateAccount = ({
+
+export const cannotCreateAccount = ({
   accountToCreate,
   api,
   expectedStatus,
@@ -26,7 +28,8 @@ const cannotCreateAccount = ({
   t.equal(status, expectedStatus, 'account should not be created');
   t.end();
 };
-const canCreateAccount = (a) => async (t) => {
+
+export const canCreateAccount = (a) => async (t) => {
   const { accountToCreate, api, user } = a;
   const { fields } = accountToCreate;
   const { body, status } = await api
@@ -39,7 +42,8 @@ const canCreateAccount = (a) => async (t) => {
   }
   t.end();
 };
-const canCreateAccountUser = ({ accountId, api, user, userToCreate }) => async (
+
+export const canCreateAccountUser = ({ accountId, api, user, userToCreate }) => async (
   t
 ) => {
   const { body, status } = await api
@@ -55,7 +59,8 @@ const canCreateAccountUser = ({ accountId, api, user, userToCreate }) => async (
   }
   t.end();
 };
-const cannotCreateAccountUser = ({
+
+export const cannotCreateAccountUser = ({
   accountId,
   api,
   user,
@@ -71,15 +76,4 @@ const cannotCreateAccountUser = ({
   t.equal(status, 403, 'user should not be created');
   t.end();
 };
-export { canCreateAccount };
-export { cannotCreateAccount };
-export { canCreateSession };
-export { canCreateAccountUser };
-export { cannotCreateAccountUser };
-export default {
-  canCreateAccount,
-  cannotCreateAccount,
-  canCreateSession,
-  canCreateAccountUser,
-  cannotCreateAccountUser,
-};
+

@@ -6,7 +6,8 @@ export default (user, key = DEFAULT, expectedData = '') => (t) => {
   t.ok(models, 'models collection returned ');
   t.type(models, 'object', 'models is a dictionary');
   t.ok(models[key], 'contains a default model');
-  const { data, description, id } = models[key];
+  const { data, description, id, version } = models[key];
+  t.type(version, 'string', 'version should be a string');
   t.equal(
     data,
     expectedData,

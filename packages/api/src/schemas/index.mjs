@@ -1,28 +1,25 @@
-import roles$0 from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 
-import createEnforceSchemaFunction from './create-enforce-schema-function.mjs';
-import formats from './formats.mjs';
-// eslint-disable-next-line no-unused-vars
-const { allow, ...roles } = roles$0;
-const NUMBER = { type: 'number' };
-const STRING = { type: 'string' };
-const OBJECT = { type: 'object' };
-const ARRAY = { type: 'array' };
+export { default as createEnforceSchemaFunction } from './create-enforce-schema-function.mjs';
+export const NUMBER = { type: 'number' };
+export const STRING = { type: 'string' };
+export const OBJECT = { type: 'object' };
+export const ARRAY = { type: 'array' };
 // for formats, see ./formats.js
-const DBID = { ...STRING, format: 'dbid' };
-const DICTIONARY = { ...OBJECT, additionalProperties: OBJECT };
-const EMAIL = { ...STRING, format: 'email' };
-const HASH = { ...STRING, format: 'hash' };
-const ROLES = {
+export const DBID = { ...STRING, format: 'dbid' };
+export const DICTIONARY = { ...OBJECT, additionalProperties: OBJECT };
+export const EMAIL = { ...STRING, format: 'email' };
+export const HASH = { ...STRING, format: 'hash' };
+export const ROLES = {
   ...ARRAY,
   uniqueItems: true,
   minItems: 1,
   items: { enum: Object.values(roles) },
 };
-const TIME = { ...NUMBER, minimum: 1607644800000, maximum: 2554329600000 };
-const VERSION = { ...STRING, format: 'semver' };
-const UUID = { ...STRING, format: 'uuid' };
-const createSchema = ({ allRequired = true, id, properties }) => ({
+export const TIME = { ...NUMBER, minimum: 1607644800000, maximum: 2554329600000 };
+export const VERSION = { ...STRING, format: 'semver' };
+export const UUID = { ...STRING, format: 'uuid' };
+export const createSchema = ({ allRequired = true, id, properties }) => ({
   type: 'object',
   allRequired,
   metadata: {
@@ -30,7 +27,7 @@ const createSchema = ({ allRequired = true, id, properties }) => ({
   },
   properties,
 });
-const createEntitySchema = ({ id, properties }) =>
+export const createEntitySchema = ({ id, properties }) =>
   createSchema({
     id,
     properties: {
@@ -42,7 +39,7 @@ const createEntitySchema = ({ id, properties }) =>
       ...properties,
     },
   });
-const partial = (schema) => ({
+export const partial = (schema) => ({
   ...schema,
   allRequired: false,
   metadata: {
@@ -50,13 +47,13 @@ const partial = (schema) => ({
     id: `partial-${schema.metadata.id}`,
   },
 });
-const ACCOUNT = createEntitySchema({
+export const ACCOUNT = createEntitySchema({
   id: 'account',
   properties: {
     id: STRING, // note this overwrites DBID format to account for default 'personal' account
   },
 });
-const USER = createEntitySchema({
+export const USER = createEntitySchema({
   id: 'user',
   properties: {
     authId: HASH,
@@ -67,7 +64,7 @@ const USER = createEntitySchema({
     models: DICTIONARY,
   },
 });
-const USER_DOC = createEntitySchema({
+export const USER_DOC = createEntitySchema({
   id: 'user_doc',
   properties: {
     authId: HASH,
@@ -77,45 +74,9 @@ const USER_DOC = createEntitySchema({
     roles: ROLES,
   },
 });
-const MODEL = createEntitySchema({
+export const MODEL = createEntitySchema({
   id: 'model',
   properties: {
     data: STRING,
   },
 });
-export { ACCOUNT };
-export { createSchema };
-export { createEntitySchema };
-export { DBID };
-export { DICTIONARY };
-export { EMAIL };
-export { formats };
-export { HASH };
-export { createEnforceSchemaFunction as init };
-export { MODEL };
-export { NUMBER };
-export { partial };
-export { ROLES };
-export { STRING };
-export { USER };
-export { USER_DOC };
-export { UUID };
-export default {
-  ACCOUNT,
-  createSchema,
-  createEntitySchema,
-  DBID,
-  DICTIONARY,
-  EMAIL,
-  formats,
-  HASH,
-  init: createEnforceSchemaFunction,
-  MODEL,
-  NUMBER,
-  partial,
-  ROLES,
-  STRING,
-  USER,
-  USER_DOC,
-  UUID,
-};

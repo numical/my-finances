@@ -36,6 +36,7 @@ const testThrowsWhenBailed = async (description, callback) => {
     return result;
   }
 };
+
 export default async (tests) => {
   const testHash = random.hash();
   const { app, dataStores } = await createApp(customize(testHash));

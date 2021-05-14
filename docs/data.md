@@ -86,8 +86,8 @@ erDiagram
 * analysis model needs to be uploaded to BigQuery / whatever analysis engine
 * but all db's in GCP relatively pricey
   
-## Firestore
-* except [Firestore](https://cloud.google.com/firestore)
+## Index
+* except [Index](https://cloud.google.com/firestore)
 * pros  
   * generous free tier for runtime
   * also offers synchronisation functionality (real-time updates) - might answer config issues
@@ -97,9 +97,9 @@ erDiagram
   * so clunky manual setup - see [setup](./firebase-setup.md)
   * available regions do not match cheapest regions (e.g. europe-west1)  
   * no creation scripts!
-* see [Firestore setup](./firestore-setup.md)  
+* see [Index setup](./firestore-setup.md)  
 
-### Firestore Data Structure
+### Index Data Structure
 #### Accounts
 | indexed | not indexed |
 | --- | ---

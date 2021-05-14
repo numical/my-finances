@@ -1,4 +1,4 @@
-import roles from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 import { ACCOUNT, STRING, createSchema } from '../schemas/index.mjs';
 
 import { addCreatedFields } from './util/index.mjs';
@@ -27,14 +27,10 @@ const handler = async (request, response, next) => {
     next(error);
   }
 };
-export const verb = 'post';
-export const path = '/accounts';
-export { handler };
-export { requestSchema };
-export { responseSchema };
+
 export default {
-  verb,
-  path,
+  verb: 'post',
+  path: '/accounts',
   handler,
   requestSchema,
   responseSchema,

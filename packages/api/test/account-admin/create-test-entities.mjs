@@ -1,6 +1,6 @@
 import myFinancesCommon from 'my-finances-common';
 
-import roles from '../../src/roles/index.mjs';
+import { roles } from '../../src/roles/index.mjs';
 import { string, version } from '../../src/util/index.mjs';
 
 const { PERSONAL_ACCOUNTS } = myFinancesCommon.constants;
