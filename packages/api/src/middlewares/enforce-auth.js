@@ -1,5 +1,5 @@
 const { SESSION_TOKEN } = require('my-finances-common').constants;
-const { cookieConstants, extractJWT } = require('../auth');
+const { cookieConstants, extractJWT } = require('../authn');
 const { allow, ...roles } = require('../roles');
 
 const { COOKIE_NAME } = cookieConstants;

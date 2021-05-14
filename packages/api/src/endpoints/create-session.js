@@ -1,5 +1,5 @@
 const config = require('../config');
-const { cookieConstants, generateJWT, generateSessionId } = require('../auth');
+const { cookieConstants, generateJWT, generateSessionId } = require('../authn');
 const { HASH, NUMBER, STRING, UUID, createSchema } = require('../schemas');
 const { string } = require('../util');
 
