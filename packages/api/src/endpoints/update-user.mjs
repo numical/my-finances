@@ -26,9 +26,9 @@ const requestSchema = createSchema({
 const responseSchema = USER;
 const handler = async (request, response, next) => {
   try {
-    const { body, dataStores, log, method, params, url } = request;
+    const { body, datastores, log, method, params, url } = request;
     const { accountId, userId } = params;
-    const { models, users } = dataStores;
+    const { models, users } = datastores;
     const { locals } = response;
     const { roles: sessionRoles } = locals;
     // check session user auth

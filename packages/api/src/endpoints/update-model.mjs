@@ -6,9 +6,9 @@ import { addUpdatedFields } from './util/index.mjs';
 const { PERSONAL } = roles;
 const handler = async (request, response, next) => {
   try {
-    const { body: model, dataStores, params } = request;
+    const { body: model, datastores, params } = request;
     const { accountId, modelId, userId } = params;
-    const { models } = dataStores;
+    const { models } = datastores;
     const entity = addUpdatedFields(model);
     models.update({ entity, ids: [accountId, userId, modelId] });
     response.status(200).end();

@@ -19,14 +19,14 @@ const ENTITIES = {
 };
 
 export default ({ config, enforceSchemaFunction }) => {
-  const dataStores = {};
+  const datastores = {};
   const Datastore = config.dataSource === 'firestore' ? FireStore : InMemory;
   for (const [key, values] of Object.entries(ENTITIES)) {
-    dataStores[key] = new Datastore({
+    datastores[key] = new Datastore({
       config,
       enforceSchemaFunction,
       ...values,
     });
   }
-  return dataStores;
+  return datastores;
 };

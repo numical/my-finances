@@ -4,8 +4,8 @@ import { array } from '../util/index.mjs';
 const { SUPERUSER } = roles;
 const handler = async (request, response, next) => {
   try {
-    const { dataStores, params } = request;
-    const { accounts, models, users } = dataStores;
+    const { datastores, params } = request;
+    const { accounts, models, users } = datastores;
     const { accountId } = params;
     const accountUsers = await users.search({
       parentIds: [accountId],
@@ -23,14 +23,14 @@ const handler = async (request, response, next) => {
     );
     const deletes = [
       ...userModels.map((model) => ({
-        dataStore: models,
+        datastore: models,
         ids: [accountId, model.userId, model.id],
       })),
       ...accountUsers.map((user) => ({
-        dataStore: users,
+        datastore: users,
         ids: [accountId, user.id],
       })),
-      { dataStore: accounts, ids: [accountId] },
+      { datastore: accounts, ids: [accountId] },
     ];
     const chunks = array.chunk(500, deletes);
     // want to run each sequentially

@@ -13,9 +13,9 @@ const requestSchema = createSchema({
 const responseSchema = ACCOUNT;
 const handler = async (request, response, next) => {
   try {
-    const { body, dataStores } = request;
+    const { body, datastores } = request;
     const { description } = body;
-    const { accounts } = dataStores;
+    const { accounts } = datastores;
     const account = await accounts.create({
       entity: addCreatedFields({
         description,

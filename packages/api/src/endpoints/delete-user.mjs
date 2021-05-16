@@ -3,8 +3,8 @@ import { roles } from '../roles/index.mjs';
 const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = roles;
 const handler = async (request, response, next) => {
   try {
-    const { dataStores, log, method, params, status, url } = request;
-    const { models, users } = dataStores;
+    const { datastores, log, method, params, status, url } = request;
+    const { models, users } = datastores;
     const { accountId, userId } = params;
     const userModels = await models.search({
       parentIds: [accountId, userId],
@@ -12,10 +12,10 @@ const handler = async (request, response, next) => {
     });
     const deletes = userModels.reduce(
       (deletes, model) => {
-        deletes.push({ dataStore: models, ids: [accountId, userId, model.id] });
+        deletes.push({ datastore: models, ids: [accountId, userId, model.id] });
         return deletes;
       },
-      [{ dataStore: users, ids: [accountId, userId] }]
+      [{ datastore: users, ids: [accountId, userId] }]
     );
     if (deletes.length > 500) {
       log.clientInfo(
@@ -29,7 +29,7 @@ const handler = async (request, response, next) => {
       datastore.del({ ids });
     }
     await users.commitAtomic();
-    status(204).end();
+    response.status(204).end();
   } catch (error) {
     next(error);
   }

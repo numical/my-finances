@@ -6,9 +6,9 @@ const { DEFAULT } = myFinancesCommon.constants;
 
 export default async ({ accountId, next, req, res, roles }) => {
   try {
-    const { body, dataStores } = req;
+    const { body, datastores } = req;
     const { authId, description, email, pwd } = body;
-    const { models, users } = dataStores;
+    const { models, users } = datastores;
     /*
      * Belt'n'braces: authId is a function of email so do not
      * really need to test both.

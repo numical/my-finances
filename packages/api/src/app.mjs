@@ -15,7 +15,7 @@ export default async (customise = {}) => {
   const logger = pino(config.log);
   logger.info(report());
   const enforceSchemaFunction = createEnforceSchemaFunction({ logger });
-  const dataStores = createDatastores({
+  const datastores = createDatastores({
     config,
     enforceSchemaFunction,
   });
@@ -24,7 +24,7 @@ export default async (customise = {}) => {
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
   app.use(
-    attachServices({ dataStores, enforceSchemaFunction, }),
+    attachServices({ datastores, enforceSchemaFunction, }),
   );
   if (customise.middleware) {
     customise.middleware(app);
@@ -33,6 +33,6 @@ export default async (customise = {}) => {
   app.use(errorHandler);
   return {
     app,
-    dataStores,
+    datastores,
   };
 };

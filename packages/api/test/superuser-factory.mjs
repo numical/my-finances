@@ -6,7 +6,7 @@ import { random, string, version } from '../src/util/index.mjs';
 const { PERSONAL_ACCOUNTS, SESSION_TOKEN } = myFinancesCommon.constants;
 const { SUPERUSER } = roles;
 
-export default ({ api, dataStores }) => async ({ createSession = true }) => {
+export default ({ api, datastores }) => async ({ createSession = true }) => {
   const hash = random.hash();
   const credentials = {
     authId: hash,
@@ -22,7 +22,7 @@ export default ({ api, dataStores }) => async ({ createSession = true }) => {
     lastUpdated: now,
     version,
   };
-  await dataStores.users.create({
+  await datastores.users.create({
     entity: {
       ...credentials,
       ...otherFields,

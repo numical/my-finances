@@ -24,9 +24,9 @@ const responseSchema = createSchema({
 });
 const handler = async (request, response, next) => {
   try {
-    const { body, dataStores, log, method, url } = request;
+    const { body, datastores, log, method, url } = request;
     const { authId, pwd } = body;
-    const { users } = dataStores;
+    const { users } = datastores;
     const [existingUsers, sessionId] = await Promise.all([
       users.search({ criteria: { authId } }),
       generateSessionId(),

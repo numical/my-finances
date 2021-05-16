@@ -35,11 +35,9 @@
     "lint": "eslint --fix './**/*.mjs' './**/*.json'",
     "lint.no.fix": "eslint './**/*.mjs' './**/*.json'",
     "test": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/*.test.mjs | pino-pretty --colorize --hideObject",
-    "test.account.admin": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/account-admin.test.mjs | pino-pretty --colorize --hideObject",
     "test.coverage": "tap test/**/*.test.mjs --100",
-    "test.new.user": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/new-user-journey.test.mjs | pino-pretty --colorize --hideObject",
-    "test.only": "tap --no-coverage --only --no-timeout --bail--reporter=spec test/**/*.test.mjs",
-    "test.user.admin": "tap --no-coverage --no-timeout --bail --reporter=spec test/user-admin/*.test.mjs | pino-pretty --colorize --hideObject"
+    "test.delete.user": "tap --no-coverage --no-timeout --bail --reporter=spec test/**/delete-user.test.mjs | pino-pretty --colorize --hideObject",
+    "test.only": "tap --no-coverage --only --no-timeout --bail--reporter=spec test/**/*.test.mjs"
   },
   "type": "module",
   "version": "0.0.2"

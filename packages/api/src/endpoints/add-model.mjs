@@ -14,8 +14,8 @@ const requestSchema = createSchema({
 const responseSchema = MODEL;
 const handler = async (request, response, next) => {
   try {
-    const { body, dataStores, params } = request;
-    const { models } = dataStores;
+    const { body, datastores, params } = request;
+    const { models } = datastores;
     const { accountId, userId } = params;
     const { data, description } = body;
     const model = await models.create({

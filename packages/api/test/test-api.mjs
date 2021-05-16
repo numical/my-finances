@@ -39,9 +39,9 @@ const testThrowsWhenBailed = async (description, callback) => {
 
 export default async (tests) => {
   const testHash = random.hash();
-  const { app, dataStores } = await createApp(customize(testHash));
+  const { app, datastores } = await createApp(customize(testHash));
   const api = request.agent(app);
-  const createSuperuser = superuserFactory({ api, dataStores });
+  const createSuperuser = superuserFactory({ api, datastores });
   try {
     await tests({
       addAsserts,

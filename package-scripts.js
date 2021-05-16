@@ -25,7 +25,7 @@ module.exports = {
             script: apiScript({
               script: 'test',
               loglevel: 'debug',
-              datasource: 'firestore',
+              dataSource: 'firestore',
             }),
             description:
               'run API unit tests against GCP with all details logged',
@@ -35,7 +35,7 @@ module.exports = {
           script: apiScript({
             script: 'test',
             loglevel: 'error',
-            datasource: 'firestore',
+            dataSource: 'firestore',
           }),
           description: 'run API unit tests against GCP',
         },
