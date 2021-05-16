@@ -3,7 +3,10 @@ export default (schema) => {
     response.on('finish', () => {
       if (response.statusCode === 200) {
         if (response.locals.body) {
-          const errors = request.enforceSchemaFunction(schema, response.locals.body);
+          const errors = request.enforceSchemaFunction(
+            schema,
+            response.locals.body
+          );
           if (errors) {
             request.log.warn(
               `response invalid: ${request.method} ${request.url}: ${errors}`

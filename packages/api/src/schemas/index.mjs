@@ -16,7 +16,11 @@ export const ROLES = {
   minItems: 1,
   items: { enum: Object.values(roles) },
 };
-export const TIME = { ...NUMBER, minimum: 1607644800000, maximum: 2554329600000 };
+export const TIME = {
+  ...NUMBER,
+  minimum: 1607644800000,
+  maximum: 2554329600000,
+};
 export const VERSION = { ...STRING, format: 'semver' };
 export const UUID = { ...STRING, format: 'uuid' };
 export const createSchema = ({ allRequired = true, id, properties }) => ({

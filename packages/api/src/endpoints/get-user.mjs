@@ -9,7 +9,9 @@ const handler = async (request, response, next) => {
     const { accountId, userId } = params;
     const user = await users.get([accountId, userId]);
     if (user) {
-      const userModels = await models.search({ parentIds: [accountId, userId] });
+      const userModels = await models.search({
+        parentIds: [accountId, userId],
+      });
       user.models = userModels.reduce((dictionary, model) => {
         dictionary[model.description] = model;
         return dictionary;

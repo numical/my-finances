@@ -1,7 +1,7 @@
 import ajv from 'ajv';
 import keywords from 'ajv-keywords';
 
-import * as formats from './formats.mjs';
+import formats from './formats.mjs';
 
 const Ajv = ajv.default;
 const KEYWORDS = ['allRequired'];

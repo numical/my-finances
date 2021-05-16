@@ -1,9 +1,11 @@
 import { roles } from '../roles/index.mjs';
 
+import { invalidateUserSession } from './util/index.mjs';
+
 const { ACCOUNT_ADMIN, PERSONAL, SUPERUSER } = roles;
 const handler = async (request, response, next) => {
   try {
-    const { datastores, log, method, params, status, url } = request;
+    const { datastores, log, method, params, url } = request;
     const { models, users } = datastores;
     const { accountId, userId } = params;
     const userModels = await models.search({
@@ -29,6 +31,7 @@ const handler = async (request, response, next) => {
       datastore.del({ ids });
     }
     await users.commitAtomic();
+    await invalidateUserSession({ request, response, userId });
     response.status(204).end();
   } catch (error) {
     next(error);

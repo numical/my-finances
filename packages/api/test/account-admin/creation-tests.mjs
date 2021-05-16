@@ -43,9 +43,12 @@ export const canCreateAccount = (a) => async (t) => {
   t.end();
 };
 
-export const canCreateAccountUser = ({ accountId, api, user, userToCreate }) => async (
-  t
-) => {
+export const canCreateAccountUser = ({
+  accountId,
+  api,
+  user,
+  userToCreate,
+}) => async (t) => {
   const { body, status } = await api
     .post(`/account/${accountId}/users`)
     .set(user.sessionHeaders)
@@ -76,4 +79,3 @@ export const cannotCreateAccountUser = ({
   t.equal(status, 403, 'user should not be created');
   t.end();
 };
-

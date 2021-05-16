@@ -11,4 +11,3 @@ export const allow = {
     sessionId === requestId,
   [roles.SUPERUSER]: () => true,
 };
-

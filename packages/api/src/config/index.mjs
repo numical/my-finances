@@ -5,13 +5,13 @@ import { CAN_OVERRIDE, CANNOT_OVERRIDE } from './defaults.mjs';
 import reportEnvironment from './report-environment.mjs';
 
 const config = {
-  DEFAULT_TEST_LOG_LEVEL: CANNOT_OVERRIDE.log.customLevels.clientInfo
+  DEFAULT_TEST_LOG_LEVEL: CANNOT_OVERRIDE.log.customLevels.clientInfo,
 };
 
 export const createConfig = async (overrides = {}) => {
   deepMerge(config, CAN_OVERRIDE, overrides, CANNOT_OVERRIDE);
   return config;
-}
+};
 
 export const report = () =>
   Object.entries(config)

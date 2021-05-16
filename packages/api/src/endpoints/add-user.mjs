@@ -1,4 +1,4 @@
-import { roles }  from '../roles/index.mjs';
+import { roles } from '../roles/index.mjs';
 import {
   EMAIL,
   HASH,

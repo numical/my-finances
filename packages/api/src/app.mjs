@@ -23,9 +23,7 @@ export default async (customise = {}) => {
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(pinoHttp({ logger }));
-  app.use(
-    attachServices({ datastores, enforceSchemaFunction, }),
-  );
+  app.use(attachServices({ datastores, enforceSchemaFunction }));
   if (customise.middleware) {
     customise.middleware(app);
   }

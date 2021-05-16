@@ -4,7 +4,7 @@ import { random } from '../..//src/util/index.mjs';
 import testApi from '../test-api.mjs';
 
 const { DEFAULT, SESSION_TOKEN } = myFinancesCommon.constants;
-testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
+testApi(async ({ api, createSuperuser, test, testHash }) => {
   const journey = {
     credentials: {
       authId: testHash,
@@ -43,7 +43,7 @@ testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
     t.end();
   });
 
-  await test('user can delete model', async(t) => {
+  await test('user can delete model', async (t) => {
     const { defaultModel, sessionHeaders, user } = journey;
     const { status } = await api
       .delete(`/account/personal/user/${user.id}/models/${defaultModel.id}`)
@@ -52,16 +52,16 @@ testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
     t.end();
   });
 
-  await test('model no longer exists', async(t) => {
+  await test('model no longer exists', async (t) => {
     const { defaultModel, sessionHeaders, user } = journey;
     const { status } = await api
       .get(`/account/personal/user/${user.id}/models/${defaultModel.id}`)
       .set(sessionHeaders);
     t.equal(status, 404, 'should be a 404');
     t.end();
-  })
+  });
 
-  await test('user can delete themselves (if they have no model)', async(t) => {
+  await test('user can delete themselves (if they have no model)', async (t) => {
     const { sessionHeaders, user } = journey;
     const { status } = await api
       .delete(`/account/personal/user/${user.id}`)
@@ -70,7 +70,7 @@ testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
     t.end();
   });
 
-  await test('user no longer exists', async(t) => {
+  await test('user no longer exists', async (t) => {
     const { user } = journey;
     const { status } = await api
       .get(`/account/personal/user/${user.id}`)
@@ -107,7 +107,7 @@ testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
     t.end();
   });
 
-  await test('user can delete themselves even if they have models', async(t) => {
+  await test('user can delete themselves even if they have models', async (t) => {
     const { sessionHeaders, user } = journey;
     const { status } = await api
       .delete(`/account/personal/user/${user.id}`)
@@ -116,7 +116,7 @@ testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
     t.end();
   });
 
-  await test('user no longer exists', async(t) => {
+  await test('user no longer exists', async (t) => {
     const { user } = journey;
     const { status } = await api
       .get(`/account/personal/user/${user.id}`)
@@ -124,5 +124,4 @@ testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
     t.equal(status, 404, 'should be a 404');
     t.end();
   });
-
 });
