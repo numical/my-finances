@@ -3,8 +3,6 @@ import myFinancesCommon from 'my-finances-common';
 import { random } from '../..//src/util/index.mjs';
 import testApi from '../test-api.mjs';
 
-import test4xx from './test-4xx.mjs';
-
 const { DEFAULT, SESSION_TOKEN } = myFinancesCommon.constants;
 testApi(async ({ addAsserts, api, createSuperuser, test, testHash }) => {
   const journey = {
