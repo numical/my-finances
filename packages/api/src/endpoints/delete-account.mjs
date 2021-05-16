@@ -13,6 +13,7 @@ const handler = async (request, response, next) => {
     });
     const userModels = await Promise.all(
       accountUsers.map(async (user) => {
+        // TODO - this is wrong
         const model = await models.search({
           parentIds: [accountId, user.id],
           hydrateResults: false,

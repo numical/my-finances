@@ -124,4 +124,45 @@ testApi(async ({ api, createSuperuser, test, testHash }) => {
     t.equal(status, 404, 'should be a 404');
     t.end();
   });
+
+  // super user tests
+
+  await test('creates user ok', async (t) => {
+    const { body, status } = await api
+      .post('/account/personal/users')
+      .send(journey.credentials);
+    t.equal(status, 200, 'creates user');
+    if (status === 200) {
+      journey.user = body;
+      journey.defaultModel = body.models[DEFAULT];
+    }
+    t.end();
+  });
+
+  await test('superuser cannot delete user model', async (t) => {
+    const { defaultModel, user } = journey;
+    const { status } = await api
+      .delete(`/account/personal/user/${user.id}/models/${defaultModel.id}`)
+      .set(superuser.sessionHeaders);
+    t.equal(status, 403, 'should be a 403');
+    t.end();
+  });
+
+  await test('supruser can delete user', async (t) => {
+    const { user } = journey;
+    const { status } = await api
+      .delete(`/account/personal/user/${user.id}`)
+      .set(superuser.sessionHeaders);
+    t.equal(status, 204, 'should be a 204');
+    t.end();
+  });
+
+  await test('user no longer exists', async (t) => {
+    const { user } = journey;
+    const { status } = await api
+      .get(`/account/personal/user/${user.id}`)
+      .set(superuser.sessionHeaders);
+    t.equal(status, 404, 'should be a 404');
+    t.end();
+  });
 });

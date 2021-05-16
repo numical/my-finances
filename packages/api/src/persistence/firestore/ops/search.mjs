@@ -18,8 +18,6 @@ export default ({ collections, db, validate }) => {
     });
     const querySnapshot = await query.get();
     const mapFunction = hydrateResults ? read : noOp;
-    return querySnapshot.size === 0
-      ? undefined
-      : querySnapshot.docs.map(mapFunction);
+    return querySnapshot.size === 0 ? [] : querySnapshot.docs.map(mapFunction);
   };
 };
