@@ -1,9 +1,9 @@
 import request from 'supertest';
 import tap from 'tap';
 
-import createApp from '..//src/app.mjs';
-import config from '..//src/config/index.mjs';
-import { random } from '..//src/util/index.mjs';
+import createApp from '../src/app.mjs';
+import config from '../src/config/index.mjs';
+import { random } from '../src/util/index.mjs';
 
 import addAsserts from './add-asserts.mjs';
 import superuserFactory from './superuser-factory.mjs';

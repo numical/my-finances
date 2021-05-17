@@ -9,6 +9,7 @@ import addEndPoints from './endpoints/index.mjs';
 import { attachServices, errorHandler } from './middlewares/index.mjs';
 import createDatastores from './persistence/index.mjs';
 import { createEnforceSchemaFunction } from './schemas/index.mjs';
+import createShutdownOptions from './shutdown-options.mjs';
 
 export default async (customise = {}) => {
   const config = await createConfig(customise.config);
@@ -29,8 +30,13 @@ export default async (customise = {}) => {
   }
   addEndPoints({ app, config });
   app.use(errorHandler);
+
+  const shutdownOptions = createShutdownOptions(config, logger);
+
   return {
     app,
     datastores,
+    logger,
+    shutdownOptions,
   };
 };

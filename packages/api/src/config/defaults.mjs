@@ -2,6 +2,9 @@ export const CAN_OVERRIDE = Object.freeze({
   sessionTimeoutInSeconds: 10 * 60,
   dataSource: 'firestore',
   dataSourceOptions: {},
+  shutdown: {
+    timeoutInSeconds: 10,
+  },
   validate: {
     request: true,
     response: true,

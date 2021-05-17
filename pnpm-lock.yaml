@@ -43,6 +43,7 @@ importers:
       common-tags: ^1.8.0
       cookie-parser: ^1.4.5
       express: ^4.17.1
+      http-graceful-shutdown: ^3.1.1
       inquirer: ^8.0.0
       jsonwebtoken: ^8.5.1
       my-finances-common: workspace:^0.0.2
@@ -61,6 +62,7 @@ importers:
       common-tags: 1.8.0
       cookie-parser: 1.4.5
       express: 4.17.1
+      http-graceful-shutdown: 3.1.1
       jsonwebtoken: 8.5.1
       my-finances-common: link:../common
       pino: 6.11.3
@@ -2290,6 +2292,15 @@ packages:
       setprototypeof: 1.1.1
       statuses: 1.5.0
       toidentifier: 1.0.0
+
+  /http-graceful-shutdown/3.1.1:
+    resolution: {integrity: sha512-7teLZa+KJfNVN5F+c73PusUv5bE+DN5KNQ3B0e+Gdw4hRP7jbnowbEb3621NuEAvbq1xAlXxQq1FZyiciM2NTw==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      debug: 4.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /http-signature/1.2.0:
     resolution: {integrity: sha1-muzZJRFHcvPZW2WmCruPfBj7rOE=}
